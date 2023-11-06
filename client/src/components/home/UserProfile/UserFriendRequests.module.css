@@ -1,0 +1,30 @@
+.container {
+    /* border: 1px solid grey; */
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: #052733;
+  }
+  .requests {
+    flex: 81;
+    /* border: 1px solid blue; */
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .contactImage {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    margin: 10px 10px;
+  }
+  
+  .refreshIcon {
+    font-size: 40px;
+    margin: 10px;
+    float: right;
+  }

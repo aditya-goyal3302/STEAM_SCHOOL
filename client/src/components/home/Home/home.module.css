@@ -1,0 +1,9 @@
+.log{
+    background-color: black;
+    border-radius: 6px;
+    color: #ff4e50;
+    font-weight: 700;
+    border: none;
+    margin-top: 4px;
+    height: 30px;
+  }

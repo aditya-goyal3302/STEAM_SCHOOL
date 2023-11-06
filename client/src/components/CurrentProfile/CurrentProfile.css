@@ -1,0 +1,65 @@
+.MAIN{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  
+}
+
+.main{
+    display: flex;
+    width: 100%;
+    justify-content: center; 
+    margin-top: 10vh;
+    gap: 20px;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+
+.MAIN .main .left{
+    width: 30%;
+    /* background-color: aqua; */
+    border: 1px solid rgb(207, 207, 207);
+    border-radius: 5px;
+    min-height: 50vh;
+    min-width: 250px;
+}
+  
+  
+.MAIN .main .right{
+    width: 60%;
+    /* background-color: aqua; */
+    border: 1px solid rgb(207, 207, 207);
+    border-radius: 5px;
+    min-height: 50vh;
+    display: flex;
+    justify-content:space-evenly;
+    flex-direction: row;
+    /* justify-content:flex-start; */
+    /* float: left; */
+    flex-wrap: wrap;
+}
+
+.datacontent{
+    position: relative;
+    margin-top: 5%;
+    min-width: 400px;
+    max-width: 49% ;
+    display: flex;
+    flex-direction: row;
+    justify-content:flex-start;
+    /* margin-left: ÷; */
+    /* min-width: ; */
+}
+
+.title{
+    font-size: 1rem;
+    color: rgb(59, 59, 59);
+}
+.data{
+    font-size: 1.5rem;
+    color: rgb(33, 33, 33);
+    margin-top: 0px;
+}

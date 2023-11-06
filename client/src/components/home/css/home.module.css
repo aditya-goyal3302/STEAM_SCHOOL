@@ -1,0 +1,74 @@
+.container {
+  height: 90.5vh;
+  width: 100vw;
+  box-sizing: border-box;
+  margin:0%;
+  /* margin-top: 89px; */
+  /* padding: 30px; */
+  display: flex;
+  overflow: hidden;
+}
+.main {
+  flex: 100;
+  display: flex;
+  height: 100%;
+  background-color: #000c18;
+  background-color: #1c242c;
+
+  /* border: 1px solid gray; */
+  /* border-radius: 5px; */
+}
+
+.contactsWindow {
+  flex: 20;
+  /* border-right: 1px solid #3f6283; */
+  border-radius: 5px 0 0 5px;
+}
+
+.chatWindow {
+  flex: 80;
+  border-radius: 0 5px 5px 0;
+}
+.logoutbtn {
+  background-color: #0185c2;
+  position: absolute;
+  top: 12px;
+  right: 40px;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: white;
+}
+.logoutbtn:hover {
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 420px) {
+  .logoutbtn {
+    display: none;
+  }
+  .contactsWindow {
+    flex: 100;
+  }
+  .chatWindow {
+    flex: 0;
+    width: 0;
+  }
+}
+
+/* @media only screen and (max-width: 767px) {
+  .contactsWindow {
+    flex: 100;
+    border: none;
+  }
+
+  .chatWindow {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  .container {
+    padding: 0%;
+  }
+} */
