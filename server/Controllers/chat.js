@@ -38,26 +38,24 @@ exports.getpastmessages =  (req, res) => {
       console.log(err);
     });
 }
+
 exports.newchat = (req,res,next)=>{
-  Chat.find({chats:[req.body.acceptedid,req.body.user._id]})
+  Chat.find({users:{$in:[req.body.acceptedid,req.body.user._id]}})
   .then((result)=>{
     if(!result){
       const newchat = new Chat({
         users: [req.session.user._id, req.body.acceptedid],
       });
-       newchat
+       return newchat
           .save()
-          .then((chat) => console.log("chatcreated"))
+          .then((chat) =>{ 
+            console.log("chatcreated")
+            return {id:chat._id , code:1};
+          })
           .catch((err) => console.log(err));
-        return Chat.find({chats:[req.body.acceptedid,req.body.user._id]})
-        .then(id =>{
-          return id._id;
-        })
-        .catch(err=>console.log(err));
-
     }
     else{
-      return res
+      return res.send({id:result._id , code:2})
     }
   })
   .then(nouse=>{

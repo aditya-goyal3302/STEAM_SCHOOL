@@ -17,7 +17,7 @@ function App() {
       <BrowserRouter>
         <Route path="/register" exact component={Register}></Route>
         <Route path="/login" exact component={Signin}></Route>
-        <Route path="/main" exact component={Home}></Route>
+        <Route path="/chat" exact component={Home}></Route>
         <Route path="/" exact component={Main}></Route>
         <Route path="/about" exact component={About}></Route>
         <Route path="/profile" exact component={Profile}></Route>

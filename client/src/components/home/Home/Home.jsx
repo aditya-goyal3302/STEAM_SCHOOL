@@ -25,8 +25,8 @@ function Home() {
       .get("user/get")
       .then((response) => {
         setuser(response.data);
-        updatelocalstorage_user();
-        console.log("Fetched user now fetching friends");
+        // updatelocalstorage_user();
+        // console.log("Fetched user now fetching friends");
       })
       .catch((err) => console.log(err));
     //eslint-disable-next-line
@@ -49,7 +49,7 @@ function Home() {
       })
       .then((response) => {
         setContacts(response.data);
-        updatelocalstorage_contacts();
+        // updatelocalstorage_contacts();
         console.log("friends fetched too", contacts);
       })
       .catch((err) => {
@@ -75,7 +75,7 @@ function Home() {
       .then((response) => {
         console.log(response);
         setChats(response.data);
-        updatelocalstorage_chats();
+        // updatelocalstorage_chats();
         // let conversationids = response.data.map((a) => a._id);
         // setConversationIDs(conversationids);
       })

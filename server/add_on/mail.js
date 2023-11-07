@@ -90,7 +90,7 @@ function otpmail(mailto, usrnm, otp) {
   var mailOptions = {
     from: "agdoietest@hotmail.com",
     to: mailto,
-    subject: "Welcome to <Our Chat App>",
+    subject: "OTP FOR LOGIN",
     html:`<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -170,7 +170,7 @@ function loginMail(mailto, usrnm){
   var mailOptions = {
     from: "agdoietest@hotmail.com",
     to: mailto,
-    subject: "Welcome to Steam School",
+    subject: "Login Successful",
     html:`<!DOCTYPE html>
     <html lang="en">
     <head>

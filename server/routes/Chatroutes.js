@@ -4,7 +4,7 @@ var router = express.Router();
 const chatcontroller = require("../Controllers/chat");
 const isauth = require("../add_on/isauth");
 
-router.post("/newchat",isauth.check,chatcontroller.newchat)
+router.post("/newchat/",isauth.check,chatcontroller.newchat)
 
 router.get("/get",isauth.check,chatcontroller.get);
 

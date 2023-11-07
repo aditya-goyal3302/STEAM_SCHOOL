@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
 import "./NavbarStyles.css";
 import logo from "./Logo.png" 
+import axios from "axios";
+
 
 function Navbar() {
-    const[page,setpage] = useState(1)
+    // const[page,setpage] = useState(1)
     function change1(e){
         e.preventDefault();
-        setpage(1);
+        window.location.href = "/"
+        // setpage(1);
 
     }
+    const handleLogout = () => {
+        console.log("REQUESTED LOGOUT");
+        localStorage.removeItem("user");
+        localStorage.removeItem("chats");
+        localStorage.removeItem("messages");
+        localStorage.removeItem("contacts");
+        axios.delete("/user/logout").catch((err) => console.log(err));
+        window.location.href = "/login";
+      };
     return(
         <>
             <nav className="main-nav">
@@ -20,13 +32,13 @@ function Navbar() {
                             
                             <li><a 
                                 onClick={change1} 
-                                className={page ===1 ?"active":""}
+                                className={""}
                                 >
                                     Home
                                 </a>
                             </li>
                             <li><a href="/about">About</a></li>
-                            <li><a href="/main">Chat</a></li>
+                            <li><a href="/chat">Chat</a></li>
                             {/* <li><a href="profile.html">Profile</a></li> */}
                         <div class="dropdown">
                             <button class="dropbtn">Profile
@@ -35,7 +47,7 @@ function Navbar() {
                             <div className="dropdown-content">
                                 <a href="/CurrentProfile">Profile</a>
                                 <a href="/profile">Edit</a>
-                                <a href="#">Log-Out</a>
+                                <a href="/login" onClick={handleLogout}>Log-Out</a>
                             </div>
                         </div>
                     </ul>
@@ -47,7 +59,7 @@ function Navbar() {
                 {/* <div id="mobile">
                     <i className="fasfa-bars"></i> */}
                 {/* </div> */}
-                <div  className="DATE">date and time</div>
+                <div  className="DATE"></div>
             </nav>
         </>
     )
@@ -63,3 +75,5 @@ function Navbar() {
 
 
 export default Navbar;
+
+//cd client

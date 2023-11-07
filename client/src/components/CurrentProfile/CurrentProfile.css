@@ -2,7 +2,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-  
+    
 }
 
 .main{
@@ -19,37 +19,86 @@
 
 
 .MAIN .main .left{
-    width: 30%;
+    width: 20%;
+    max-width: 90%;
     /* background-color: aqua; */
     border: 1px solid rgb(207, 207, 207);
     border-radius: 5px;
     min-height: 50vh;
-    min-width: 250px;
+    min-width: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 auto;
+}
+.MAIN .main .left img{
+    margin: 0 auto;
 }
   
   
 .MAIN .main .right{
-    width: 60%;
+    width: 70%;
     /* background-color: aqua; */
     border: 1px solid rgb(207, 207, 207);
     border-radius: 5px;
     min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 500px;
+}
+
+.MAIN .main .right .r1{
+    position: relative;
+    width: 100%;
     display: flex;
     justify-content:space-evenly;
     flex-direction: row;
     /* justify-content:flex-start; */
     /* float: left; */
     flex-wrap: wrap;
+    min-width: 500px;
+}
+.MAIN .main .right .r2{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content:flex-start;
+    flex-direction: row;
+    /* padding: 0 5%; */
+    /* justify-content:flex-start; */
+    /* float: left; */
+    flex-wrap: wrap;
+    min-width: 500px;
 }
 
 .datacontent{
     position: relative;
     margin-top: 5%;
     min-width: 400px;
+    width:auto;
     max-width: 49% ;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content:flex-start;
+    /* margin-left: ÷; */
+    /* min-width: ; */
+}
+.datacontentl{
+    position: relative;
+    /* margin-top: 5%; */
+    width:90%;
+    min-width: 350px;
+    /* max-width: 100% ; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    /* float: left; */
+    /* margin-left: auto;
+    margin-right: auto; */
+    padding: 5% 0% 0% 5% ;
     /* margin-left: ÷; */
     /* min-width: ; */
 }
@@ -62,4 +111,29 @@
     font-size: 1.5rem;
     color: rgb(33, 33, 33);
     margin-top: 0px;
+}
+
+.titlel{
+    position: relative;
+    font-size: 1rem;
+    color: rgb(59, 59, 59);
+    width: 20%;
+    min-width: 100px;
+}
+.datal{
+    position: relative;
+    width :80%;
+    font-size: 1.5rem;
+    color: rgb(33, 33, 33);
+    min-width:450px;
+    margin-top: 0px;
+    font-family: 'poppins' , sans-serif;
+}
+.datal tr:nth-child(1){
+    background-color: rgb(214, 214, 214);
+}
+.datal tr:nth-child(1n):not(:first-child){
+    text-align: justify;
+    background-color: rgb(244, 244, 244);
+    
 }
