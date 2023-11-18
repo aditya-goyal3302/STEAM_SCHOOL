@@ -25,6 +25,7 @@ function ChatWindow({
   const [messageinput, setMessageinput] = useState("");
   const [socket, setSocket] = useState(null);
   const [chatwindowupdate, setChatwindowupdate] = useState(false);
+  const[textboxstate,settextboxstate] = useState(false);
 
   useEffect(() => {
     socket?.on("message", (message) => {
@@ -74,7 +75,12 @@ function ChatWindow({
     //eslint-disable-next-line
   }, [user]);
 
-  const sendmessage = () => {
+  const sendmessage = (e) => {
+    // e.preventdefault();
+    if(textboxstate===true){
+      settextboxstate(false);
+      return;
+    }
     if (currentchat) {
       var newmessage = {
         recieverid: currentchat._id,
@@ -100,6 +106,42 @@ function ChatWindow({
         .catch((err) => console.log(err));
     }
     console.log(messageinput);
+
+    setMessageinput("");
+  };
+
+  const sendfile = (e) => {
+    // e.preventdefault();
+    if(textboxstate===false){
+      settextboxstate(true);
+      return;
+    }
+    if (currentchat) {
+      var newmessage = {
+        recieverid: currentchat._id,
+        chatid: currentconversation._id,
+        senderid: user._id,
+        createdAt: Date.now(),
+
+      };
+      messages[currentconversation._id][0].push(newmessage);
+      setMessages(messages);
+      updateconversation();
+
+      sendmessagethroughsocket(newmessage);
+
+      axios
+        .post("chat/sendmessage", {
+          text: messageinput,
+          conversationID: currentconversation._id,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((err) => console.log(err));
+    }
+    // console.log(messageinput);
+    settextboxstate(false);
 
     setMessageinput("");
   };
@@ -155,7 +197,7 @@ function ChatWindow({
                 />
               )
           )}
-          {<>
+          {/* {<>
                 <Message
                   messageData={{
                     text: "message.textmessage.textmessage.text",
@@ -189,7 +231,7 @@ function ChatWindow({
                   // key={message._id ? message._id : uuid()}
                 />
               </>
-          }
+          } */}
       </div>
       <div className={styles.messageContainer}>
         {/* <div className={styles.messageContainerIcons}>
@@ -197,6 +239,7 @@ function ChatWindow({
           <AttachFileIcon className={styles.fileIcon} />
         </div> */}
         <div className={styles.messageInputContainer}>
+          {textboxstate===false?
           <input
             type="text"
             className={styles.messageInput}
@@ -204,9 +247,18 @@ function ChatWindow({
             value={messageinput}
             onChange={(e) => setMessageinput(e.target.value)}
           />
+          :
+          <input
+          type="file"
+          className={styles.messageInput}
+          placeholder="Select your File here"
+          value={messageinput}
+          // onChange={(e) => setMessageinput(e.target.value)}
+        />
+        }
         </div>
         <div>
-          <Attachment className={styles.sendIcon} onClick={sendmessage} />
+          <Attachment className={styles.sendIcon} onClick={sendfile} />
         </div>
         <div>
           <SendIcon className={styles.sendIcon} onClick={sendmessage} />

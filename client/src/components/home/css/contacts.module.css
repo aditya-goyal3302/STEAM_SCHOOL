@@ -4,7 +4,9 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  background: #ffffff; /* fallback for old browsers */
+  background-image: linear-gradient(180deg,#f0f0f0, #ffffff) ;
+
+  /* background: #ffffff; fallback for old browsers */
 }
 .requests {
   flex: 81;
@@ -27,7 +29,7 @@
   font-size: 40px;
   margin: 10px;
   float: right;
-  fill: #ffffff !important;
+  fill: black !important;
 }
 
 .refreshIcon:hover {

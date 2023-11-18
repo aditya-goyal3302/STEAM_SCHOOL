@@ -2,47 +2,60 @@ import React, { useEffect, useState } from "react";
 import './CurrentProfile.css';
 import Navbar from "../Navbar";
 import Footer from "../Footer";
-import final from"./final.jpg"
+import final from"./final.jpg";
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
+import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
+import axios from "axios";
+// import { getSkeletonUtilityClass } from "@mui/material";
+// import { set } from "mongoose";
 
 function CurrentProfile({userId}){
     const [userProfile,setuserProfile] = useState(1)
     const [userprof,setuserProf] = useState(1)
+    const [islogin,setislogin] = useState(1)
+    const [isadmin,setisadmin] = useState(1)
+
+    userId ="653029068158a55364a1fc73"
 
     useEffect(()=>{
-        // axios.get("/user/getprofile/userId")  ///user/getp/cgyzdvxr67t7
-        // .then(data=>{
-        //     setuserProfile(data);
-        // })
-        // axios.get("/user/getprof/userId")  ///user/getp/cgyzdvxr67t7
-        // .then(data=>{
-        //     setuserProf(data);
-        // })
-        const dataprof ={
-            qualification: [{qname:"B.Tech",qyear:"2021", quni:"Chitkara University"},{qname:"M.Tech",qyear:"2023",quni:"University of Amsterdam"}],
-            skills: [{sname:"C++",slevel:"Intermediate"},{sname:"Python",slevel:"Intermediate"}],
-            // userprof.qualifications.map((qual)=>{
-            //      <tr><td> qual.qname</td><td> qual.qyear</td></tr>
-            // })
-            // userprof.skills.map((qual)=>{
-            //      <tr><td> qual.sname</td><td> qual.slevel</td></tr>
-            // })
-        }
-        setuserProf(dataprof)
-         const data ={
-            fname:"Deepak",
-            lname: "Airan",
-            email: "deepak@gmail.com",
-            dob : '1999-12-12',
-            gender: "male",
-            city: "Hisar",
-            state:"Haryana",
-            phno:8168601486
-        }
+        axios.get("/getadmin/"+userId)
+        .then(data=>{
+            console.log("hi",data.data);
+            setisadmin(data.data.isadmin)
+            
+        })
+    },[isadmin])
+    useEffect(()=>{
+        axios.get("/user/getprofile/"+userId)  ///user/getp/cgyzdvxr67t7
+        .then(data=>{
+            console.log(data.data);
+            setuserProfile(data.data);
+        }).catch(err=>{
+            setislogin(0);
+        })
 
-        setuserProfile(data)
-    },[userProfile,setuserProfile])
+        axios.get("/user/getprof/"+userId)  ///user/getp/cgyzdvxr67t7
+        .then(data=>{
+            setuserProf(data.data);
+        })
+    },[])
+
+    function sendmessage(){
+        axios.get("/chat/newchat/"+userId)
+        .then(data=>{
+            console.log(data.data)
+            window.location.href="/chat"
+        })
+    }
+    function deleteprofile(){
+        axios.post("/user/deleteprofile")
+        window.location.href="/login"
+    }
     
     return(
+
+        islogin === 1 ? (
         <>
         {/* if login to be implement */}
         <Navbar></Navbar>
@@ -51,8 +64,65 @@ function CurrentProfile({userId}){
             <div className="main">
                 <div className="left">
                     <h1>Profile Picture</h1>
-                    <img src={final} position="relative" width="200px" height="200px" margin ="0px 0px 0px 0px" padding ="0px 0px 0px 0px"></img>
-                    
+                    <img src={userProfile.img === "" ? final:userProfile.img} position="relative" width="200px" height="200px" margin ="0px 0px 0px 0px" padding ="0px 0px 0px 0px"></img>
+                    {isadmin === 1 ? (
+                    <>
+                        <button 
+                            className="btn " 
+                            onClick={()=>{window.location.href="/profile"}}>
+                            <div className="btntxt">
+                                Change Profile Picture
+                            </div> 
+                            <div className="btnimg">
+                                <EditRoundedIcon>  </EditRoundedIcon>
+                            </div>
+                        </button>
+                        <button 
+                            className="btn "
+                            onClick={()=>{window.location.href="/profile"}}>
+                            <div className="btntxt">
+                                Change Password
+                            </div> 
+                            <div className="btnimg">
+                                <EditRoundedIcon>  </EditRoundedIcon>
+                            </div>
+                        </button>
+                        <button 
+                            className="btn "
+                            onClick={()=>{window.location.href="/profile"}}>
+                            <div className="btntxt">
+                                Edit Profile
+                            </div> 
+                            <div className="btnimg">
+                                <EditRoundedIcon>  </EditRoundedIcon>
+                            </div>
+                        </button>
+                        <button 
+                            className="btn delbtn"
+                            onClick={deleteprofile}>
+                            <div className="btntxt">
+                                Delete Profile
+                            </div>
+                            <div className="btnimg">
+                                <DeleteOutlineRoundedIcon>  </DeleteOutlineRoundedIcon>
+                            </div>
+                        </button>
+                    </>    
+                    ):(
+                        <>
+                            <button 
+                                className="btn "
+                                onClick={sendmessage}>
+                                <div className="btntxt">
+                                    Send Message
+                                </div> 
+                                <div className="btnimg">
+                                    <MessageRoundedIcon>  </MessageRoundedIcon>
+                                </div>
+                            </button>
+                            
+                        </>
+                    )}
                 </div>
 
 
@@ -109,48 +179,29 @@ function CurrentProfile({userId}){
                                 </table>
                             </pre>
                         )}
-                        {userprof.qualification !== undefined &&(
-                            <div className="datacontentl">
-                                <div className="titlel">Qualifications:</div>
+                        {userprof.skills !== undefined &&(
+                            <pre className="datacontentl">
+                                <div className="titlel">Skills:</div>
                                 <table className="datal">
                                     <tr>
-                                        <th>Qualification</th>
-                                        <th>Year</th>
+                                        <th>Skills Name</th>
+                                        <th>Skill Level</th>
                                     </tr>
-                                    {userprof.qualification.map((qual)=>{
-                                        return(<tr><td> {qual.qname}</td><td> {qual.qyear}</td></tr>)
+                                    {userprof.skills.map((qual)=>{
+                                        return(<tr><td> {" "+qual.sname}</td><td> {" "+qual.slevel}</td></tr>)
                                     })}
                                 </table>
-                            </div>
+                            </pre>
                         )}
                     </div>
-                    {/* <div className="datacontent">
-                        <div className="title">First Name: </div>
-                        <pre className="data">{" "+userProfile.fname}</pre>
-                    </div>
-                    <div className="datacontent">
-                        <div className="title">Last Name:</div>
-                        <pre className="data">{" "+userProfile.lname}</pre>
-                    </div>
-                    <div className="datacontent">
-                        <div className="title">E-mail:</div>
-                        <pre className="data">{" "+userProfile.email}</pre>
-                    </div>
-                    <div className="datacontent">
-                        <div className="title">Phone No.:</div>
-                        <pre className="data">{" "+userProfile.phno}</pre>
-                    </div>
-                    <div className="datacontent">
-                        <div className="title">Date Of Birth:</div>
-                        <pre className="data">{" "+userProfile.dob}</pre>
-                    </div> */}
-                    
                 </div>
             </div>
         </div>
 
         <Footer></Footer>
-        </>
+        </>):(
+            window.location.href="/login"
+        )
     )
 }
 

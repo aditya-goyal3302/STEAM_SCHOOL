@@ -1,6 +1,6 @@
 .container {
   /* border: 1px solid grey; */
-  background: #ffffff;
+  background: rgb(243, 243, 243);
   height: 100%;
   box-sizing: border-box;
   display: flex;
@@ -61,8 +61,8 @@
   margin-top: 15px;
   margin-bottom: 8px;
   border-radius: 8px;
-  background-image: linear-gradient(45deg,rgba(55, 0, 255, 0.15) , #ffffff) ;
-  box-shadow: 0px 2px 0px 0px #0185c2;
+  background-image: linear-gradient(45deg,rgba(0, 85, 255, 0.2) , #ffffff) ;
+  box-shadow: 0px 2px 0px 0px #17cf97;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 30px;
@@ -97,6 +97,8 @@
 }
 
 .contacts {
+  background-image: linear-gradient(45deg,rgba(0, 85, 255, 0.2), #ffffff) ;
+
   flex: 81;
   /* border: 1px solid blue; */
 }
@@ -109,12 +111,12 @@
   padding: 10px 5px;
   cursor: pointer;
   color: white;
-  border-bottom: 1px solid #0185c2;
+  border-bottom: 1px solid #17cf97;
   transition: 0.4s ease-in-out;
 }
 .tab:hover {
   border-bottom: 1px solid #fff;
-  color: #0185c2;
+  color: #17cf97;
 }
 
 @media only screen and (max-width: 1200px) {

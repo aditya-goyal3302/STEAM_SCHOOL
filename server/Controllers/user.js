@@ -87,7 +87,7 @@ exports.login = (req, res, next) => {
   }
 
 exports.verifyotp = (req, res) => {
-    console.log("Req from", req.body.useremail, " req.session.user is ", req.body.otp);
+    // console.log("Req from", req.body.useremail, " req.session.user is ", req.body.otp);
     Otp.findOne({ useremail: req.body.useremail }).then((otpdocument) => {
       if (otpdocument) {
         if (otpdocument.times < 1) {
@@ -97,7 +97,8 @@ exports.verifyotp = (req, res) => {
           //OTP document with times left Found
           if (req.body.otp == otpdocument.curr_otp) {
             // otp match
-            User.findOne({ email: req.body.useremail }).then((user) => {
+            User.findOne({ email: req.body.useremail })
+            .then((user) => {
               if (user) {
                 req.logIn(user, (err) => {
                   if (err) throw err;
@@ -106,6 +107,9 @@ exports.verifyotp = (req, res) => {
                 req.session.isLoggedIn = true;
                 req.session.user = user;
                 otpdocument.remove()
+                req.session.save(err => {
+                  console.log(err);
+                });
                 res.send({ code: 2, message: "login successful" });
               } else {
                 console.log("User Doesn't Exist");
@@ -146,8 +150,8 @@ exports.logout = (req, res)=> {
       req.session.destroy( ()=> {
         req.logout(err => {
           if (err){ 
-            throw err
-            .catch(err => console.log(err))
+            try {throw err;}
+            catch(err ){ console.log(err)}
         }
         })
         res.send("LOGGED OUT");
@@ -172,3 +176,60 @@ exports.resendotp =  (req,res) => {
       .catch(err => console.log(err))
   }
 
+exports.getprofile = (req,res) => {
+  const userId= req.params.userId;
+  User.findById(userId)
+  .then(user=>{
+    if(user){
+
+      const data = {...user.profile,email:user.email,img:user.img,username:user.username,_id:user._id}
+      res.send(data)
+    }
+    else{
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}
+
+exports.getprof = (req,res) => {
+  const userId= req.params.userId;
+  User.findById(userId)
+  .then(user=>{
+    if(user){
+      const data = {...user.prof}
+      res.send(data)
+    }
+    else{
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}
+
+exports.deleteprofile = (req,res) => {
+  const userId= req.session.user._id;
+  User.findByIdAndDelete(userId)
+  .then(user=>{
+    if(user){
+      res.send({message:"User Deleted"})
+    }
+    else{
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}
+
+
+
+// exports.getadmin = 

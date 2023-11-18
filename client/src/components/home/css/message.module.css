@@ -17,7 +17,7 @@
   align-items: baseline;
   text-align: left;
   background: #ffffff;
-  box-shadow: -1px -1px 4px 0 #0185c2;
+  box-shadow: -1px -1px 4px 0 #17cf97;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
@@ -31,8 +31,9 @@
   margin: 5px 10px;
   align-items: baseline;
   text-align: left;
-  background-image: linear-gradient(45deg,rgba(55, 0, 255, 0.15) , #ffffff) ;
-  box-shadow: 1px -1px 4px 0 #0185c2;
+  /* background-image: linear-gradient(45deg,rgba(0, 85, 255, 0.2), #ffffff) ; */
+  background-color:rgba(0, 85, 255, 0.2) ;
+  box-shadow: 1px -1px 4px 0 #17cf97;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;

@@ -24,22 +24,47 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    // friends: {
-    //   type: Array,
-    //   default: [],
-    // },
-    // posts: {
-    //   type: Array,
-    //   default: [],
-    // },
-    // requests: {
-    //   type: Array,
-    //   default: [],
-    // },
-    // requested: {
-    //   type: Array,
-    //   default: [],
-    // },
+    profile: {
+      fname: {
+        type: String,
+        default: "",
+      },
+      lname: {
+        type: String,
+        default: "",
+      },
+      phno: {
+        type: String,
+        default: "",
+      },
+      gender:{
+        type:"string",
+        default: ""
+      },
+      dob: {
+        type: String,
+        default: "",
+      },
+      state:{
+        type: String,
+        default: "",
+      },
+      city:{
+        type: String,
+        default: "",
+      }
+    },
+    prof:{
+      qualification:[{
+        qname: String,
+        quni: String,
+        qyear: String,
+      }],
+      skills:[{
+        sname: String,
+        slevel: String,
+      }]
+    },
     chats: {
       type: Array,
       default: [],

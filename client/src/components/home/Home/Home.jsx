@@ -24,7 +24,15 @@ function Home() {
     axios
       .get("user/get")
       .then((response) => {
-        setuser(response.data);
+        const datauser = {
+          _id: response.data._id,
+          username: response.data.username,
+          email: response.data.email,
+          chats: response.data.chats,
+          
+        };
+        console.log("datauser: ",response.data);
+        setuser(datauser);
         // updatelocalstorage_user();
         // console.log("Fetched user now fetching friends");
       })
@@ -43,18 +51,23 @@ function Home() {
   }, [user]);
 
   function printcontacts() {
+    if(user.chats && user.chats.length>0){
     axios
       .post("/friend/findbyid", {
-        requests: user.friends,
+        requests: user.chats,
       })
       .then((response) => {
         setContacts(response.data);
         // updatelocalstorage_contacts();
-        console.log("friends fetched too", contacts);
+        // console.log("friends fetched too", contacts);
       })
       .catch((err) => {
         console.log("ERR", err);
-      });
+      });}
+      else {
+        setContacts({});
+        console.log("No friends");
+      }
   }
 
   const updatelocalstorage_contacts = () => {
@@ -73,7 +86,7 @@ function Home() {
     axios
       .get("chat/get")
       .then((response) => {
-        console.log(response);
+        console.log(response.data);
         setChats(response.data);
         // updatelocalstorage_chats();
         // let conversationids = response.data.map((a) => a._id);

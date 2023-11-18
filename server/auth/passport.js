@@ -1,4 +1,5 @@
 const passport = require('passport');
+const session = require('express-session')
 const googleStrategy = require('passport-google-oauth20')
 const LocalStrategy = require('passport-local')
 const keys = require('../add_on/keys')
@@ -12,7 +13,7 @@ passport.serializeUser((user, done) => {
 });
     
 passport.deserializeUser((id, done) => {
-  console.log("DESERIALISING", id)
+  // console.log("DESERIALISING", id)
   User.findById(id, function(err, user) {
     done(err, user);
 });
@@ -24,11 +25,13 @@ passport.use(new googleStrategy({
     clientSecret : keys.google.clientSecret},
 
     (token, tokenSecret, profile, done)=> {
-      console.log(profile)
-      User.findOne({email:profile._json.email}).then((currentUser)=>{
-      if(currentUser){
-          console.log("User Already In DB" , currentUser)
+      // console.log(profile)
+      User.findOne({email:profile._json.email})
+      .then((currentUser)=>{
+        if(currentUser){
+          // console.log("User Already In DB" , currentUser)
           done(null, currentUser)
+          return currentUser
       }
       else{
         new User({
@@ -36,7 +39,12 @@ passport.use(new googleStrategy({
           email : profile._json.email,
           googleaccount : {isgoogle : 1, googlename : profile._json.name},
           img : profile._json.picture
-        }).save().then((newUser)=>{console.log("NEW USER CREATED", newUser); done(null, newUser)})
+        })
+        .save()
+        .then((newUser)=>{
+          console.log("NEW USER CREATED", newUser); done(null, newUser)
+          return newUser
+        })
       }
     })
   }

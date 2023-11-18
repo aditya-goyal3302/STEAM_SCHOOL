@@ -60,9 +60,26 @@ app.use(passport.session());
 app.use("/user", userRoutes);
 app.use("/friend", friendRoutes);
 app.use("/chat", chatroutes);
-app.use("/post", postroutes);
-app.use("/note", noteroutes);
+// app.use("/post", postroutes);
+// app.use("/note", noteroutes);
 
+app.use('/getadmin/:userId',(req,res,next)=>{
+  // res.send((req.session.user._id)?(req.session.user._id):"NA");
+  const userId= req.params.userId;
+  console.log(session.user)
+  try{
+    if(req.session.user._id.toString() === userId.toString()){
+      res.send({isadmin:1})
+    }
+    else{
+      res.send({isadmin:0})
+    }
+
+  }
+  catch(err){
+    res.send({isadmin:0})
+  }
+})
 // app.get('/', (req,res) => res.send("<h1>HELLO</h1>"))
 
 // ${process.env.START_MONGODB}${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}${process.env.END_MONGODB}

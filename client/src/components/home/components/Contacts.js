@@ -51,7 +51,7 @@ function Contacts({
             />
           ))
         ) : (
-          <h1>Your conversations show up here!</h1>
+          <></>
         )}
       </div>
     </div>

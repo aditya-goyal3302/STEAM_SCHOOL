@@ -24,7 +24,7 @@ function Contact({ user, currentchat, setCurrentchat }) {
               ? user.img
               : "https://iconape.com/wp-content/png_logo_vector/doraemon-logo.png"
           }
-          alt="Contact Avatar"
+          alt="ca"
           className={styles.contactimage}
         />
       </div>

@@ -10,7 +10,6 @@ router.post("/create",
                 body("username")
                   .isString()
                   .trim()
-                  .normalizeEmail()
                   .isLength({min:5,max:15})
                   .withMessage({m:"Username must be atleast 5 characters long",code:1})
                   .custom((value,{req})=>{
@@ -25,6 +24,7 @@ router.post("/create",
                     })
                   }),
                 body("email")
+                  .normalizeEmail()
                   .isEmail()
                   .withMessage({m:"Email is not valid",code:5})
                   .custom((value,{req})=>{
@@ -53,26 +53,51 @@ router.post("/create",
                 ],
                 usercontroller.create);
 
-router.get("/auth/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+router.get("/auth/google",passport.authenticate("google", { scope: ["profile", "email"] }));
+
 router.get("/auth/google/redirect",
-  passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/login",
-  }),
+  passport.authenticate("google", {failureRedirect: "http://localhost:3000/login"}),
   function (req, res) {
-    // req.logIn(req.session.user, err=>{
-    //   if (err) throw err;
+  //   req.logIn(req.session.user, err=>{
+  //     if (err) throw err;
     // console.log("req.session.user", req.session.user) })
-    res.redirect("http://localhost:3000/");
+    req.session.isLoggedIn = true;
+    req.session.user = req.user;
+    req.session.save(err => {
+      console.log(err);
+    });
+    // console.log("req.session.user", req.user)
+    res.redirect("http://localhost:3000/")
   }
 );
+
+router.get('/getprofile/:userId',usercontroller.getprofile)
+
+router.get('/getprof/:userId',usercontroller.getprof)
+
+// router.post('/getadmin/:userID',usercontroller.getadmin)
+
+router.get('/deleteprofile',usercontroller.deleteprofile)
 
 router.post("/login",usercontroller.login);
 
 router.post("/verifyotp", usercontroller.verifyotp);
 
 router.post('/resendotp' ,usercontroller.resendotp)
+
+
+
+// router.post("/forgotpassword", usercontroller.forgotpassword);
+
+// router.post("/resetpassword", usercontroller.resetpassword);
+
+// router.post("/changepassword",isauth.check,usercontroller.changepassword);
+
+// router.post("/updateprofile",isauth.check,usercontroller.updateprofile);
+
+// router.post("/updateprof",isauth.check,usercontroller.updateprof);
+
+// router.post("/updateimg",isauth.check,usercontroller.updateimg);
 
 //CREATE ROUTE FOR RESEND OTP
 

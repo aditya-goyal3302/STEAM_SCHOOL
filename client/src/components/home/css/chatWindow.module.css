@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #01264e;
+  background-color: #ffffff;
   height: 65px;
 }
 
@@ -23,29 +23,29 @@
 }
 
 .contactImage img {
-  width: 25px;
-  height: 25px;
+  width: 30px;
+  height: 30px;
   /* border-radius: 50%; */
   /* margin: 5px 15px; */
   padding-top: 15px;
   padding-left: 20px;
-  border-radius: 50px;
+  border-radius: 10px;
 }
 
 .contactDetail {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  /* font-size: 5px; */
+  /* font-size: 10px; */
   padding-top: 5px;
   padding-left: 20px;
-  color: white;
+  color: black;
   text-transform: capitalize;
   font-family: monospace;
 }
 
 .contactName {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -55,7 +55,7 @@
   fill: #ffffff !important;
 }
 .menuIcon:hover {
-  fill: #0185c2 !important;
+  fill: #17cf97 !important;
   transition: 0.4s ease-in-out;
   margin-right: 15px;
   cursor: pointer;
@@ -65,10 +65,17 @@
   position: relative;
   width: 100%;
   overflow-y: scroll;
+  /* -ms-overflow-style: ; */
+  scroll-behavior: smooth;
+  scrollbar-width: 0px;
   flex: 80;
   /* border: 1px solid green; */
 }
-
+.chat::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+  display: none;
+}
 .messageContainer {
   flex: 9;
   /* border: 1px solid black; */
@@ -99,19 +106,19 @@
   padding: 10px;
   flex: 79 1;
   margin: 0px 10px;
-  background: rgba(55, 0, 255, 0.15);
-  box-shadow: 0px 2px 0px 0px #0185c2;
+  background-color:#ffffff ;
+  box-shadow: 0px 2px 0px 0px #17cf97;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 5px;
 }
 
 .messageInputContainer input {
-  color: rgb(231, 223, 223);
+  color: black;
 }
 
 .messageInputContainer input::placeholder {
-  color: rgb(231, 223, 223);
+  color: black;
 }
 
 .messageInput {
@@ -125,18 +132,18 @@
   /* flex: 7; */
   font-size: 25px !important;
   /* margin: 10px 5px; */
-  fill: #0185c2 !important;
+  fill: #17cf97 !important;
   width: 1em;
   height: 1em;
   display: inline-block;
   font-size: 1.5rem;
   padding: 4px !important;
-  transition: 0.7s ease-in-out;
+  transition: 1.7s ease-in-out;
 
   /* transition: fill 200ms cubic-bezier(0.4, 0, 0, 0.82) 0ms; */
 }
 .sendIcon:hover {
-  fill: #0185c2 !important;
+  fill: #17cf97 !important;
   cursor: pointer;
   transform: scale(1.38);
 }

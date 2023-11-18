@@ -24,7 +24,7 @@ function Navbar() {
     return(
         <>
             <nav className="main-nav">
-                <div className="Img"><a href=""><img src={logo} position = "relative" width="250px" margin ="0px 0px 0px 0px" padding ="0px 0px 0px 0px"/></a>
+                <div className="Img"><a href=""><img src={logo} /></a>
                 </div>
                 <div className="nav-items">
                     <ul id="navbar">

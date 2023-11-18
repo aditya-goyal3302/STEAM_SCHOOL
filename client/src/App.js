@@ -9,6 +9,7 @@ import About from "./components/About/About";
 import Profile from "./components/Profile/Profile";
 import Footer from "./components/Footer";
 import CurrentProfile from "./components/CurrentProfile/CurrentProfile";
+import search from "./components/search/search";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
         <Route path="/about" exact component={About}></Route>
         <Route path="/profile" exact component={Profile}></Route>
         <Route path="/CurrentProfile" exact component={CurrentProfile}></Route>
-
+        <Route path="/search" exact component={search}></Route>
       
       </BrowserRouter>
     </div>

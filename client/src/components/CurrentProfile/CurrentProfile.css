@@ -31,11 +31,50 @@
     justify-content: flex-start;
     padding: 0 auto;
 }
-.MAIN .main .left img{
-    margin: 0 auto;
+.MAIN .main .left img, .MAIN .main .left .btn{
+    margin: 3% auto;
 }
-  
-  
+
+.MAIN .main .left .btn{
+    position: relative;
+    width: 80%;
+    background: none;
+    color: rgb(59, 59, 59);
+    border:none;
+    border-bottom: 0.1px solid rgb(59, 59, 59);
+    box-shadow: 1px 1px 0px 0.5px rgb(59, 59, 59);
+    padding: 2% 0;
+    display: flex;
+    align-content: space-between;
+    /* -ms-flex-align: center; */
+    /* margin: 5% 0; */
+}
+.MAIN .main .left .delbtn:hover{
+    background-color: red !important;
+}
+
+.MAIN .main .left .btn .btnimg{
+    position: relative;
+    margin-right: 5%;
+    float: right;
+    /* display: inline-block; */
+}
+
+.MAIN .main .left .btn .btntxt{
+    position: relative;
+    margin: auto;
+    float: left;
+    /* display: inline-block; */
+}
+.MAIN .main .left .btn:hover{
+    background-color: rgb(0,0,0);
+    color: white;
+    transition: 0.3s ease-in-out;
+    border-bottom: 0.1px solid rgb(59, 59, 59);
+    box-shadow: 1px 1px 0.5px 0.5px rgb(59, 59, 59);
+    /* margin: 5% 0; */
+}
+
 .MAIN .main .right{
     width: 70%;
     /* background-color: aqua; */
@@ -70,14 +109,15 @@
     /* float: left; */
     flex-wrap: wrap;
     min-width: 500px;
+    margin-bottom:4%;
 }
 
-.datacontent{
+.right .r1 .datacontent{
     position: relative;
     margin-top: 5%;
     min-width: 400px;
     width:auto;
-    max-width: 49% ;
+    /* max-width: 49% ; */
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -85,7 +125,7 @@
     /* margin-left: ÷; */
     /* min-width: ; */
 }
-.datacontentl{
+.right .r2 .datacontentl{
     position: relative;
     /* margin-top: 5%; */
     width:90%;
@@ -103,24 +143,29 @@
     /* min-width: ; */
 }
 
-.title{
-    font-size: 1rem;
+.right .r1 .datacontent .title{
+    font-family: 'poppins' , sans-serif;
+    font-size: 1.5rem;
     color: rgb(59, 59, 59);
+    font-weight: 600;
 }
-.data{
+.right .r1 .datacontent .data{
     font-size: 1.5rem;
     color: rgb(33, 33, 33);
-    margin-top: 0px;
+    margin-top: 0%;
 }
 
-.titlel{
+.right .r2 .datacontentl .titlel{
     position: relative;
-    font-size: 1rem;
+    font-size: 1.5rem;
     color: rgb(59, 59, 59);
     width: 20%;
     min-width: 100px;
+    font-family: 'poppins' , sans-serif;
+    font-weight: 600;
+
 }
-.datal{
+.right .r2 .datacontentl .datal{
     position: relative;
     width :80%;
     font-size: 1.5rem;
@@ -129,11 +174,21 @@
     margin-top: 0px;
     font-family: 'poppins' , sans-serif;
 }
-.datal tr:nth-child(1){
+.right .r2 .datal tr:nth-child(1){
     background-color: rgb(214, 214, 214);
 }
-.datal tr:nth-child(1n):not(:first-child){
+.right .r2 .datal tr:nth-child(1n):not(:first-child){
     text-align: justify;
     background-color: rgb(244, 244, 244);
     
 }
+
+
+@media screen and (max-width: 992px) {
+    .left {
+      width: 70% !important;
+      margin: 0 auto;
+      height: auto;
+    }
+  }
+  
