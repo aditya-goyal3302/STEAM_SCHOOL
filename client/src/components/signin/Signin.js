@@ -104,13 +104,66 @@ function Signin() {
         setotpERR(1);
         setotpERRmess(response.data.message);
         if (response.data.code === 2) {
-          window.location.href = "/home";
+          handleRedirect();
         }
       })
       .catch(function (error) {
         console.log(error);
       });
   }
+
+  const checkp =async (p)=>{
+    const per = p.profile;
+    // const prof = p.profile;
+    if(per.fname === "" || per.fname === undefined || per.fname === null || per.fname === " "){
+      return false;
+    }
+     if(per.lname === "" || per.lname === undefined || per.lname === null ){
+      return false;
+    }
+     if(per.phno === "" || per.phno === undefined || per.phno === null || per.phno === " "){
+      return false;
+    }
+     if(per.age === "" || per.age === undefined || per.age === null || per.age === " "){
+      return false;
+    }
+     if(per.dob === "" || per.dob === undefined || per.dob === null || per.dob === " "){
+      return false
+    }
+     if(per.gender === "" ||per.gender === undefined || per.gender === null || per.gender === " " ){
+      return false
+    }
+     if(per.username === "" || per.username === undefined || per.username === null || per.username === " "){
+      return false
+    }
+    return true;
+    
+
+  }
+
+  const handleRedirect = async() => {
+    axios.get("/user/getprofile/self")  ///user/getp/cgyzdvxr67t7
+        .then(data=>{
+            if(data.data.code === 101){
+                // setislogin(0);
+                window.location.href = "/login";
+
+            }
+            else{
+              const p = data.data;
+              const valid = checkp(p);
+              alert(valid);
+                if(valid === true)
+                  window.location.href = "/";
+                else
+                  window.location.href = "/editprofile";
+                // setislogin(1);
+            }
+        }).catch(err=>{
+            // setislogin(0);
+        })
+  }
+
   useEffect(() => {
     function checkotp() {
       otp < 100000 || otp > 999999
@@ -184,7 +237,7 @@ function Signin() {
       </div>
       {/* panda */}
 
-      <form action="" autoComplete="off">
+      <form action="" className={styles.loginform} autoComplete="off">
         <div className={styles.hand}></div>
         <div className={cx(styles.hand, styles.rgt)}></div>
         <div className={styles.form__socialButton}>

@@ -1,33 +1,58 @@
-import React from "react";
+import React, {useEffect,useState} from "react";
 import './changepass.css';
+import axios from "axios";
 
 function Changepass({
     activepage,
     setactivepage
 }){
+    const[password,setpassword] = useState({})
+    const[error,seterror] = useState({})
+
+    const  inputChange = async (event) => {
+        const {name,value} = event.target;
+        console.log(name,value);
+        const temp = {...password};
+        temp[name] = value;
+        setpassword(temp)
+        console.log(password)
+    }
+
+    const onSubmitHandle = (event) => {
+        event.preventDefault()
+        console.log("SUBMITTING");
+        if(password.newpassword === password.confirmpassword){
+            axios.post("/user/changepassword",{pass:password})
+            console.log("PASSWORD CHANGED");
+        }
+        else{
+            console.log("PASSWORD NOT MATCHED");
+        }
+    }
+
     return(
         <>
         <div className='accountsettings'>
             <h1 className='mainhead1'>Change Password</h1>
-
-            <div className='form'>
+        
+            <form className='form' onSubmit={onSubmitHandle}>
                 <div className='form-group'>
                     <label htmlFor='oldpassword'>Old Password<span>*</span></label>
-                    <input type='password' name='oldpassword' id='oldpassword'/>
+                    <input type='password' name='oldpassword' onChange={e=>inputChange(e)} id='oldpassword'/>
                 </div>
 
                 <div className='form-group'>
                     <label htmlFor='newpassword'>New Password<span>*</span></label>
-                    <input type='newpassword' name='newpassword' id='newpassword'/>
+                    <input type='password' name='newpassword' onChange={e=>inputChange(e)} id='newpassword'/>
                 </div>
 
                 <div className='form-group'>
-                    <label htmlFor='newpassword'>Confirm Password<span>*</span></label>
-                    <input type='newpassword' name='newpassword' id='newpassword'/>
+                    <label htmlFor='confirmpassword'>Confirm Password<span>*</span></label>
+                    <input type='password' name='confirmpassword' onChange={e=>inputChange(e)} id='confirmpassword'/>
                 </div>
                 
-            </div>
-                <button className='mainbutton1'>Button</button>
+                <button type="submit" className='mainbutton1'>Button</button>
+            </form>
         </div>
         
         </>

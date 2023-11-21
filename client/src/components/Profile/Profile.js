@@ -11,18 +11,15 @@ import axios from 'axios';
 
 function Profile(){    
   const [activepage,setactivepage]= useState('PersonalInfo');
-  const [userProfile,setuserProfile] = useState(1)
+  const [userProfile,setuserProfile] = useState({})
   const [islogin,setislogin] = useState(1)
-  const [userprof,setuserProf] = useState(1)
+  const [userprof,setuserProf] = useState({})
   // useEffect(()=>{
   //   setactivepage('accountsettings');
   // })
 
-
-  const userId ="653029068158a55364a1fc73"
-
   useEffect(()=>{
-      axios.get("/user/getprofile/"+userId)  ///user/getp/cgyzdvxr67t7
+      axios.get("/user/geteditprofile/")  
       .then(data=>{
           console.log(data.data);
           setuserProfile(data.data);
@@ -31,7 +28,7 @@ function Profile(){
 
   useEffect(()=>{
 
-      axios.get("/user/getprof/"+userId)  ///user/getp/cgyzdvxr67t7
+      axios.get("/user/geteditprof/") 
       .then(data=>{
           console.log(data.data);
           setuserProf(data.data);
@@ -65,16 +62,12 @@ return (
           <div className= 'right'>
             
             {activepage==='PersonalInfo' && (<PersonalInfo 
-              activepage={activepage} 
-              setactivepage={setactivepage}
               userProfile={userProfile}
               setuserProfile={setuserProfile}
               />)}
             
             {activepage==='ProfessionalInfo' && (<ProfessionalInfo 
-              activepage={activepage} 
-              setactivepage={setactivepage}
-              userprof={userprof}
+             userprof={userprof}
               setuserProf={setuserProf}
               />)}
             

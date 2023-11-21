@@ -3,7 +3,7 @@ import axios from "axios";
 import ContactsWindow from "../components/ContactsWindow";
 import ChatWindow from "../components/ChatWindow";
 import styles from "../css/home.module.css";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Navbar from"../../Navbar";
 
 

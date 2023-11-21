@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const passport = require("passport");
 const isauth = require("../add_on/isauth");
+const { loginMail } = require("../add_on/mail");
 const usercontroller = require("../Controllers/user");
 const {check,body} = require("express-validator");
 
@@ -61,6 +62,7 @@ router.get("/auth/google/redirect",
   //   req.logIn(req.session.user, err=>{
   //     if (err) throw err;
     // console.log("req.session.user", req.session.user) })
+    // loginMail(req.body.email, req.body.fname +" "+ req.body.lname);
     req.session.isLoggedIn = true;
     req.session.user = req.user;
     req.session.save(err => {
@@ -74,6 +76,11 @@ router.get("/auth/google/redirect",
 router.get('/getprofile/:userId',usercontroller.getprofile)
 
 router.get('/getprof/:userId',usercontroller.getprof)
+
+
+router.get('/geteditprofile/',usercontroller.geteditprofile)
+
+router.get('/geteditprof/',usercontroller.geteditprof)
 
 // router.post('/getadmin/:userID',usercontroller.getadmin)
 
@@ -91,9 +98,9 @@ router.post('/resendotp' ,usercontroller.resendotp)
 
 // router.post("/resetpassword", usercontroller.resetpassword);
 
-// router.post("/changepassword",isauth.check,usercontroller.changepassword);
+router.post("/changepassword",isauth.check,usercontroller.changepassword);
 
-// router.post("/updateprofile",isauth.check,usercontroller.updateprofile);
+router.post("/updateprofile",usercontroller.updateprofile);
 
 // router.post("/updateprof",isauth.check,usercontroller.updateprof);
 

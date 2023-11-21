@@ -1,21 +1,20 @@
 .mainbutton1{
     background: none;
-    border: 1px solid var(--col1);
+    border: 1px solid black;
     padding:10px 20px;
     border-radius: 5px;
     font-size: 1.5rem;
     font-weight: 300;
     margin: 1rem;
     cursor: pointer;
-    color: var(--co11);
 }
 
 .mainbutton1:hover {
 
-    background-color: var(--co11);
+    background-color: black;
     color:white;
     transform: scale(1.1);
-    transition: all 0.6s ease-in-qut;
+    transition: all 0.6s ease-in-out;
  }
  
  .accountsettings{
@@ -29,18 +28,102 @@
         padding: 10px 20px;
 }
 
-.accountsettings .form{
+.accountsettings .formper{
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     width: 100%;
     padding: 10px 20px;
 }
 
-.accountsettings .form .form-group{
+.accountsettings .formper .form-group{
     display: flex;
     flex-direction: column;
     width: 45%;
     margin: 10px;
+    align-items: flex-start;
+}
+
+.accountsettings .formper .form-group label{
+    font-size: 1rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    /* float: left; */
+}
+
+.accountsettings .formper .form-group input{
+    width: 90%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 300;
+    border-radius: 5px;
+    outline: none;
+}
+
+.react-datepicker-wrapper{
+    width: 90% !important;
+}
+
+.react-datepicker-wrapper input{
+    width: 92% !important; 
+    padding-left: 10% !important;
+    font-size: 1rem;
+    font-weight: 300;
+    border-radius: 5px;
+    outline: none;
+}
+
+.accountsettings .formper .form-group select{
+    width: 94%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 300;
+    border-radius: 5px;
+    outline: none;
+}
+
+.accountsettings .formper .form-group select,.accountsettings .formper .form-group input{
+    border:none;
+    border-bottom: 1px solid black;
+}
+
+.accountsettings .formper .form-group select:focus,.accountsettings .formper .form-group input:focus{
+    box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    transition: all 0.3s ease-in-out;
+}
+
+.red {
+    color: red;
+}
+
+@media screen and (max-width: 992px){
+    .accountsettings .formper .form-group input{
+        width: 80%;
+    }
+    .react-datepicker-wrapper{
+        width: 80% !important;
+    }
+    .accountsettings .formper .form-group select{
+        width: 84%;
+    }
+}
+
+@media screen and (max-width: 720px){
+    /* .accountsettings .formper .form-group input{
+        width: 100%;
+    }
+    .react-datepicker-wrapper{
+        width: 100% !important;
+    }
+    .accountsettings .formper .form-group select{
+        width: 100%;
+    } */
+    .accountsettings .formper{
+        flex-direction: column;
+        align-items: center;
+    }
 }

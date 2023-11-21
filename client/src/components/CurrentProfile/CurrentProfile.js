@@ -7,39 +7,47 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
 import axios from "axios";
+
 // import { getSkeletonUtilityClass } from "@mui/material";
 // import { set } from "mongoose";
 
-function CurrentProfile({userId}){
+function CurrentProfile(){
     const [userProfile,setuserProfile] = useState(1)
     const [userprof,setuserProf] = useState(1)
-    const [islogin,setislogin] = useState(1)
+    const [loader,setloader] = useState(1)
     const [isadmin,setisadmin] = useState(1)
+    const queryParameters = new URLSearchParams(window.location.search)
+    const user = queryParameters.get("userid")
+    const [userId,setuserId]=useState(user?user:"self")
 
-    userId ="653029068158a55364a1fc73"
 
     useEffect(()=>{
-        axios.get("/getadmin/"+userId)
+        axios.get("/getadmin/"+userProfile._id)
         .then(data=>{
             console.log("hi",data.data);
             setisadmin(data.data.isadmin)
-            
         })
-    },[isadmin])
+    },[userProfile])
+
     useEffect(()=>{
         axios.get("/user/getprofile/"+userId)  ///user/getp/cgyzdvxr67t7
         .then(data=>{
+            if(data.data.code === 101){
+                window.location.href="/login"
+                return;
+            }
             console.log(data.data);
             setuserProfile(data.data);
         }).catch(err=>{
-            setislogin(0);
+            // setislogin(0);
         })
 
         axios.get("/user/getprof/"+userId)  ///user/getp/cgyzdvxr67t7
         .then(data=>{
             setuserProf(data.data);
+            setloader(0);
         })
-    },[])
+    },[userId])
 
     function sendmessage(){
         axios.get("/chat/newchat/"+userId)
@@ -55,7 +63,7 @@ function CurrentProfile({userId}){
     
     return(
 
-        islogin === 1 ? (
+        loader === 0 ? (
         <>
         {/* if login to be implement */}
         <Navbar></Navbar>
@@ -199,8 +207,9 @@ function CurrentProfile({userId}){
         </div>
 
         <Footer></Footer>
-        </>):(
-            window.location.href="/login"
+        </>
+        ):(
+            <></>
         )
     )
 }

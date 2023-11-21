@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './UserSidebar.css'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import PasswordIcon from '@mui/icons-material/Password';
+import axios from 'axios';
+// import { colors } from '@mui/material';
 
 const UserSidebar =({
     activepage,
@@ -12,9 +16,9 @@ const UserSidebar =({
     function changetopaccount(){
         setactivepage("ProfessionalInfo")
     }
-    
-    function changetologout(){
-        setactivepage("logout")
+    function deleteprofile(){
+        axios.post("/user/deleteprofile")
+        window.location.href="/login"
     }
     function changetochangepass(){
         setactivepage("changepass")
@@ -46,18 +50,14 @@ const UserSidebar =({
         
         {
             <div className={activepage === 'changepass'?'s2':'s1'} onClick={changetochangepass}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
-                </svg>    
+                <PasswordIcon className='cngpass'></PasswordIcon>   
                 <span>Change Password</span>
             </div>
         }
         {
-            <div className={activepage === 'logout'?'s2':'s1'} onClick={changetologout}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                </svg>
-                <span>Log Out</span>
+            <div className={activepage === 'logout'?'s2 redb':'s1 redb'} onClick={deleteprofile}>
+                <DeleteForeverIcon className='red'></DeleteForeverIcon>
+                <span>Delete Account</span>
             </div>
         }
         </div>

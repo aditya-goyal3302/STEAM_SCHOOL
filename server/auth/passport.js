@@ -30,12 +30,18 @@ passport.use(new googleStrategy({
       .then((currentUser)=>{
         if(currentUser){
           // console.log("User Already In DB" , currentUser)
+          // loginMail(req.body.email, req.body.username);
+
           done(null, currentUser)
           return currentUser
       }
       else{
         new User({
-          username: profile._json.name,
+          profile:{
+            fname: profile._json.name.split(" ")[0],
+            lname: profile._json.name.split(" ")[1]
+          },
+          username: profile._json.name.split(" ")[0] +" "+profile._json.name.split(" ")[1],
           email : profile._json.email,
           googleaccount : {isgoogle : 1, googlename : profile._json.name},
           img : profile._json.picture

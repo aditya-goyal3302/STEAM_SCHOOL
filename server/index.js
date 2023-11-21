@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/UserRoutes");
 const friendRoutes = require("./routes/Friendroutes");
 const chatroutes = require("./routes/Chatroutes");
-const postroutes = require("./routes/postroutes");
-const noteroutes = require("./routes/Noteroutes");
+// const postroutes = require("./routes/postroutes");
+// const noteroutes = require("./routes/Noteroutes");
 const cors = require("cors");
 const session = require("express-session");
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -66,7 +66,7 @@ app.use("/chat", chatroutes);
 app.use('/getadmin/:userId',(req,res,next)=>{
   // res.send((req.session.user._id)?(req.session.user._id):"NA");
   const userId= req.params.userId;
-  console.log(session.user)
+  // console.log(session.user)
   try{
     if(req.session.user._id.toString() === userId.toString()){
       res.send({isadmin:1})

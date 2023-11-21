@@ -28,27 +28,12 @@ exports.create =  async (req, res,next) => {
       email: req.body.email,
     });
 
-      //User.findOne({ username: req.body.username }).then((existingUser) => {
-        // if (existingUser) {
-        //   res.send({
-        //     message: "Username Already Exists! Login Instead",
-        //     code: 2,
-        //   });
-        // } 
-        // else {
-        //   User.findOne({ email: req.body.email }).then((existingUser) => {
-        //     if (existingUser) {
-        //       res.send({
-        //         message: "Email Already Exists! Login Instead",
-        //         code: 1,
-        //       });
-        //     } else {
     const a1 = user
         .save()
         .then((newUser) => {
             if(newUser){
                 console.log("NEW USER CREATED WITH DETAILS:", newUser.username, newUser.email);
-                WelcomeMail(req.body.email, req.body.username);
+                WelcomeMail(req.body.email, req.body.fname +" "+ req.body.lname);
                 res.send({ message: "New User Created! Login Now", code: 3 });
             }
         })
@@ -68,7 +53,7 @@ exports.login = (req, res, next) => {
         res.send(info);
       } else {
         let otp = random.int((min = 123456), (max = 987654)) + "";
-        otpmail(user.email, user.username, otp);
+        otpmail(user.email,req.body.fname +" "+ req.body.lname, otp);
         //  res.send({email: user.email, code: 3, otp:otp})
         const newotp = new Otp({
           useremail: user.email,
@@ -77,7 +62,7 @@ exports.login = (req, res, next) => {
         });
         newotp
           .save()
-          .then((newotp) => console.log(newotp))
+          .then((newotp) => console.log(otp))
           .catch((err) => console.log(err));
           loginMail(req.body.email, req.body.username);
       
@@ -110,6 +95,7 @@ exports.verifyotp = (req, res) => {
                 req.session.save(err => {
                   console.log(err);
                 });
+
                 res.send({ code: 2, message: "login successful" });
               } else {
                 console.log("User Doesn't Exist");
@@ -177,11 +163,22 @@ exports.resendotp =  (req,res) => {
   }
 
 exports.getprofile = (req,res) => {
-  const userId= req.params.userId;
+  var userId = req.params.userId;
+  if(userId === ""){
+    return;
+  }
+  if(userId === "self"){
+    if(req.session.user === undefined){
+      // res.redirect("/login")
+      res.send({code:101})
+      return;
+    }
+    else
+      userId= req.session.user._id;
+  }
   User.findById(userId)
   .then(user=>{
     if(user){
-
       const data = {...user.profile,email:user.email,img:user.img,username:user.username,_id:user._id}
       res.send(data)
     }
@@ -196,8 +193,18 @@ exports.getprofile = (req,res) => {
 }
 
 exports.getprof = (req,res) => {
-  const userId= req.params.userId;
-  User.findById(userId)
+  var userId = req.params.userId;
+  if(userId === ""){
+    return;
+  }
+  if(userId === "self"){
+    if(req.session.user === undefined){
+      res.redirect("/login")
+      return;
+    }
+    else
+      userId= req.session.user._id;  }
+   User.findById(userId)
   .then(user=>{
     if(user){
       const data = {...user.prof}
@@ -230,6 +237,111 @@ exports.deleteprofile = (req,res) => {
   })
 }
 
+exports.updateprofile = (req,res) => {
+  console.log(req.body.profile)
 
+  const userId= req.session.user._id;
+  User.findById(userId)
+  .then(user=>{
+    if(user){
+      user.profile.fname = req.body.profile.fname;
+      user.profile.lname = req.body.profile.lname;
+      user.profile.dob = req.body.profile.dob;
+      user.profile.phno = req.body.profile.phno;
+      user.profile.gender = req.body.profile.gender;
+      user.profile.state = req.body.profile.state;
+      user.profile.city = req.body.profile.city;
+      user.username = req.body.profile.username;
+      return user.save();
+    }
+    }).then(result=>{
+      if(result){
+      res.send({message:"User Updated"})
+    }
+    else{
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}
 
+exports.changepassword = (req,res) => {
+  const userId= req.session.user._id;
+  User.findById(userId)
+  .then(user=>{
+    if(user.password !== undefined){
+      bcrypt.compare(req.body.pass.oldpassword, user.password, function(err, result) {
+        if(result){
+          bcrypt.hash(req.body.pass.newpassword, 10, function(err, hash) {
+            user.password = hash;
+            user.save();
+            console.log("Password Changed")
+            res.send({message:"Password Changed"})
+          });
+        }
+        else{
+          console.log("Old Password is wrong")
+          res.send({message:"Old Password is wrong"})
+        }
+      });
+    }
+    else if(user.googleaccount.isgoogle === true && req.body.pass.oldpassword === undefined ){
+      bcrypt.hash(req.body.pass.newpassword, 10, function(err, hash) {
+        // console.log(hash)
+        user.password = hash;
+        user.save();
+        console.log("Password Changed")
+        res.send({message:"Password Changed"})
+      });
+    }
+    else{
+      console.log("user err")
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}
 // exports.getadmin = 
+
+exports.geteditprofile = (req,res) => {
+  var userId =req.session.user._id;
+
+  User.findById(userId)
+  .then(user=>{
+    if(user){
+      const data = {...user.profile,email:user.email,img:user.img,username:user.username,_id:user._id}
+      res.send(data)
+    }
+    else{
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}
+
+exports.geteditprof = (req,res) => {
+  var userId =req.session.user._id;
+  User.findById(userId)
+  .then(user=>{
+    if(user){
+      const data = {...user.prof}
+      res.send(data)
+    }
+    else{
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}

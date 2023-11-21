@@ -153,7 +153,7 @@ function Register() {
       </div>
       {/* panda */}
 
-      <form action="" autoComplete="off">
+      <form className={styles.loginform} action="" autoComplete="off">
         <div className={styles.hand}></div>
         <div className={cx(styles.hand, styles.rgt)}></div>
         <h1>Register New User</h1>

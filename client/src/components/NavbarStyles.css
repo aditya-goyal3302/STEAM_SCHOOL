@@ -41,14 +41,22 @@
     transition: 0.3s ease-in-out;
 } 
 
-#navbar li a:hover,
-#navbar li a:active{
+#navbar li a:hover
+,#navbar li a:active{
  color: #17cf97;
 }
-
+.active
+{
+    color: #17cf97 !important;
+    content: "";
+    width: 30%;
+    height: 2px;
+    /* background: #17cf97; */
+    bottom: -4px;
+    left: 20px;
+}
 #navbar li a:hover::after,
-#navbar li a:active::after,
-#navbar li a .active{
+#navbar li a:active::after{
 content: "";
 width: 30%;
 height: 2px;
@@ -142,3 +150,4 @@ position: absolute;
 bottom: -4px;
 left: 20px;
 }
+

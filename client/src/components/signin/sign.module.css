@@ -224,7 +224,7 @@ body{
 }
 
 /* panda */
-form {
+.loginform {
   max-width: 500px;
   padding: 20px 40px;
   background: #fff;
@@ -314,12 +314,12 @@ h1 {
 }
 
 @media only screen and (max-width: 640px) {
-  form {
+  .loginform {
     max-width: 300px;
   }
 }
 @media only screen and (max-width: 430px) {
-  form {
+  .loginform {
     max-width: 250px;
   }
 }
@@ -327,7 +327,7 @@ h1 {
   .panda {
     display: none;
   }
-  form {
+  .loginform {
     margin-top: 150px;
   }
   .hand {
@@ -335,7 +335,7 @@ h1 {
   }
 }
 @media only screen and (max-width: 325px) {
-  form {
+  .loginform {
     max-width: 180px;
     height: 430px;
   }
@@ -344,7 +344,7 @@ h1 {
   }
 }
 @media only screen and (max-width: 270px) {
-  form {
+  .loginform {
     max-width: 140px;
     height: 430px;
   }

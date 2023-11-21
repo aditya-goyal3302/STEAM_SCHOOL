@@ -145,7 +145,7 @@ function otpmail(mailto, usrnm, otp) {
             <p>Dear ${usrnm},</p>
             <div style="margin-left: 30px;font-size: x-small;">
                 <p>Thank you for choosing Stream School as your trusted platform. To ensure the security of your account, we have generated a one-time password (OTP) for you to complete your registration or sign-in process.</p>
-                <p>Your OTP is: <span class="otp">[ S-${otp} ]</span></p>
+                <p>Your OTP is: <span class="otp">[ S-${otp}]</span></p>
                 <p>Please use this OTP to verify your identity and complete the required action on our website. It is crucial to keep your OTP confidential and not share it with anyone, as it is a critical security measure.</p>
                 <p>If you did not request this OTP or have any concerns about the security of your account, please contact our support team immediately at [Support Email Address] or [Support Phone Number].</p>
                 <p>Thank you for choosing Stream School. We take your security seriously and look forward to serving you.</p>

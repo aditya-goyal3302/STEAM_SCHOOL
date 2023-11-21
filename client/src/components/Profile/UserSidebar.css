@@ -23,6 +23,11 @@
     border-radius: 5px;
     cursor: pointer;
     color: grey;
+    transition: 0.2s ease-in-out;
+    box-shadow: 0px 3px 3px -1px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 3px 3px -1px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 3px 3px -1px rgba(0,0,0,0.1);
+    /* transition:  0.3s ease-in-out !important; */
 }
 
 .usersidebar .s2{
@@ -30,4 +35,23 @@
     border-radius: 5px;
     cursor: pointer;
     color: grey;
+    box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+}
+.redb:hover{
+    background-color: rgba(255, 0, 0, 0.771) !important;
+    color: white !important;
+    .red{
+        color: white !important;
+    }
+
+}
+.red{
+    color:  rgba(255, 0, 0, 0.771)  !important;
+}
+
+.cngpass{
+    color: rgba(128, 128, 128, 0.826) !important;
+    
 }
