@@ -34,13 +34,17 @@
 .MAIN .main .left img, .MAIN .main .left .btn{
     margin: 3% auto;
 }
+.MAIN .main .left img{
+    border-radius: 20% !important;
 
+}
 .MAIN .main .left .btn{
     position: relative;
     width: 80%;
     background: none;
     color: rgb(59, 59, 59);
     border:none;
+    border-radius: 15%;
     border-bottom: 0.1px solid rgb(59, 59, 59);
     box-shadow: 1px 1px 0px 0.5px rgb(59, 59, 59);
     padding: 2% 0;

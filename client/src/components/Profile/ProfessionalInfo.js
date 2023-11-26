@@ -29,8 +29,14 @@ function ProfessionalInfo({
     }
 
     const inputChange = async (event,rowIndex) => {
-        const {name,value} = event.target;
-        console.log(name,value,rowIndex);
+        const {name,value,className} = event.target;
+        // console.log(name,value,className);
+        setQual(Qual.map((data,index) => {
+            if(index == className){
+                return {...data,[name]:value}
+            }
+            return data;
+        }))
         // const temp = {...newUserData};
         // temp[name] = value;
         // setnewUserData(temp)
@@ -58,9 +64,9 @@ function ProfessionalInfo({
                         </tr>
                             {countQ.map((data, rowIndex) => (
                             <tr key={rowIndex}>
-                                <td><input name="Qname" value={Qual[rowIndex].qname !== undefined ? Qual[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e,rowIndex)}></input></td>
-                                <td><input name="Quni" value={Qual[rowIndex].quni !== undefined ? Qual[rowIndex].quni : ""}></input></td>
-                                <td><input name="Qyear" value={Qual[rowIndex].qyear !== undefined ? Qual[rowIndex].qyear : ""}></input></td>
+                                <td><input className={rowIndex} name="qname" value={Qual[rowIndex].qname !== undefined ? Qual[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e)}></input></td>
+                                <td><input className={rowIndex} name="quni" value={Qual[rowIndex].quni !== undefined ? Qual[rowIndex].quni : ""} onChange={(e,rowIndex)=>inputChange(e)}></input></td>
+                                <td><input className={rowIndex} name="qyear" value={Qual[rowIndex].qyear !== undefined ? Qual[rowIndex].qyear : ""} onChange={(e,rowIndex)=>inputChange(e)}></input></td>
                             </tr>
                             ))}
                         </tbody>
@@ -84,7 +90,7 @@ function ProfessionalInfo({
                             {countS.map((data, rowIndex) => (
                             <tr key={rowIndex}>
                                 <td><input name="sname" value={Skill[rowIndex].qname !== undefined ? Skill[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e,rowIndex)}></input></td>
-                                 <td><input name="slevel" value={Skill[rowIndex].qyear !== undefined ? Skill[rowIndex].qyear : ""}></input></td>
+                                <td><input name="slevel" value={Skill[rowIndex].qyear !== undefined ? Skill[rowIndex].qyear : ""}></input></td>
                             </tr>
                             ))}
                         </tbody>
@@ -108,9 +114,9 @@ function ProfessionalInfo({
         </tr>
             {countE.map((data, rowIndex) => (
             <tr key={rowIndex}>
-                <td><input name="Etitle" value={exp[rowIndex].qname !== undefined ? exp[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e,rowIndex)}></input></td>
-                <td><input name="Ename" value={exp[rowIndex].quni !== undefined ? exp[rowIndex].quni : ""}></input></td>
-                <td><input name="Eyear" value={exp[rowIndex].qyear !== undefined ? exp[rowIndex].qyear : ""}></input></td>
+                <td><input name="etitle" value={exp[rowIndex].qname !== undefined ? exp[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e,rowIndex)}></input></td>
+                <td><input name="ename" value={exp[rowIndex].quni !== undefined ? exp[rowIndex].quni : ""}></input></td>
+                <td><input name="eyear" value={exp[rowIndex].qyear !== undefined ? exp[rowIndex].qyear : ""}></input></td>
             </tr>
             ))}
         </tbody>
