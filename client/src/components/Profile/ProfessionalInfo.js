@@ -9,7 +9,11 @@ function ProfessionalInfo({
     setuserProf
 }){
     const [countQ,setcountQ] = useState([]); 
+    const [countS,setcountS] = useState([]);
+    const [countE,setcountE] = useState([]);
     const[Qual,setQual] = useState([{qname:"BCA",quni:"Chitkara",qyear:"2024"}])
+    const[Skill,setSkill] = useState([{sname:"React",slevel:"Intermediate"}])
+    const[exp,setexp] = useState([{Etitle:"Intern",Ename:"Google",Eyear:"2021"}])
 
     const increment = () => { 
         if(countQ.length == 0){
@@ -63,6 +67,56 @@ function ProfessionalInfo({
                     </table>
                     </form>
                 </div>
+                <div className="datacontentl">
+                    <div className="titlel">
+                        <div className="titlel-textl">Skills:</div> 
+                        <div className="title-btn">
+                            <button className="add-button" onClick={increment}><AddIcon/></button>
+                        </div>
+                    </div>
+                    <form className="form-table">
+                    <table className="dynamic-table datal">
+                        <tbody>
+                        <tr>
+                            <th>Skills</th>
+                            <th>Level</th>
+                        </tr>
+                            {countS.map((data, rowIndex) => (
+                            <tr key={rowIndex}>
+                                <td><input name="sname" value={Skill[rowIndex].qname !== undefined ? Skill[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e,rowIndex)}></input></td>
+                                 <td><input name="slevel" value={Skill[rowIndex].qyear !== undefined ? Skill[rowIndex].qyear : ""}></input></td>
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    </form>
+                </div>
+                <div className="datacontentl">
+    <div className="titlel">
+        <div className="titlel-textl">Experince:</div> 
+        <div className="title-btn">
+            <button className="add-button" onClick={increment}><AddIcon/></button>
+        </div>
+    </div>
+    <form className="form-table">
+    <table className="dynamic-table datal">
+        <tbody>
+        <tr>
+            <th>Title</th>
+            <th>Company Name</th>
+            <th>Year</th>
+        </tr>
+            {countE.map((data, rowIndex) => (
+            <tr key={rowIndex}>
+                <td><input name="Etitle" value={exp[rowIndex].qname !== undefined ? exp[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e,rowIndex)}></input></td>
+                <td><input name="Ename" value={exp[rowIndex].quni !== undefined ? exp[rowIndex].quni : ""}></input></td>
+                <td><input name="Eyear" value={exp[rowIndex].qyear !== undefined ? exp[rowIndex].qyear : ""}></input></td>
+            </tr>
+            ))}
+        </tbody>
+    </table>
+    </form>
+</div>
             </div>
         {/* <div className='accountsettings'>
             <h1 className='mainhead1'>Professional Information</h1>
