@@ -1,8 +1,9 @@
 .form_cp  .form-group label{
     font-size: 1rem;
-    font-weight: 300;
+    font-weight: 700;
     margin-bottom: 0.5rem;
-    /* float: left; */
+    width: 50%;
+    float: left;
 }
 
 .form_cp .form-group input{
@@ -15,7 +16,10 @@
 }
 
 .form_cp .form-group{
-    margin:5%
+    margin:25px;
+    display: flex;
+    flex-direction: row;
+    width: 70%;
 }
 .form_cp .form-group select, .form_cp .form-group input{
     border:none;
@@ -36,6 +40,29 @@
 .form_cp{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     margin-bottom: 5%;
+    width: 80%;
+
 }
+.passbutton1{
+    background: none;
+    border: 1px solid black;
+    padding:10px 20px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin: 1rem;
+    cursor: pointer;
+    /* width: 50px; */
+    margin:  3% auto;
+}
+
+
+.passbutton1:hover {
+
+    background-color: black;
+    color:white;
+    transform: scale(1.1);
+    transition: all 0.6s ease-in-out;
+ }

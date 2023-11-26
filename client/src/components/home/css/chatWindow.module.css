@@ -22,6 +22,11 @@
   align-items: center;
 }
 
+.contactInfo a{
+  text-decoration: none;
+  color: black;
+}
+
 .contactImage img {
   width: 30px;
   height: 30px;

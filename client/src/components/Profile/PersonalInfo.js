@@ -96,7 +96,7 @@ function PersonalInfo({
                         <select required  htmlFor='gender' name="gender" id="gender" onChange={e=>inputChange(e)} value={newUserData.gender}>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                            <option value="Other">Other</option>
+                            <option value="Other" selected>Rather Not Say</option>
                         </select>
                     </div>
                     <div className='form-group'>
@@ -108,7 +108,7 @@ function PersonalInfo({
                         <label htmlFor='state'>State<span className="red">*</span></label>
                         <input required type='text' name='state' id='state' onChange={e=>inputChange(e)} value={newUserData.state}/>
                     </div>
-                    <button type="submit" className='mainbutton1' >Save</button>
+                    <button type="submit" className='mainbutton1' >Save Changes</button>
                 </form>
             </div>
             </>

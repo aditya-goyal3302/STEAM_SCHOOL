@@ -14,7 +14,7 @@
 }
 
 .activecontact {
-  background: rgba(0, 85, 255, 0.2);
+  background: rgba(255, 255, 255, 0.609);
   box-shadow:  1px 1px 3px 0 #17cf97;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);

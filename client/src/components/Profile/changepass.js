@@ -37,21 +37,21 @@ function Changepass({
         
             <form className='form_cp' onSubmit={onSubmitHandle}>
                 <div className='form-group'>
-                    <label htmlFor='oldpassword'>Old Password<span>*</span></label>
+                    <label htmlFor='oldpassword'>Old Password<span className="red">*</span></label>
                     <input type='password' name='oldpassword' onChange={e=>inputChange(e)} id='oldpassword'/>
                 </div>
 
                 <div className='form-group'>
-                    <label htmlFor='newpassword'>New Password<span>*</span></label>
+                    <label htmlFor='newpassword'>New Password<span className="red">*</span></label>
                     <input type='password' name='newpassword' onChange={e=>inputChange(e)} id='newpassword'/>
                 </div>
 
                 <div className='form-group'>
-                    <label htmlFor='confirmpassword'>Confirm Password<span>*</span></label>
+                    <label htmlFor='confirmpassword'>Confirm Password<span className="red">*</span></label>
                     <input type='password' name='confirmpassword' onChange={e=>inputChange(e)} id='confirmpassword'/>
                 </div>
                 
-                <button type="submit" className='mainbutton1'>Button</button>
+                <button type="submit" className='passbutton1'>Change Password</button>
             </form>
         </div>
         

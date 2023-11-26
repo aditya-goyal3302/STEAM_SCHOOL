@@ -8,7 +8,7 @@ function Spinner() {
             <div className="loader-wraper">
                 {/* <div className="loader"></div> */}
                 <img src={gif} alt="Loading..." className="loader"/>
-                <div className="loader-text">Hang On!... Its Comming For You</div>
+                <div className="loader-text">Hang On!... It's Loading For You</div>
             </div>
         </div>
     )

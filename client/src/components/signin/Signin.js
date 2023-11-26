@@ -220,6 +220,7 @@ function Signin() {
   return (
     <div className="form">
       {/* panda */}
+      {isloading === 1 && <Spinner />}
       <div className={styles.panda}>
         <div className={styles.ear}></div>
         <div className={styles.face}>

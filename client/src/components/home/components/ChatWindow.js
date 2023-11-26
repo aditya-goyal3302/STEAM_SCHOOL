@@ -154,25 +154,25 @@ function ChatWindow({
     <div className={styles.container}>
            {currentchat !==undefined && (<>
       <div className={styles.head}>
-        <div className={styles.contactInfo}>
-          <div className={styles.contactImage}>
-            <img
-              src={
-                currentchat && currentchat.img !== ""
-                  ? currentchat.img
-                  : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
-              }
-              alt="CP"
-            />
-          </div>
-          <div className={styles.contactDetail}>
-            <div className={styles.contactName}>
-              <a href={"/profile/?userid="+currentchat._id}>
-              {currentchat ? currentchat.username : " "}
-              </a>
+        <div className={styles.contactInfo } onClick={()=>{
+          window.location.href="/profile/?userid="+currentchat._id
+        }}>
+            <div className={styles.contactImage}>
+              <img
+                src={
+                  currentchat && currentchat.img !== ""
+                    ? currentchat.img
+                    : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                }
+                alt="CP"
+              />
             </div>
-          </div>
-          <div className={styles.status}></div>
+            <div className={styles.contactDetail}>
+            <div className={styles.contactName}>
+              {currentchat ? currentchat.username : " "}
+              </div>
+            </div>
+          {/* <div className={styles.status}></div> */}
         </div>
         
         <MenuIcon className={styles.menuIcon} onClick={changemode} />

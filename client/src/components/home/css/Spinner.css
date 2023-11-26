@@ -29,6 +29,15 @@
 }
 .loader{
   /* height: 300px; */
-  width: 300px;
+  width: 500px;
 
+}
+@media screen and (max-width: 768px){
+  .loader{
+    /* height: 300px; */
+    width: 300px;
+  }
+  .loader-text{
+    font-size: 1.5rem;
+  }
 }
