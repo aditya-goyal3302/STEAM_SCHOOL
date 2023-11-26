@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import "./Profile.css";
-import Navbar from '../Navbar';
-import Footer from '../Footer';
-import UserSidebar from './UserSidebar'
+import Navbar from '../Navbar.js';
+import Footer from '../Footer.js';
+import UserSidebar from './UserSidebar.js'
 import PersonalInfo from './PersonalInfo.js'
 // import Logout from './Logout.js'
 import Changepass from './changepass.js';
 import ProfessionalInfo from './ProfessionalInfo.js';
 import axios from 'axios';
-import Spinner from '../home/components/Spinner'
+import Spinner from '../home/components/Spinner.js'
 
 function Profile(){    
   const [activepage,setactivepage]= useState('PersonalInfo');
