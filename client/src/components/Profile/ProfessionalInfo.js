@@ -70,7 +70,7 @@ function ProfessionalInfo({
                             </tr>
                             ))}
                         </tbody>
-                    </table>
+                    </table> 
                     </form>
                 </div>
                 <div className="datacontentl">
