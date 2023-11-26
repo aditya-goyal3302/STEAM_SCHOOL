@@ -5,11 +5,12 @@ import axios from "axios";
 import styles from "./sign.module.css";
 import cx from "classnames";
 import google from "../../resources/google.png";
-
+import Spinner from "../home/components/Spinner";
 // import "./SForm.css";
 // import Fade from "react-reveal/Fade";
 
 function Signin() {
+  const [isloading, setisloading] = useState(0);
   var [userObj, setUser] = useState({
     userName: "",
     userPassword: "",
@@ -100,7 +101,7 @@ function Signin() {
     axios
       .post("/user/verifyotp", { otp: otp, useremail: otpmail })
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         setotpERR(1);
         setotpERRmess(response.data.message);
         if (response.data.code === 2) {
@@ -112,13 +113,13 @@ function Signin() {
       });
   }
 
-  const checkp =async (p)=>{
+  const checkp = async (p)=>{
     const per = p.profile;
     // const prof = p.profile;
     if(per.fname === "" || per.fname === undefined || per.fname === null || per.fname === " "){
       return false;
     }
-     if(per.lname === "" || per.lname === undefined || per.lname === null ){
+     if(per.lname === "" || per.lname === undefined || per.lname === null || per.lname === " "){
       return false;
     }
      if(per.phno === "" || per.phno === undefined || per.phno === null || per.phno === " "){
@@ -144,15 +145,21 @@ function Signin() {
   const handleRedirect = async() => {
     axios.get("/user/getprofile/self")  ///user/getp/cgyzdvxr67t7
         .then(data=>{
+          setisloading(1);
+    
             if(data.data.code === 101){
                 // setislogin(0);
                 window.location.href = "/login";
-
+                setisloading(0);
+                return;
             }
             else{
+
               const p = data.data;
               const valid = checkp(p);
+              console.log(valid);
               alert(valid);
+              
                 if(valid === true)
                   window.location.href = "/";
                 else

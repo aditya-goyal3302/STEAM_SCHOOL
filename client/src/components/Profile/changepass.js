@@ -35,7 +35,7 @@ function Changepass({
         <div className='accountsettings'>
             <h1 className='mainhead1'>Change Password</h1>
         
-            <form className='form' onSubmit={onSubmitHandle}>
+            <form className='form_cp' onSubmit={onSubmitHandle}>
                 <div className='form-group'>
                     <label htmlFor='oldpassword'>Old Password<span>*</span></label>
                     <input type='password' name='oldpassword' onChange={e=>inputChange(e)} id='oldpassword'/>

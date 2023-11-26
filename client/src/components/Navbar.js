@@ -35,14 +35,14 @@ function Navbar() {
             window.location.href = "/login"
             return;
         }
-        window.location.href = "/CurrentProfile"
+        window.location.href = "/Profile"
     }
     const handleprofile = () => {
         if(islogin === 0){
             window.location.href = "/login"
             return;
         }
-        window.location.href = "/profile"
+        window.location.href = "/editprofile"
     }
     const handlechat = () => {
         if(islogin === 0){

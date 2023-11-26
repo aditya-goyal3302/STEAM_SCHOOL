@@ -29,7 +29,7 @@
   /* margin: 5px 15px; */
   padding-top: 15px;
   padding-left: 20px;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 
 .contactDetail {
@@ -52,7 +52,7 @@
 .menuIcon {
   font-size: 15px;
   margin: 10px;
-  fill: #ffffff !important;
+  fill: #000000 !important;
 }
 .menuIcon:hover {
   fill: #17cf97 !important;
@@ -174,7 +174,7 @@
     /* font-size: 5px; */
     padding-top: 5px;
     padding-left: 4px;
-    color: white;
+    color: black;
     text-transform: capitalize;
     font-family: monospace;
   }

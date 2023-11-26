@@ -152,27 +152,27 @@ function ChatWindow({
 
   return (
     <div className={styles.container}>
+           {currentchat !==undefined && (<>
       <div className={styles.head}>
         <div className={styles.contactInfo}>
           <div className={styles.contactImage}>
-            {/* {currentchat &&(
-              
-            )} */}
             <img
               src={
                 currentchat && currentchat.img !== ""
                   ? currentchat.img
-                  : "https://iconape.com/wp-content/png_logo_vector/doraemon-logo.png"
+                  : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
               }
-              alt="Contact Avatar"
+              alt="CP"
             />
           </div>
           <div className={styles.contactDetail}>
             <div className={styles.contactName}>
-              {currentchat ? currentchat.username : " Aditya"}
+              <a href={"/profile/?userid="+currentchat._id}>
+              {currentchat ? currentchat.username : " "}
+              </a>
             </div>
           </div>
-          {/* <div className={styles.status}>Commited</div> */}
+          <div className={styles.status}></div>
         </div>
         
         <MenuIcon className={styles.menuIcon} onClick={changemode} />
@@ -264,6 +264,7 @@ function ChatWindow({
           <SendIcon className={styles.sendIcon} onClick={sendmessage} />
         </div>
       </div>
+          </>)}
     </div>
   );
 }

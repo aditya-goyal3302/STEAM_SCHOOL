@@ -213,7 +213,7 @@ function loginMail(mailto, usrnm){
                 <p>We are thrilled to confirm that your login to our educational platform was successful! You are now a valued member of our learning community.</p>
                 <p>At Steam School, we are committed to providing you with a world-class learning experience. Whether you're here to acquire new skills, expand your knowledge, or enhance your career, we have a wide range of courses and resources waiting for you.</p>
                 <p>To get started, simply log in to your account and explore the incredible learning opportunities that await you. Should you have any questions or need assistance, our support team is here to help.</p>
-                <p>Thank you for choosing [Your Educational Website Name] for your learning journey. We look forward to accompanying you on your path to success. <br><br>Happy learning!</p>
+                <p>Thank you for choosing Steam School for your learning journey. We look forward to accompanying you on your path to success. <br><br>Happy learning!</p>
                 <p>Sincerely, <br>
                     <p><a href="http://localhost:3000">Stream School</a></p>
                 </p>

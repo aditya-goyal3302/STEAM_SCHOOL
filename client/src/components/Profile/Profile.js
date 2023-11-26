@@ -8,21 +8,29 @@ import PersonalInfo from './PersonalInfo.js'
 import Changepass from './changepass.js';
 import ProfessionalInfo from './ProfessionalInfo.js';
 import axios from 'axios';
+import Spinner from '../home/components/Spinner'
 
 function Profile(){    
   const [activepage,setactivepage]= useState('PersonalInfo');
   const [userProfile,setuserProfile] = useState({})
   const [islogin,setislogin] = useState(1)
   const [userprof,setuserProf] = useState({})
+  const [isloading,setisloading] = useState(1)
   // useEffect(()=>{
   //   setactivepage('accountsettings');
   // })
-
+  useEffect(()=>{
+    const perams = new URLSearchParams(window.location.search);
+    const page = perams.get("page");
+    console.log(page);
+    page !== null || page === undefined? setactivepage(page) : setactivepage('PersonalInfo');
+  },[ new URLSearchParams(window.location.search).get("page") ])
   useEffect(()=>{
       axios.get("/user/geteditprofile/")  
       .then(data=>{
-          console.log(data.data);
+          // console.log(data.data);
           setuserProfile(data.data);
+          setisloading(0);
       })
   },[])
 
@@ -30,7 +38,7 @@ function Profile(){
 
       axios.get("/user/geteditprof/") 
       .then(data=>{
-          console.log(data.data);
+          // console.log(data.data);
           setuserProf(data.data);
       })
   },[])
@@ -52,6 +60,7 @@ return (
     {islogin === 1 ? (
         <div className='userprofile'>
         <Navbar></Navbar>
+      {isloading ==1  && ( <Spinner></Spinner>)}
         
         <div className= 'userprofilein' >
           <div className='left'>
@@ -83,9 +92,14 @@ return (
         
         <Footer></Footer>
         </div>
-        ):""
-      }
-    </>);
+        ):(
+          window.location.href = "/login"
+
+        )
+        }
+        </>
+      
+    )
 }
 
 

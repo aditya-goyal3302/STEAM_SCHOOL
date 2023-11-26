@@ -5,7 +5,7 @@ import ChatWindow from "../components/ChatWindow";
 import styles from "../css/home.module.css";
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Navbar from"../../Navbar";
-
+import Spinner from "../components/Spinner";
 
 function Home() {
   const [user, setuser] = useState({});
@@ -15,12 +15,29 @@ function Home() {
   const [currentchat, setCurrentchat] = useState();
   const [currentconversation, setCurrentconversation] = useState();
   const [mode, setMode] = useState(false);
-  // const [Messages, setMessages] = useState({}) ;
-  // const [currentConversationMessages, setCurrentConversationMessages] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  // User setup and local storage. User setup and local storage. User setup and local storage. User setup and local storage
-  // User setup and local storage. User setup and local storage. User setup and local storage. User setup and local storage
   useEffect(() => {
+    const param = new URLSearchParams(window.location.search);
+    const id = param.get("userid");
+    if(id!==null){
+      axios
+      .get("/user/getprofile"+id)
+      .then((response) => {
+        const datauser = {
+          _id: response.data._id,
+          username: response.data.username,
+          email: response.data.email,
+          chats: response.data.chats,
+          
+        };
+        
+        setCurrentchat(datauser);
+      })
+    }
+  },[ new URLSearchParams(window.location.search).get("userid") ])
+  useEffect(() => {
+    setLoading(true)
     axios
       .get("user/get")
       .then((response) => {
@@ -37,22 +54,23 @@ function Home() {
         // console.log("Fetched user now fetching friends");
       })
       .catch((err) => console.log(err));
-    //eslint-disable-next-line
-  }, []);
+      
+      //eslint-disable-next-line
+    }, []);
 
-  const updatelocalstorage_user = () => {
-    localStorage.setItem("user", JSON.stringify(user));
-  };
-
-  useEffect(() => {
-    printcontacts();
+    const updatelocalstorage_user = () => {
+      localStorage.setItem("user", JSON.stringify(user));
+    };
+    
+    useEffect(() => {
+      printcontacts();
     updatelocalstorage_user();
     //eslint-disable-next-line
   }, [user]);
-
+  
   function printcontacts() {
     if(user.chats && user.chats.length>0){
-    axios
+      axios
       .post("/friend/findbyid", {
         requests: user.chats,
       })
@@ -68,6 +86,7 @@ function Home() {
         setContacts({});
         console.log("No friends");
       }
+
   }
 
   const updatelocalstorage_contacts = () => {
@@ -77,15 +96,21 @@ function Home() {
     updatelocalstorage_contacts();
     //eslint-disable-next-line
   }, [contacts]);
+   useEffect
+  (() => {
+    if(Object.keys(contacts).length>0 || Object.keys(user).length>0 ){
+      setLoading(false)
+    }
+  },[contacts])
   // User setup and local storage. User setup and local storage. User setup and local storage. User setup and local storage
   // User setup and local storage. User setup and local storage. User setup and local storage. User setup and local storage
-
+  
   // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
   // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
   useEffect(() => {
     axios
-      .get("chat/get")
-      .then((response) => {
+    .get("chat/get")
+    .then((response) => {
         console.log(response.data);
         setChats(response.data);
         // updatelocalstorage_chats();
@@ -93,43 +118,43 @@ function Home() {
         // setConversationIDs(conversationids);
       })
       .catch((err) => console.log(err));
-    //eslint-disable-next-line
-  }, []);
-
-  const updatelocalstorage_chats = () => {
-    localStorage.setItem("chats", JSON.stringify(chats));
-  };
-  useEffect(() => {
-    updatelocalstorage_chats();
+      //eslint-disable-next-line
+    }, []);
+    
+    const updatelocalstorage_chats = () => {
+      localStorage.setItem("chats", JSON.stringify(chats));
+    };
+    useEffect(() => {
+      updatelocalstorage_chats();
     fetchmessages();
     //eslint-disable-next-line
   }, [chats]);
-
+  
   // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
   // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
   var i = 0;
   // var messages = {};
-
+  
   const fetchmessages = () => {
     console.log("fetchedmessages", Object.keys(chats).length);
     if (i < Object.keys(chats).length) {
       axios
-        .post("chat/getpastmessages", { chatid: chats[i]._id })
-        .then((response) => {
-          Object.assign(messages, { [chats[i]._id]: [response.data] });
-          if (i <= Object.keys(chats).length) {
-            i++;
-            fetchmessages();
-          }
-        })
-        .catch((err) => console.log(err));
+      .post("chat/getpastmessages", { chatid: chats[i]._id })
+      .then((response) => {
+        Object.assign(messages, { [chats[i]._id]: [response.data] });
+        if (i <= Object.keys(chats).length) {
+          i++;
+          fetchmessages();
+        }
+      })
+      .catch((err) => console.log(err));
     } else {
       localStorage.setItem("messages", JSON.stringify(messages));
     }
   };
 
   // const updatelocalstorage_chats = () => {
-  //   localStorage.setItem("chats", JSON.stringify(chats));
+    //   localStorage.setItem("chats", JSON.stringify(chats));
   // };
   // useEffect(() => {
   //   updatelocalstorage_chats();
@@ -192,53 +217,61 @@ function Home() {
 
   return (
     <div>
-      <Navbar></Navbar>
-      <div className={styles.container}>
-        <div className={styles.main}>
-          <div className={`${styles.contactsWindow} contactswindow`}>
-            <ContactsWindow
-              user={user}
-              setuser={setuser}
-              contacts={contacts}
-              setContacts={setContacts}
-              printcontacts={printcontacts}
-              currentchat={currentchat}
-              setCurrentchat={setCurrentchat}
-            />
-            {user !== "" ? (
-              <div>
-                {" "}
-                <button onClick={handleLogout} className={styles.logoutbtn}>
-                  LOG OUT
-                </button>{" "}
-                {/* <p>{user ? user.username : "LOGIN"}</p> */}
+      {loading === true ? (
+        <Spinner/>
+      ) : (
+        <div>
+          <Navbar></Navbar>
+          <div className={styles.container}>
+            <div className={styles.main}>
+              <div className={`${styles.contactsWindow} contactswindow`}>
+                <ContactsWindow
+                  user={user}
+                  setuser={setuser}
+                  contacts={contacts}
+                  setContacts={setContacts}
+                  printcontacts={printcontacts}
+                  currentchat={currentchat}
+                  setCurrentchat={setCurrentchat}
+                />
+                {user !== "" ? (
+                  <div>
+                    {" "}
+                    <button onClick={handleLogout} className={styles.logoutbtn}>
+                      LOG OUT
+                    </button>{" "}
+                    {/* <p>{user ? user.username : "LOGIN"}</p> */}
+                  </div>
+                ) : (
+                  <button
+                    className={styles.logoutbtn}
+                    onClick={() => {
+                      window.location.href = "/login";
+                    }}
+                  >
+                    LOG IN
+                  </button>
+                )}
               </div>
-            ) : (
-              <button
-                className={styles.logoutbtn}
-                onClick={() => {
-                  window.location.href = "/login";
-                }}
-              >
-                LOG IN
-              </button>
-            )}
-          </div>
-          <div className={`${styles.chatWindow} chatwindow`}>
-            <ChatWindow
-              currentchat={currentchat}
-              setCurrentchat={setCurrentchat}
-              currentconversation={currentconversation}
-              setCurrentconversation={setCurrentconversation}
-              user={user}
-              messages={messages}
-              setMessages={setMessages}
-              mode={mode}
-              setMode={setMode}
-            />
+              <div className={`${styles.chatWindow} chatwindow`}>
+                
+                <ChatWindow
+                  currentchat={currentchat}
+                  setCurrentchat={setCurrentchat}
+                  currentconversation={currentconversation}
+                  setCurrentconversation={setCurrentconversation}
+                  user={user}
+                  messages={messages}
+                  setMessages={setMessages}
+                  mode={mode}
+                  setMode={setMode}
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+    
     </div>
   );
 }

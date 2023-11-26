@@ -10,6 +10,7 @@ import Profile from "./components/Profile/Profile";
 import Footer from "./components/Footer";
 import CurrentProfile from "./components/CurrentProfile/CurrentProfile";
 import search from "./components/search/search";
+import Spinner from "./components/home/components/Spinner";
 
 
 function App() {
@@ -21,10 +22,9 @@ function App() {
         <Route path="/chat" exact component={Home}></Route>
         <Route path="/" exact component={Main}></Route>
         <Route path="/about" exact component={About}></Route>
-        <Route path="/profile" exact component={Profile}></Route>
-        <Route path="/CurrentProfile" exact component={CurrentProfile}></Route>
+        <Route path="/editprofile" exact component={Profile}></Route>
+        <Route path="/Profile" exact component={CurrentProfile}></Route>
         <Route path="/search" exact component={search}></Route>
-      
       </BrowserRouter>
     </div>
   );

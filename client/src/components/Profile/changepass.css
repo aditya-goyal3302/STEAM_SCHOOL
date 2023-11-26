@@ -1,0 +1,41 @@
+.form_cp  .form-group label{
+    font-size: 1rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    /* float: left; */
+}
+
+.form_cp .form-group input{
+    width: 90%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 300;
+    border-radius: 5px;
+    outline: none;
+}
+
+.form_cp .form-group{
+    margin:5%
+}
+.form_cp .form-group select, .form_cp .form-group input{
+    border:none;
+    border-bottom: 1px solid black;
+}
+
+.form_cp  .form-group select:focus,.form_cp .form-group input:focus{
+    box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0px 4px 5px -1px rgba(0,0,0,0.4);
+    transition: all 0.3s ease-in-out;
+}
+
+.red {
+    color: red;
+}
+
+.form_cp{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin-bottom: 5%;
+}

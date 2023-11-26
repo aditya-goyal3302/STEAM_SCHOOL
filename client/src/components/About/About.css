@@ -1,17 +1,29 @@
-/* src/components/AboutPage.css */
-.about-page {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  h1 {
-    font-size: 28px;
-  }
-  
-  p {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  
 
+.about-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: justify;
+}
+
+.about-page h1 {
+  font-size: 2rem;
+  color: #333;
+  text-align: center;
+}
+
+.about-page p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+.about-page a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.about-page a:hover {
+  text-decoration: underline;
+}

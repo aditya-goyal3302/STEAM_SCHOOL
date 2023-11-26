@@ -7,6 +7,7 @@ import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
 import axios from "axios";
+import Spinner from "../home/components/Spinner";
 
 // import { getSkeletonUtilityClass } from "@mui/material";
 // import { set } from "mongoose";
@@ -53,7 +54,7 @@ function CurrentProfile(){
         axios.get("/chat/newchat/"+userId)
         .then(data=>{
             console.log(data.data)
-            window.location.href="/chat"
+            window.location.href="/chat/?userid="+userProfile._id
         })
     }
     function deleteprofile(){
@@ -77,7 +78,7 @@ function CurrentProfile(){
                     <>
                         <button 
                             className="btn " 
-                            onClick={()=>{window.location.href="/profile"}}>
+                            onClick={()=>{window.location.href="/editprofile/"}}>
                             <div className="btntxt">
                                 Change Profile Picture
                             </div> 
@@ -87,7 +88,7 @@ function CurrentProfile(){
                         </button>
                         <button 
                             className="btn "
-                            onClick={()=>{window.location.href="/profile"}}>
+                            onClick={()=>{window.location.href="/editprofile/?page=changepass"}}>
                             <div className="btntxt">
                                 Change Password
                             </div> 
@@ -97,7 +98,7 @@ function CurrentProfile(){
                         </button>
                         <button 
                             className="btn "
-                            onClick={()=>{window.location.href="/profile"}}>
+                            onClick={()=>{window.location.href="/editprofile/?page=PersonalInfo"}}>
                             <div className="btntxt">
                                 Edit Profile
                             </div> 
@@ -105,7 +106,7 @@ function CurrentProfile(){
                                 <EditRoundedIcon>  </EditRoundedIcon>
                             </div>
                         </button>
-                        <button 
+                        {/* <button 
                             className="btn delbtn"
                             onClick={deleteprofile}>
                             <div className="btntxt">
@@ -114,7 +115,7 @@ function CurrentProfile(){
                             <div className="btnimg">
                                 <DeleteOutlineRoundedIcon>  </DeleteOutlineRoundedIcon>
                             </div>
-                        </button>
+                        </button> */}
                     </>    
                     ):(
                         <>
@@ -209,7 +210,7 @@ function CurrentProfile(){
         <Footer></Footer>
         </>
         ):(
-            <></>
+            <><Spinner/></>
         )
     )
 }
