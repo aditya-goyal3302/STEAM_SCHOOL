@@ -116,6 +116,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 5px;
+  height: 25px;
 }
 
 .messageInputContainer input {

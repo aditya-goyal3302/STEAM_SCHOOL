@@ -17,6 +17,7 @@ exports.sendmessage =  (req, res) => {
   const message = new Message({
     senderid: req.session.user._id,
     text: req.body.text,
+    mtype: req.body.mtype,
     chatid: req.body.conversationID,
     });
   message

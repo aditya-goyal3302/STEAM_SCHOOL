@@ -81,7 +81,7 @@ function PersonalInfo({
                     </div>
     
                     <div className='form-group'>
-                        <label htmlFor='phone'>Phone/Mobile No.<span className="red">*</span></label>
+                        <label htmlFor='phone'>Phone No.<span className="red">*</span></label>
                         <input required type='text' name='phno' id='phno' onChange={e=>inputChange(e)} value={newUserData.phno}/>
                     </div>
     

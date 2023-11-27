@@ -47,10 +47,16 @@
 }
 
 .accountsettings .formper .form-group label{
-    font-size: 1rem;
-    font-weight: 700;
+    /* font-size: 1rem;
+    font-weight: 700; */
     margin-bottom: 0.5rem;
-    /* float: left; */
+    position: relative;
+    font-size: 1.1rem;
+    color: rgb(59, 59, 59);
+    margin-left: 5px;
+    /* min-width: 100px; */
+    font-family: 'poppins' , sans-serif;
+    font-weight: 600; 
 }
 
 .accountsettings .formper .form-group input{

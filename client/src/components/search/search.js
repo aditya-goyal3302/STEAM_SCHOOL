@@ -34,7 +34,7 @@ const SearchProfile = () => {
       
       state: "Haryana",
       
-      username: "agdoie"}]
+      username: "agdoie" }]
     userId.map(id=>{  
       axios.get("/user/getprofile/"+id)  ///user/getp/cgyzdvxr67t7
       .then(data=>{
@@ -57,6 +57,14 @@ const SearchProfile = () => {
     setSearchResults(results);
     console.log(results);
   };
+
+  async function sendmessage(id){
+    await axios.get("/chat/newchat/"+id)
+    .then(data=>{
+        console.log(data.data)
+        window.location.href="/chat/?userid="+id
+    })
+}
 
   return (
   <>
@@ -92,8 +100,8 @@ const SearchProfile = () => {
                     <div className="search-profile-username">{profile.username}</div>
                   </div>
                     <div className="search-profile-buttons">
-                      <button className="search-profile-button" onClick={()=>{window.location.href="/chat"}}><MessageRoundedIcon></MessageRoundedIcon></button>
-                      <button className="search-profile-button" onClick={()=>{window.location.href="/profile"}}><PersonOutlineIcon></PersonOutlineIcon></button>
+                      <button className="search-profile-button" onClick={()=>{sendmessage(profile._id)}}><MessageRoundedIcon></MessageRoundedIcon></button>
+                      <button className="search-profile-button" onClick={()=>{window.location.href="/profile/?userid="+profile._id}}><PersonOutlineIcon></PersonOutlineIcon></button>
                     </div>
                 </div>
               </div>

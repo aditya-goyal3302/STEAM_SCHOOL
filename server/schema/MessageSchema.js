@@ -6,6 +6,9 @@ const messageSchema = new mongoose.Schema(
         type: String,
         index: true,
     },
+    mtype: {
+        type: Number,
+    },
     senderid: {
         type: String,
     },

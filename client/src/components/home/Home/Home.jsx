@@ -7,6 +7,7 @@ import styles from "../css/home.module.css";
 import Navbar from"../../Navbar";
 import Spinner from "../components/Spinner";
 
+
 function Home() {
   const [user, setuser] = useState({});
   const [contacts, setContacts] = useState({});
@@ -17,6 +18,27 @@ function Home() {
   const [mode, setMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    setLoading(true)
+    axios
+    .get("user/get")
+    .then((response) => {
+      const datauser = {
+        _id: response.data._id,
+        username: response.data.username,
+        email: response.data.email,
+        chats: response.data.chats,
+        
+      };
+      console.log("datauser: ",response.data);
+      setuser(datauser);
+      // updatelocalstorage_user();
+      // console.log("Fetched user now fetching friends");
+    })
+    .catch((err) => console.log(err));
+    
+    //eslint-disable-next-line
+  }, []);
   useEffect(() => {
     const param = new URLSearchParams(window.location.search);
     const id = param.get("userid");
@@ -36,27 +58,6 @@ function Home() {
       })
     }
   },[ new URLSearchParams(window.location.search).get("userid") ])
-  useEffect(() => {
-    setLoading(true)
-    axios
-      .get("user/get")
-      .then((response) => {
-        const datauser = {
-          _id: response.data._id,
-          username: response.data.username,
-          email: response.data.email,
-          chats: response.data.chats,
-          
-        };
-        console.log("datauser: ",response.data);
-        setuser(datauser);
-        // updatelocalstorage_user();
-        // console.log("Fetched user now fetching friends");
-      })
-      .catch((err) => console.log(err));
-      
-      //eslint-disable-next-line
-    }, []);
 
     const updatelocalstorage_user = () => {
       localStorage.setItem("user", JSON.stringify(user));
@@ -234,24 +235,7 @@ function Home() {
                   currentchat={currentchat}
                   setCurrentchat={setCurrentchat}
                 />
-                {user !== "" ? (
-                  <div>
-                    {" "}
-                    <button onClick={handleLogout} className={styles.logoutbtn}>
-                      LOG OUT
-                    </button>{" "}
-                    {/* <p>{user ? user.username : "LOGIN"}</p> */}
-                  </div>
-                ) : (
-                  <button
-                    className={styles.logoutbtn}
-                    onClick={() => {
-                      window.location.href = "/login";
-                    }}
-                  >
-                    LOG IN
-                  </button>
-                )}
+                
               </div>
               <div className={`${styles.chatWindow} chatwindow`}>
                 

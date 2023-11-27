@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef } from "react";
 import styles from "../css/chatWindow.module.css";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Attachment } from "@material-ui/icons";
@@ -10,6 +10,11 @@ import SendIcon from "@material-ui/icons/Send";
 import uuid from "react-uuid";
 import axios from "axios";
 import { io } from "socket.io-client";
+import Test from "../../../resources/test/test";
+import { useDropzone } from 'react-dropzone';
+import AWS from "aws-sdk";
+// import { set } from "mongoose";
+
 
 function ChatWindow({
   currentchat,
@@ -26,7 +31,77 @@ function ChatWindow({
   const [socket, setSocket] = useState(null);
   const [chatwindowupdate, setChatwindowupdate] = useState(false);
   const[textboxstate,settextboxstate] = useState(false);
+  const [new_url, setnew_url] = useState("");
+  const [file, setFile] = useState(null);
+  const div = useRef(null);
+  const generateRandomString = async(file) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+    for (let i = 0; i < 32; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        randomString += characters[randomIndex];
+    }
+    randomString += "."+file.name.split('.')[1];
+    return randomString;
+  };
+  
+  
+  const uploadfile = async ( file) => {
+    const base_url ="https://steamschool199.s3.ap-south-1.amazonaws.com/"
+  
+    const S3_BUCKET = "steamschool199";
+    const REGION = "ap-south-1";
+    AWS.config.update({
+      accessKeyId: "AKIAVXMPYCD56SUUX6VN",
+      secretAccessKey: "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",
+    });
+    const s3 = new AWS.S3({
+      params: { Bucket: S3_BUCKET },
+      region: REGION,
+    });
+  
+    const randomString = await generateRandomString(file);
+    console.log(randomString);
+    const params = {
+      Bucket: S3_BUCKET,
+      Key: randomString,
+      Body: file,
+    };
+  
+  
+    var upload = s3
+      .putObject(params)
+      .on("httpUploadProgress", (evt) => {
+        console.log(
+          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+        );
+      })
+      .promise();
+  var temp = ""
+    return await upload.then((err, data) => {
+      console.log(err);
+      temp = base_url+randomString
+      // console.log(temp);
+      return temp
+    });
+  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ noClick: true, onDrop: acceptedFiles => {
+    // Do something with the files
+    console.log(acceptedFiles);
+    setFile(acceptedFiles[0]);
+    // console.log(file);
+  }  });
 
+
+  useEffect(() => {
+    if(file!==null){
+      uploadfile(file).then((response)=>{
+        console.log(response);
+        setnew_url(response);
+      }).catch((err)=>console.log(err))
+    }
+  },[file])
+  
   useEffect(() => {
     socket?.on("message", (message) => {
       console.log(message);
@@ -40,10 +115,6 @@ function ChatWindow({
         createdAt: Date.now(),
       };
       console.log("message recieved from socket", newmessage);
-
-      // messages[currentconversation._id][0].push(newmessage);
-      // setMessages(messages);
-      // updateconversation();
 
       messages[newmessagedata.chatid][0].push(newmessage);
       setMessages(messages);
@@ -79,12 +150,14 @@ function ChatWindow({
     // e.preventdefault();
     if(textboxstate===true){
       settextboxstate(false);
+      setnew_url("");
       return;
     }
     if (currentchat) {
       var newmessage = {
         recieverid: currentchat._id,
         chatid: currentconversation._id,
+        mtype: 1,
         text: messageinput,
         senderid: user._id,
         createdAt: Date.now(),
@@ -97,6 +170,7 @@ function ChatWindow({
 
       axios
         .post("chat/sendmessage", {
+          mtype: 1,
           text: messageinput,
           conversationID: currentconversation._id,
         })
@@ -110,45 +184,65 @@ function ChatWindow({
     setMessageinput("");
   };
 
-  const sendfile = (e) => {
-    // e.preventdefault();
+  useEffect(() => {
+    if(new_url!=="")
+      sendfile();
+    
+  },[new_url])
+
+  const sendfilebtn = () => {
     if(textboxstate===false){
       settextboxstate(true);
       return;
     }
-    if (currentchat) {
-      var newmessage = {
-        recieverid: currentchat._id,
-        chatid: currentconversation._id,
-        senderid: user._id,
-        createdAt: Date.now(),
+    
+  }
 
-      };
-      messages[currentconversation._id][0].push(newmessage);
-      setMessages(messages);
-      updateconversation();
+  const sendfile = async() => {
+    // e.preventdefault();
+    
+      if (currentchat) {
+        var newmessage = {
+          recieverid: currentchat._id,
+          chatid: currentconversation._id,
+          mtype: 2,
+          text: new_url,
+          senderid: user._id,
+          createdAt: Date.now(),
+        };
+        await messages[currentconversation._id][0].push(newmessage);
+        await setMessages(messages);
+       updateconversation();
 
-      sendmessagethroughsocket(newmessage);
+        sendmessagethroughsocket(newmessage);
 
-      axios
-        .post("chat/sendmessage", {
-          text: messageinput,
-          conversationID: currentconversation._id,
-        })
-        .then((response) => {
-          console.log(response.data);
-        })
-        .catch((err) => console.log(err));
-    }
-    // console.log(messageinput);
-    settextboxstate(false);
+        axios
+          .post("chat/sendmessage", {
+            text: new_url,
+            mtype: 2,
+            conversationID: currentconversation._id,
+          })
+          .then((response) => {
+            console.log(response.data);
+            setnew_url("");
+            setFile(null);
+          })
+            .catch((err) =>{ 
+              console.log(err)
+              setnew_url("") 
+            });
+      }
+      // console.log(messageinput);
+      settextboxstate(false);
 
-    setMessageinput("");
+    
   };
 
   const updateconversation = () => {
     setChatwindowupdate(!chatwindowupdate);
   };
+
+  // useEffect(()=> div.current.scrollIntoView({behavior: "smooth", block:"end"}), [currentconversation])
 
   return (
     <div className={styles.container}>
@@ -172,17 +266,18 @@ function ChatWindow({
               {currentchat ? currentchat.username : " "}
               </div>
             </div>
-          {/* <div className={styles.status}></div> */}
+          <div className={styles.status}></div>
         </div>
         
         <MenuIcon className={styles.menuIcon} onClick={changemode} />
       </div>
-      <div className={styles.chat}>
+      <div className={styles.chat} ref={div}>
         {currentconversation &&
           messages !== undefined &&
           messages[currentconversation._id][0].map(
-            (message) =>
-              message && (
+            (message) =>{
+              // console.log(message.mtype==1)
+              {if(message.mtype==1) return(
                 <Message
                   messageData={{
                     text: message.text,
@@ -195,43 +290,24 @@ function ChatWindow({
                   }}
                   key={message._id ? message._id : uuid()}
                 />
-              )
+              )}
+              {if(message.mtype==2) return (
+                <M_Image
+                  messageData={{
+                    image: message.text,
+                    time: new Date(message.createdAt).toLocaleString(
+                      undefined,
+                      { timeZone: "Asia/Kolkata" }
+                    ),
+                    position:
+                      message.senderid === currentchat._id ? "left" : "right",
+                  }}
+                  key={message._id ? message._id : uuid()}
+                />
+              )}
+            }
           )}
-          {/* {<>
-                <Message
-                  messageData={{
-                    text: "message.textmessage.textmessage.text",
-                    time:  Date.now(),
-                    position:"left",
-                  }}
-                  // key={message._id ? message._id : uuid()}
-                />
-                <Message
-                  messageData={{
-                    text: 'Visit my website: www.google.com Example Website</a>',
-                    time:  Date.now(),
-                    position:"right",
-                  }}
-                  // key={message._id ? message._id : uuid()}
-                />
-                <M_Image
-                  messageData={{
-                    image: 'https://media.istockphoto.com/id/1402577565/photo/colour-swatches-book.webp?b=1&s=170667a&w=0&k=20&c=5oYyljXxGN1aolUSuyLLAii11_bcDb-tiVq0iGV7N5I=',
-                    time:  Date.now(),
-                    position:"right",
-                  }}
-                  // key={message._id ? message._id : uuid()}
-                />
-                <M_Image
-                  messageData={{
-                    image: 'https://media.istockphoto.com/id/1402577565/photo/colour-swatches-book.webp?b=1&s=170667a&w=0&k=20&c=5oYyljXxGN1aolUSuyLLAii11_bcDb-tiVq0iGV7N5I=',
-                    time:  Date.now(),
-                    position:"left",
-                  }}
-                  // key={message._id ? message._id : uuid()}
-                />
-              </>
-          } */}
+          
       </div>
       <div className={styles.messageContainer}>
         {/* <div className={styles.messageContainerIcons}>
@@ -239,27 +315,28 @@ function ChatWindow({
           <AttachFileIcon className={styles.fileIcon} />
         </div> */}
         <div className={styles.messageInputContainer}>
-          {textboxstate===false?
-          <input
-            type="text"
-            className={styles.messageInput}
-            placeholder="Type your message here"
-            value={messageinput}
-            onChange={(e) => setMessageinput(e.target.value)}
-          />
-          :
-          <input
-          type="file"
-          className={styles.messageInput}
-          placeholder="Select your File here"
-          value={messageinput}
-          // onChange={(e) => setMessageinput(e.target.value)}
-        />
-        }
+          <div {...getRootProps ({className: 'dropzone'})} style={{hight:"25px"}}  className={ `file-picker ${isDragActive ? 'active' : ''}`}>
+            {textboxstate===false?
+              <input
+                type="text"
+                className={styles.messageInput}
+                placeholder="Type your message here"
+                value={messageinput}
+                onChange={(e) => setMessageinput(e.target.value)}
+              />
+              :
+              <Test 
+                new_url={new_url}
+                setnew_url={setnew_url}
+              />
+            }
+          </div>
         </div>
         <div>
-          <Attachment className={styles.sendIcon} onClick={sendfile} />
+          {/* <Attachment className={styles.sendIcon} onClick={sendfile} /> */}
+          
         </div>
+          <AttachFileIcon className={styles.sendIcon} onClick={sendfilebtn} />
         <div>
           <SendIcon className={styles.sendIcon} onClick={sendmessage} />
         </div>

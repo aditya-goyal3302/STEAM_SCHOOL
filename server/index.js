@@ -5,8 +5,6 @@ const mongoose = require("mongoose");
 const userRoutes = require("./routes/UserRoutes");
 const friendRoutes = require("./routes/Friendroutes");
 const chatroutes = require("./routes/Chatroutes");
-// const postroutes = require("./routes/postroutes");
-// const noteroutes = require("./routes/Noteroutes");
 const cors = require("cors");
 const session = require("express-session");
 const MongoDBStore = require('connect-mongodb-session')(session);
@@ -18,7 +16,7 @@ const User = require("./schema/UserSchema");
 process.on("uncaughtException", (err) => {
   console.log("UNCAUGHT EXCEPTION, APP SHUTTING NOW!!");
   console.log(err.message, err.name);
-  process.exit(1);
+  // process.exit(1);
 });
 
 app.use(express.json());
@@ -92,7 +90,7 @@ try {
     }
   );
 } catch (error) {
-  console.log(`Could not connect to the DB because ${error}`);
+  // console.log(`Could not connect to the DB because ${error}`);
 }
 
 app.listen(PORT, () => {
