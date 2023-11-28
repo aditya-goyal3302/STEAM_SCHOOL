@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'poppins' , sans-serif;
+  font-family: 'Nexa Script', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   /* -moz-osx-font-smoothing: grayscale; */
 }
@@ -14,11 +14,19 @@ code {
     monospace;
 }
 
+a{
+  font-family: 'Nexa Script', sans-serif !important ;
+}
+
 pre{
-  font-family: 'poppins' , sans-serif;
+  font-family: 'Nexa Script', sans-serif !important ;
 
 }
 h1{
-  font-family: 'poppins' , sans-serif !important;
+  font-family: 'Nexa Script', sans-serif  !important;
+  /* margin: 0 auto; */
+  margin-left: auto !important;
+  margin-right: auto  !important;
+  /* justify-self: center !important; */
 
 }

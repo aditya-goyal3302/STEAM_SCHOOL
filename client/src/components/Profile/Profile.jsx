@@ -8,7 +8,9 @@ import PersonalInfo from './PersonalInfo.js'
 import Changepass from './changepass.js';
 import ProfessionalInfo from './ProfessionalInfo.js';
 import axios from 'axios';
-import Spinner from '../home/components/Spinner.js'
+import Spinner from '../home/components/Spinner.js';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Profile(){    
   const [activepage,setactivepage]= useState('PersonalInfo');
@@ -30,7 +32,7 @@ function Profile(){
       .then(data=>{
           // console.log(data.data);
           setuserProfile(data.data);
-          setisloading(0);
+          // setisloading(0);
       })
   },[])
 
@@ -41,6 +43,7 @@ function Profile(){
           // console.log(data.data);
           setuserProf(data.data);
       })
+      
   },[])
  
 function logout(){
@@ -52,6 +55,7 @@ function logout(){
   localStorage.removeItem("contacts");
   axios.delete("/user/logout").catch((err) => console.log(err));
   window.location.href = "/login";
+  
 }
 
   
@@ -61,30 +65,59 @@ return (
         <div className='userprofile'>
         <Navbar></Navbar>
       {isloading ==1  && ( <Spinner></Spinner>)}
-        
+      <div className='mobileview'>
+        <button className='closebtn' id='closebtn'
+        onClick={()=>{
+          document.getElementById('mbtn').style.display='block';
+          // document.getElementById('mbtn').style.animation="fadeIn 1s"
+          document.getElementById('closebtn').style.display='none';
+          // document.getElementById('left').style.animation="0.5s ease-out 0.5s 1 slideOutFromLeft"
+          document.getElementById('left').style.display='none';
+          document.getElementById('right').style.display='block';
+          
+
+      }}
+        ><CloseIcon/></button>
+        <button className='mbtn' id='mbtn'
+        onClick={()=>{ 
+          document.getElementById('closebtn').style.display='block';
+          document.getElementById('mbtn').style.display='none';
+          document.getElementById('left').style.display='block';
+          document.getElementById('right').style.display='none';
+
+        }}
+        ><MenuIcon/></button>
+      </div>
         <div className= 'userprofilein' >
-          <div className='left'>
+          <div className='left' id='left'>
             <UserSidebar 
               activepage={activepage} 
               setactivepage={setactivepage}/>
           </div>
-          <div className= 'right'>
+          
+          <div className= 'right' id='right'>
             
             {activepage==='PersonalInfo' && (<PersonalInfo 
               userProfile={userProfile}
               setuserProfile={setuserProfile}
+              isloading={isloading}
+              setisloading={setisloading}
               />)}
             
             {activepage==='ProfessionalInfo' && (<ProfessionalInfo 
              userprof={userprof}
               setuserProf={setuserProf}
+              isloading={isloading}
+              setisloading={setisloading}
               />)}
             
             {activepage==='logout' &&(logout) }
             
             {activepage==='changepass' && <Changepass 
               activepage={activepage} 
-              setactivepage={setactivepage}/>}
+              setactivepage={setactivepage}
+              isloading={isloading}
+              setisloading={setisloading}/>}
           </div>
         </div>
 

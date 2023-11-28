@@ -1,11 +1,12 @@
 const User = require("../schema/UserSchema");
 const Otp = require("../schema/OtpSchema");
 const bcrypt = require("bcrypt");
-const { WelcomeMail, otpmail, loginMail } = require("../add_on/mail");
+const { WelcomeMail, otpmail, loginMail, resetMail } = require("../add_on/mail");
 const random = require("random");
 const passport = require("passport");
 const passportsetup = require("../auth/passport");
 const {validationResult} = require("express-validator");
+const crypto = require("crypto");
 
 
 exports.create =  async (req, res,next) => {
@@ -63,7 +64,7 @@ exports.login = (req, res, next) => {
         newotp
           .save()
           .then((newotp) => console.log(otp))
-          .catch((err) => console.log(err));
+          .catch((err) => console.log(1));
           loginMail(req.body.email, req.body.username);
       
         res.send({ message: "Credentials Verified", email: user.email, code: 3 });
@@ -344,4 +345,115 @@ exports.geteditprof = (req,res) => {
     console.log(err)
     res.send({message:"User not found",code:1})
   })
+}
+
+exports.updateimg = (req,res) => {
+  const userId= req.session.user._id;
+  User.findById(userId)
+  .then(user=>{
+    if(user){
+      user.img = req.body.url;
+      return user.save();
+    }
+    }).then(result=>{
+      if(result){
+      res.send({message:"User Updated"})
+    }
+    else{
+      res.send({message:"User not found"})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
+}
+
+exports.forgetpass =async (req,res) => {
+  const username = req.body.username;
+
+      crypto.randomBytes(32,async (err,buffer)=>{
+        if(err){
+          
+          return res.send({message:"Reset password failed(err:1 #tokenexpired)",code:3})
+        }
+        const token = buffer.toString('hex');
+         await User.findOne({username:username})
+          .then(user=>{
+            if(!user){
+              // req.flash('error','No account with that email found')
+              return res.send({message:"No account with that email found",code:1})
+            }
+            user.resetToken = token;
+            user.resetTokenExpiration = Date.now() +100*60*60*60;
+             return user.save()
+          })
+          .then(result=>{
+            res.send({message:"User found",code:2})
+            console.log(result)
+            resetMail(result.email,result.profile.fname +" "+result.profile.lname ,token)
+          })
+          .catch(err=>{
+            console.log(err)
+            // req.flash('error','Reset password failed(err:2 #usernotfound)')
+            return res.send({message:"Reset password failed(err:2 #usernotfound)",code:1})
+          })
+          res.send({message:"User found",code:2})
+      })
+   
+  }
+
+exports.resetpass = (req,res) => {
+  const token = req.params.token;
+
+  // console.log(token)
+  User.findOne({resetToken:token,resetTokenExpiration:{$gt:Date.now()}})
+  .then(user=>{
+    if(!user){
+      // req.flash('error','Reset password failed(err:1 #tokenexpired)')
+      
+      res.send({message:"Reset password failed(err:1 #tokenexpired)",code:1})
+    }
+    else{
+      res.send({message:"User found",code:2,resetTokenExpiration:user.resetTokenExpiration,token:token})
+    }
+  })
+  .catch(err=>{
+    console.log(err)
+    // req.flash('error','Reset password failed(err:2 #usernotfound)')
+    return res.redirect("http://localhost:3000/login/forgetpass")
+  })
+}
+
+exports.resetpassword = (req,res) => {
+  const token = req.body.token;
+  const password = req.body.password;
+  // const confirmPassword = req.body.confirmPassword;
+  let resetUser;
+
+  User.findOne({resetToken:token,resetTokenExpiration:{$gt:Date.now()}})
+  .then(user=>{
+    if(!user){
+      // req.flash('error','Reset password failed(err:1 #tokenexpired)')
+      return res.send({message:"Reset password failed(err:1 #tokenexpired)",code:1})
+    }
+    resetUser = user;
+    return bcrypt.hash(password,10)
+    .then(hashedPassword=>{
+      resetUser.password = hashedPassword;
+      resetUser.resetToken = undefined;
+      resetUser.resetTokenExpiration = undefined;
+      return resetUser.save()
+    })
+    .then(result=>{
+      // req.flash('success','Password reset successful')
+      res.send({message:"Password reset successful",code:4})
+    })
+  })
+  .catch(err=>{
+    console.log(err)
+    // req.flash('error','Reset password failed(err:2 #usernotfound)')
+    return res.send({message:"Reset password failed(err:2 #usernotfound)",code:1})
+  })
+
 }

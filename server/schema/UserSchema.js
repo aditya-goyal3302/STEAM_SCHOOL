@@ -20,6 +20,8 @@ const userSchema = new mongoose.Schema(
       isgoogle: { type: Boolean, default: 0 },
       googlename: String,
     },
+    resetToken: String,
+    resetTokenExpiration: Date,
     img: {
       type: String,
       default: "",
@@ -38,9 +40,13 @@ const userSchema = new mongoose.Schema(
         default: "",
       },
       gender:{
-        type:"string",
+        type:String,
         default: ""
       },
+      // age:{
+      //   type: String,
+      //   default: "",
+      // },
       dob: {
         type: String,
         default: "",
@@ -63,6 +69,11 @@ const userSchema = new mongoose.Schema(
       skills:[{
         sname: String,
         slevel: String,
+      }],
+      Exp:[{
+        etitle: String,
+        ename: String,
+        eyear: String,
       }]
     },
     chats: {

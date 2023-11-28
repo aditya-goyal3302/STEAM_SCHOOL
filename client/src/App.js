@@ -7,10 +7,12 @@ import Home from "./components/home/Home/Home";
 import Main from "./components/Main/Main";
 import About from "./components/About/About";
 import Profile from "./components/Profile/Profile";
-// import Footer from "./components/Footer";
+import Footer from "./components/Footer";
 import CurrentProfile from "./components/CurrentProfile/CurrentProfile";
 import search from "./components/search/search";
-import Test from "./resources/test/test";
+import Spinner from "./components/home/components/Spinner";
+import forgetpass from "./components/signin/forgetpass";
+import setpass from "./components/signin/setpass";
 
 function App() {
   return (
@@ -24,7 +26,8 @@ function App() {
         <Route path="/editprofile" exact component={Profile}></Route>
         <Route path="/Profile" exact component={CurrentProfile}></Route>
         <Route path="/search" exact component={search}></Route>
-        <Route path="/test" exact component={Test}></Route>
+        <Route path="/login/forgetpass" exact component={forgetpass}></Route>
+        <Route path="/login/setpass" exact component={setpass}></Route>
       </BrowserRouter>
     </div>
   );

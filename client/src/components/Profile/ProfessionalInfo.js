@@ -2,79 +2,94 @@ import React, { useEffect, useState } from "react";
 import "./ProfessionalInfo.css";
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
-
+import Spinner from "../home/components/Spinner";
 
 function ProfessionalInfo({
     userprof,
-    setuserProf
+    setuserProf,
+    setisloading,
+    isLoading,
 }){
-    const [countQ,setcountQ] = useState([]); 
-    const [countS,setcountS] = useState([]);
-    const [countE,setcountE] = useState([]);
-    const[Qual,setQual] = useState([{qname:"BCA",quni:"Chitkara",qyear:"2024"}])
-    const[Skill,setSkill] = useState([{sname:"React",slevel:"Intermediate"}])
-    const[exp,setexp] = useState([{etitle:"Intern",ename:"Google",eyear:"2021"}])
-
+    const[Qual,setQual] = useState([])
+    const[Skill,setSkill] = useState([])
+    const[exp,setexp] = useState([])
+    const [loading, setLoading] = useState(false);  
+    // const [countQ,setcountQ] = useState([]); 
+    // const [countS,setcountS] = useState([]);
+    // const [countE,setcountE] = useState([]);
+    
     useEffect(() => { 
-
-     })
+        if(userprof !== null){
+            console.log(userprof);
+            setQual(userprof.qualifications);
+            setSkill(userprof.skills);
+            setexp(userprof.Exp);
+            setisloading(0);
+        }
+    },[userprof])
 
     const incrementQ = () => { 
-        if(countQ.length == 0){
-            setcountQ([1]);
-            console.log(countQ);
-            return;
+        console.log(Qual);
+        try{
+            if(Qual === undefined){
+                setQual([{qname:"",quni:"",qyear:""}])
+            }
+            else if(Qual[Qual.length-1]?.qname && Qual[Qual.length-1]?.quni && Qual[Qual.length-1]?.qyear){
+                setQual([...Qual,{qname:"",quni:"",qyear:""}]);
+            }
         }
-        if(Qual[countQ.length-1].qname != "" && Qual[countQ.length-1].quni != "" && Qual[countQ.length-1].qyear != ""){
-            setQual([...Qual,{qname:"",quni:"",qyear:""}]);
-            console.log(countQ);
-            setcountQ([...countQ,1]);
+        catch(err){
+            console.log(err);
         }
     }
     const incrementS = () => { 
-        if(countS.length == 0){
-            setcountS([1]);
-            // console.log(countQ);
-            return;
+        if(Skill === undefined){
+            setSkill([{sname:"",slevel:""}])
         }
-        if(Skill[countS.length-1].sname != "" && Skill[countS.length-1].slevel != ""){ 
+        else if(Skill[Skill.length-1]?.sname != "" && Skill[Skill.length-1]?.slevel != ""){ 
             setSkill([...Skill,{sname:"",slevel:""}]);
-            // console.log(countQ);
-            setcountS([...countS,1]);
+            
         }
-
-
     }
-    const incrementE = () => { 
-        if(countE.length == 0){
-            setcountE([1]);
-            // console.log(countQ);
-            return;
-        }
-        if(exp[countE.length-1].etitle != "" && exp[countE.length-1].ename != "" && exp[countE.length-1].eyear != ""){
+    const incrementE = () => {
+        if(exp === undefined){
+            setexp([{etitle:"",ename:"",eyear:""}])
+        } 
+        else if(exp[exp.length-1]?.etitle != "" && exp[exp.length-1]?.ename != "" && exp[exp.length-1]?.eyear != ""){
             setexp([...exp,{etitle:"",ename:"",eyear:""}]);
-            // console.log(countQ);
-            setcountE([...countE,1]);
         }
     }
 
-    const inputChange = async (event,rowIndex) => {
+    const inputChangeQ = async (event,rowIndex) => {
         const {name,value,className} = event.target;
-        // console.log(name,value,className);
         setQual(Qual.map((data,index) => {
             if(index == className){
                 return {...data,[name]:value}
             }
             return data;
         }))
-        // const temp = {...newUserData};
-        // temp[name] = value;
-        // setnewUserData(temp)
-        // console.log(newUserData)
     }
-
+    const inputChangeS = async (event,rowIndex) => {
+        const {name,value,className} = event.target;
+        setSkill(Skill.map((data,index) => {
+            if(index == className){
+                return {...data,[name]:value}
+            }
+            return data;
+        }))
+    }
+    const inputChangeE = async (event,rowIndex) => {
+        const {name,value,className} = event.target;
+        setexp(exp.map((data,index) => {
+            if(index == className){
+                return {...data,[name]:value}
+            }
+            return data;
+        }))
+    }
 //onClick={increment}
     return(
+        loading === true ? (<Spinner/>) : (
         <div className="box-2">
             <div className="app">
                 <div className="datacontentl">
@@ -92,11 +107,11 @@ function ProfessionalInfo({
                                 <th>University/collage</th>
                                 <th>Year</th>
                             </tr>
-                            {countQ.map((data, rowIndex) => (
+                            {Qual?.map((data, rowIndex) => (
                             <tr key={rowIndex}>
-                                <td><input className={rowIndex} name="qname" value={Qual[rowIndex].qname !== undefined ? Qual[rowIndex].qname : ""} onChange={(e,rowIndex)=>inputChange(e)}></input></td>
-                                <td><input className={rowIndex} name="quni" value={Qual[rowIndex].quni !== undefined ? Qual[rowIndex].quni : ""} onChange={(e,rowIndex)=>inputChange(e)}></input></td>
-                                <td><input className={rowIndex} name="qyear" value={Qual[rowIndex].qyear !== undefined ? Qual[rowIndex].qyear : ""} onChange={(e,rowIndex)=>inputChange(e)}></input></td>
+                                <td><input className={rowIndex} name="qname" value={Qual[rowIndex]?.qname !== undefined ? Qual[rowIndex].qname : ""} onChange={(e)=>inputChangeQ(e)}></input></td>
+                                <td><input className={rowIndex} name="quni" value={Qual[rowIndex]?.quni !== undefined ? Qual[rowIndex].quni : ""} onChange={(e)=>inputChangeQ(e)}></input></td>
+                                <td><input className={rowIndex} name="qyear" value={Qual[rowIndex]?.qyear !== undefined ? Qual[rowIndex].qyear : ""} onChange={(e)=>inputChangeQ(e)}></input></td>
                             </tr>
                             ))}
                         </tbody>
@@ -117,10 +132,10 @@ function ProfessionalInfo({
                             <th>Skills</th>
                             <th>Level</th>
                         </tr>
-                            {countS.map((data, rowIndex) => (
+                            {Skill?.map((data, rowIndex) => (
                             <tr key={rowIndex}>
-                                <td><input name="sname" value={Skill[rowIndex].sname !== undefined ? Skill[rowIndex].sname : ""} onChange={(e)=>inputChange(e)}></input></td>
-                                <td><input name="slevel" value={Skill[rowIndex].slevel !== undefined ? Skill[rowIndex].slevel : ""}></input></td>
+                                <td><input className={rowIndex} name="sname" value={Skill[rowIndex]?.sname !== undefined ? Skill[rowIndex].sname : ""} onChange={(e)=>inputChangeS(e)}></input></td>
+                                <td><input className={rowIndex} name="slevel" value={Skill[rowIndex]?.slevel !== undefined ? Skill[rowIndex].slevel : ""} onChange={(e)=>inputChangeS(e)}></input></td>
                             </tr>
                             ))}
                         </tbody>
@@ -142,42 +157,21 @@ function ProfessionalInfo({
                             <th>Company Name</th>
                             <th>Year</th>
                         </tr>
-                            {countE.map((data, rowIndex) => (
+                            {exp?.map((data, rowIndex) => (
                             <tr key={rowIndex}>
-                                <td><input name="etitle" value={exp[rowIndex].etitle !== undefined ? exp[rowIndex].etitle : ""} onChange={(e)=>inputChange(e)}></input></td>
-                                <td><input name="ename" value={exp[rowIndex].ename !== undefined ? exp[rowIndex].ename : ""}></input></td>
-                                <td><input name="eyear" value={exp[rowIndex].eyear !== undefined ? exp[rowIndex].eyear : ""}></input></td>
+                                <td><input className={rowIndex} name="etitle" value={exp[rowIndex]?.etitle !== undefined ? exp[rowIndex].etitle : ""} onChange={(e)=>inputChangeE(e)}></input></td>
+                                <td><input className={rowIndex} name="ename" value={exp[rowIndex]?.ename !== undefined ? exp[rowIndex].ename : ""} onChange={(e)=>inputChangeE(e)}></input></td>
+                                <td><input className={rowIndex} name="eyear" value={exp[rowIndex]?.eyear !== undefined ? exp[rowIndex].eyear : ""} onChange={(e)=>inputChangeE(e)}></input></td>
                             </tr>
                             ))}
                         </tbody>
                     </table>
                     </form>
                 </div>
+                    <button type="submit" className='mainbutton1' >Save Changes</button>
             </div>
-        {/* <div className='accountsettings'>
-            <h1 className='mainhead1'>Professional Information</h1>
-            <div className='form'>
-                <div className='form-group1'>
-                    <table className="datal">
-                        <tr>
-                            <th>Qualification</th>
-                            <th>University/collage</th>
-                            <th>Year</th>
-                        </tr>
-                        <form action="/userid">
-                            <tr>
-                                <td><input name={"qname"}/></td>
-                                <td><input name={"quni"}/></td>
-                                <td><input name={"qyear"}/></td>
-                            </tr>
-                        </form>
-                        
-                    </table>
-                </div>
-            </div>
-                <button className='mainbutton1'>Button</button>
-        </div> */}
         </div>
+        )
     )
 }
 

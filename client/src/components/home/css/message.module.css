@@ -17,7 +17,9 @@
   align-items: baseline;
   text-align: left;
   background: #ffffff;
-  box-shadow: -1px -1px 4px 0 #17cf97;
+  -webkit-box-shadow: -5px 5px 5px 0px rgba(128,128,128,0.9);
+  -moz-box-shadow: -5px 5px 5px 0px rgba(128,128,128,0.9);
+  box-shadow: -5px 5px 5px 0px rgba(128,128,128,0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
@@ -32,8 +34,10 @@
   align-items: baseline;
   text-align: left;
   /* background-image: linear-gradient(45deg,rgba(0, 85, 255, 0.2), #ffffff) ; */
-  background-color:rgba(0, 85, 255, 0.2) ;
-  box-shadow: 1px -1px 4px 0 #17cf97;
+  background-color:rgba(0, 0, 0, 0.823) ;
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(93, 93, 93, 0.897);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(93, 93, 93,0.9);
+  box-shadow: 5px 5px 5px 0px rgba(93, 93, 93,0.9);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-radius: 10px;
@@ -70,18 +74,29 @@
   border-radius: 50%;
 }
 
-.messageText {
+.messageTextR {
   position: relative;
   margin: 0 30px 0 10px;
-  color: black;
-  font-size: 1rem;
+  color: rgb(248, 244, 244);
+  font-size: 1.2rem;
   font-family: poppins;
   word-wrap:break-word;
   /* overflow-y:scroll;
   overflow-wrap: break-word; */
 }
 
-.messageTime,.imgmessageTime  {
+.messageTextL {
+  position: relative;
+  margin: 0 30px 0 10px;
+  color: rgb(1, 1, 1);
+  font-size: 1.2rem;
+  font-family: poppins;
+  word-wrap:break-word;
+  /* overflow-y:scroll;
+  overflow-wrap: break-word; */
+}
+
+.messageTimeL,.imgmessageTimeL {
   position: relative;
   font-family: poppins;
   font-size: 7px;
@@ -92,6 +107,18 @@
   color: rgb(136, 136, 136);
 }
 
+
+.messageTimeR,.imgmessageTimeR {
+  position: relative;
+  font-family: poppins;
+  font-size: 7px;
+  margin-left: auto;
+  margin-right: 5px;
+  padding-top: 8px;
+  display: inline;
+  color: rgb(255, 255, 255);
+}
+
 .messimg{
   padding-top: 4px;
   position: relative;
@@ -100,20 +127,20 @@
 }
 
 @media screen and (min-width: 1000px) {
-  /* .messageText {
+  .messageText {
     font-size: 15px;
-  } */
+  }
 }
 @media screen and (min-width: 1400px) {
-  /* .messageText {
+  .messageText {
     font-size: 15px;
-  } */
+  }
 }
 
 @media screen and (max-width: 900px) {
-  /* .messageText {
+  .messageText {
     font-size: 13px;
-  } */
+  }
   .messageContainer {
     max-width: 90%;
   }

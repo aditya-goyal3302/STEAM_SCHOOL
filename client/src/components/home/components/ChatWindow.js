@@ -10,7 +10,6 @@ import SendIcon from "@material-ui/icons/Send";
 import uuid from "react-uuid";
 import axios from "axios";
 import { io } from "socket.io-client";
-import Test from "../../../resources/test/test";
 import { useDropzone } from 'react-dropzone';
 import AWS from "aws-sdk";
 // import { set } from "mongoose";
@@ -34,71 +33,100 @@ function ChatWindow({
   const [new_url, setnew_url] = useState("");
   const [file, setFile] = useState(null);
   const div = useRef(null);
-  const generateRandomString = async(file) => {
+  const generateRandomString = async(tfile) => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let randomString = '';
     for (let i = 0; i < 32; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         randomString += characters[randomIndex];
     }
-    randomString += "."+file.name.split('.')[1];
+    randomString += "."+tfile.name.split('.')[1];
     return randomString;
   };
   
-  
-  const uploadfile = async ( file) => {
-    const base_url ="https://steamschool199.s3.ap-south-1.amazonaws.com/"
-  
-    const S3_BUCKET = "steamschool199";
-    const REGION = "ap-south-1";
-    AWS.config.update({
-      accessKeyId: "AKIAVXMPYCD56SUUX6VN",
-      secretAccessKey: "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",
-    });
-    const s3 = new AWS.S3({
-      params: { Bucket: S3_BUCKET },
-      region: REGION,
-    });
-  
-    const randomString = await generateRandomString(file);
-    console.log(randomString);
-    const params = {
-      Bucket: S3_BUCKET,
-      Key: randomString,
-      Body: file,
-    };
-  
-  
-    var upload = s3
-      .putObject(params)
-      .on("httpUploadProgress", (evt) => {
-        console.log(
-          "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
-        );
-      })
-      .promise();
-  var temp = ""
-    return await upload.then((err, data) => {
-      console.log(err);
-      temp = base_url+randomString
-      // console.log(temp);
-      return temp
-    });
+  const handleKeyPress = (event) => {
+    if (event.keyCode === 13) {
+      sendmessage();
+    }
+  };
+
+  const verify_file = async (tfile) => {
+    console.log(tfile);
+    let tname = tfile.name.toString().split('.')[1];
+    if(tname=="jpg"|| tname=="jpeg"|| tname=="png"|| tname=="gif"|| tname=="webp"){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+  const uploadfile = async (tfile) => {
+    if(await verify_file(tfile)){
+      const base_url ="https://steamschool199.s3.ap-south-1.amazonaws.com/"
+    
+      const S3_BUCKET = "steamschool199";
+      const REGION = "ap-south-1";
+      AWS.config.update({
+        accessKeyId: "AKIAVXMPYCD56SUUX6VN",
+        secretAccessKey: "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",
+      });
+      const s3 = new AWS.S3({
+        params: { Bucket: S3_BUCKET },
+        region: REGION,
+      });
+    
+      const randomString = await generateRandomString(tfile);
+      console.log(randomString);
+      const params = {
+        Bucket: S3_BUCKET,
+        Key: randomString,
+        Body: tfile,
+      };
+    
+    
+      var upload = s3
+        .putObject(params)
+        .on("httpUploadProgress", (evt) => {
+          console.log(
+            "Uploading " + parseInt((evt.loaded * 100) / evt.total) + "%"
+          );
+        })
+        .promise();
+    var temp = ""
+      return await upload.then((err, data) => {
+        console.log(err);
+        temp = base_url+randomString
+        // console.log(temp);
+        return temp
+      });
+    }
+    else{
+      alert("Invalid file type")
+    }
   };
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ noClick: true, onDrop: acceptedFiles => {
     // Do something with the files
-    console.log(acceptedFiles);
-    setFile(acceptedFiles[0]);
+    // console.log(acceptedFiles);
+    // map(acceptedFiles, (file) => {
+    //   // console.log(file);
+    //   // setFile(file);
+    // });
+      
+    setFile(acceptedFiles);
     // console.log(file);
   }  });
 
 
   useEffect(() => {
     if(file!==null){
-      uploadfile(file).then((response)=>{
-        console.log(response);
-        setnew_url(response);
-      }).catch((err)=>console.log(err))
+       file.map( (tfile) => {
+        uploadfile(tfile).then((response)=>{
+          // console.log(response);
+          if(response!==undefined)
+            setnew_url(response);
+        }).catch((err)=>console.log(err))
+      })
     }
   },[file])
   
@@ -190,11 +218,13 @@ function ChatWindow({
     
   },[new_url])
 
-  const sendfilebtn = () => {
+  const sendfilebtn =async () => {
     if(textboxstate===false){
-      settextboxstate(true);
+      await settextboxstate(true);
+      document.getElementById("file-picker-cw").click()
       return;
     }
+    document.getElementById("file-picker-cw").click()
     
   }
 
@@ -323,12 +353,17 @@ function ChatWindow({
                 placeholder="Type your message here"
                 value={messageinput}
                 onChange={(e) => setMessageinput(e.target.value)}
+                onKeyDown={handleKeyPress}
               />
               :
-              <Test 
-                new_url={new_url}
-                setnew_url={setnew_url}
+              <input
+                type="file"
+                id = "file-picker-cw"
+                {...getInputProps()}
+                className={styles.messageInput}
+                placeholder="upload file here"
               />
+              
             }
           </div>
         </div>

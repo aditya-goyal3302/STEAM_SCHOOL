@@ -28,14 +28,14 @@ function Signin() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(userObj.userName + " " + userObj.userPassword);
+    // console.log(userObj.userName + " " + userObj.userPassword);
     axios
       .post("/user/login", {
         username: userObj.userName,
         password: userObj.userPassword,
       })
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         if (response.data.code) {
           setAlert({
             ...alertObj,
@@ -57,7 +57,7 @@ function Signin() {
             }, 1000);
             function timerover() {
               clearInterval(intervaltimer);
-              setotpERR(2);
+              setotpR(2);
               setTimeout(() => {
                 window.location.reload();
               }, 3000);
@@ -92,8 +92,8 @@ function Signin() {
   const [otpmode, setotpmode] = useState(false);
   const [otp, setOtp] = useState("");
   const [otpmail, setOtpmail] = useState();
-  const [otpERR, setotpERR] = useState(false);
-  const [otpERRmess, setotpERRmess] = useState(false);
+  const [otpR, setotpR] = useState(false);
+  const [otpRmess, setotpRmess] = useState(false);
   const [otptimer, setOtptimer] = useState(119);
   const [buttondisabledotp, setbuttondisabledotp] = useState(true);
   function handleSubmitotp(e) {
@@ -102,8 +102,8 @@ function Signin() {
       .post("/user/verifyotp", { otp: otp, useremail: otpmail })
       .then(function (response) {
         // console.log(response);
-        setotpERR(1);
-        setotpERRmess(response.data.message);
+        setotpR(1);
+        setotpRmess(response.data.message);
         if (response.data.code === 2) {
           handleRedirect();
         }
@@ -114,27 +114,29 @@ function Signin() {
   }
 
   const checkp = async (p)=>{
-    const per = p.profile;
     // const prof = p.profile;
-    if(per.fname === "" || per.fname === undefined || per.fname === null || per.fname === " "){
+    if(p.fname === "" || p.fname === undefined || p.fname === null || p.fname === " "){
       return false;
     }
-     if(per.lname === "" || per.lname === undefined || per.lname === null || per.lname === " "){
+     if(p.lname === "" || p.lname === undefined || p.lname === null || p.lname === " "){
       return false;
     }
-     if(per.phno === "" || per.phno === undefined || per.phno === null || per.phno === " "){
+     if(p.phno === "" || p.phno === undefined || p.phno === null || p.phno === " "){
       return false;
     }
-     if(per.age === "" || per.age === undefined || per.age === null || per.age === " "){
-      return false;
-    }
-     if(per.dob === "" || per.dob === undefined || per.dob === null || per.dob === " "){
+     if(p.dob === "" || p.dob === undefined || p.dob === null || p.dob === " "){
       return false
     }
-     if(per.gender === "" ||per.gender === undefined || per.gender === null || per.gender === " " ){
+     if(p.gender === "" ||p.gender === undefined || p.gender === null || p.gender === " " ){
       return false
     }
-     if(per.username === "" || per.username === undefined || per.username === null || per.username === " "){
+     if(p.username === "" || p.username === undefined || p.username === null || p.username === " "){
+      return false
+    }
+    if(p.state === "" || p.state === undefined || p.state === null || p.state === " "){
+      return false
+    }
+    if(p.city === "" || p.city === undefined || p.city === null || p.city === " "){
       return false
     }
     return true;
@@ -143,8 +145,8 @@ function Signin() {
   }
 
   const handleRedirect = async() => {
-    axios.get("/user/getprofile/self")  ///user/getp/cgyzdvxr67t7
-        .then(data=>{
+    await axios.get("/user/getprofile/self")  ///user/getp/cgyzdvxr67t7
+        .then( (data)=>{
           setisloading(1);
     
             if(data.data.code === 101){
@@ -153,20 +155,19 @@ function Signin() {
                 setisloading(0);
                 return;
             }
-            else{
-
-              const p = data.data;
-              const valid = checkp(p);
-              console.log(valid);
-              alert(valid);
-              
-                if(valid === true)
-                  window.location.href = "/";
-                else
-                  window.location.href = "/editprofile";
-                // setislogin(1);
-            }
-        }).catch(err=>{
+            alert( JSON.stringify(data.data));
+            // return checkp(data.data);
+        }).then((valid)=>{
+            console.log(valid);
+            // alert(valid);
+            
+              if(valid === true)
+                window.location.href = "/";
+              else
+                window.location.href = "/editprofile";
+              // setislogin(1);
+        })
+        .catch(err=>{
             // setislogin(0);
         })
   }
@@ -323,6 +324,18 @@ function Signin() {
                 Not a user ? <span style={{ color: "" }}> Register </span> here
               </p>
             </a>
+            <a href="/login/forgetpass">
+              {" "}
+              <p
+                style={{
+                  color: "#0981f1",
+                  fontWeight: "600",
+                  fontSize: "10px",
+                }}
+              >
+                Forgot Password ? <span style={{ color: "" }}> Reset </span> Here
+              </p>
+            </a>
           </div>
         )}
         {otpmode && (
@@ -353,8 +366,8 @@ function Signin() {
                 }}
               />
             </div>
-            {otpERR === 1 && <Errormessage message={otpERRmess}></Errormessage>}
-            {otpERR === 2 && (
+            {otpR === 1 && <Errormessage message={otpRmess}></Errormessage>}
+            {otpR === 2 && (
               <Errormessage message="Otp Expired, Please Retry Logging In. Reloading.."></Errormessage>
             )}
             <button
@@ -375,6 +388,18 @@ function Signin() {
                 }}
               >
                 Not a user ? <span style={{ color: "" }}> Register </span> here
+              </p>
+            </a>
+            <a href="/login/forgetpass">
+              {" "}
+              <p
+                style={{
+                  color: "#0981f1",
+                  fontWeight: "600",
+                  fontSize: "10px",
+                }}
+              >
+                Forgot Password ? <span style={{ color: "" }}> Reset </span> Here
               </p>
             </a>
           </div>

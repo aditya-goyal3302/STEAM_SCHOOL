@@ -55,3 +55,90 @@
     margin-right: 0px;
   }
 }
+
+.mobileview{
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: white !important;
+  
+  justify-content: flex-end;
+  /* margin-top: 10vh;
+  margin-top: 2%;
+  margin-bottom: 2%; */
+
+
+
+}
+.mobileview .mbtn{
+  background-color: white !important;
+  border: none;
+  display: none;
+
+}
+
+.mobileview .closebtn{
+  background-color: white !important;
+  border: none;
+  display: none;
+}
+
+/* @media screen and (max-width:500){
+  .mbtn{
+    display: inline !important;
+  
+  }
+  
+  .mobileview .closebtn{
+    display: block !important;
+  
+} */
+/* } */
+
+@media screen and (max-width: 470px) {
+  .mobileview .mbtn{
+    display: block ;
+  }
+  .userprofile .userprofilein .left{
+    display: none;
+  }
+  .userprofile .userprofilein .right{
+    margin: 0px auto !important;
+  }
+  /* .active-menubtn{
+    .mobileview .mbtn{
+      display: block;
+    }
+    .mobileview .closebtn{
+      display: none;
+    }
+    .userprofile .userprofilein .left{
+      display: none;
+      animation: 0.5s ease-out 0s 1 slideOutFromLeft;
+    }
+    .userprofile .userprofilein .right{
+       margin: 0px auto !important; 
+      animation: 0.5s ease-out 0s 1 slideOutFromRight;
+      display: block;
+    }
+  }
+  .active-closebtn{
+    .mobileview .closebtn{
+      display: block;
+    }
+    .mobileview .mbtn{
+      display: none;
+    }
+    .userprofile .userprofilein .left{
+      display: none;
+      animation: 0.5s ease-out 0s 1 slideOutFromLeft;
+    }
+    .userprofile .userprofilein .right{
+      margin: 0px auto !important; 
+      animation: 0.5s ease-out 0s 1 slideOutFromRight;
+      display: block;
+    } 
+  }*/
+}
+

@@ -48,7 +48,7 @@ function WelcomeMail(mailto, usrnm) {
                     <tr width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; margin: 20px 0; border-radius: 10px; box-shadow: 0 2px 5px #ccc;">
                         <tr>
                             <td align="center" style="padding: 40px 0;">
-                                <img src="Logo.png" alt="[Education Website Name] Logo" style="max-width: 350px;">
+                                <img src="https://steamschool199.s3.ap-south-1.amazonaws.com/Logo.png" alt="[Education Website Name] Logo" style="max-width: 350px;">
                             </td>
                         </tr>
                         <tr>
@@ -139,7 +139,7 @@ function otpmail(mailto, usrnm, otp) {
     </head>
     <body>
         <div class="container">
-            <img src="Logo.png" alt="[Education Website Name] Logo" style="max-width: 350px;">
+            <img src="https://steamschool199.s3.ap-south-1.amazonaws.com/Logo.png" alt="[Education Website Name] Logo" style="max-width: 350px;">
     
             <h1>Your One-Time Password (OTP) for Stream School</h1>
             <p>Dear ${usrnm},</p>
@@ -159,12 +159,93 @@ function otpmail(mailto, usrnm, otp) {
     `};
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error);
+      console.log(1);
     } else {
       console.log("Email sent: " + info);
     }
   });
 }
+
+function resetMail(mailto, usrnm,token){
+    var mailOptions = {
+      from: "agdoietest@hotmail.com",
+      to: mailto,
+      subject: "Login Successful",
+      html:`<!DOCTYPE html>
+      <html lang="en">
+      <head>
+          
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <style>
+              /* CSS for styling the email */
+              body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f0f0f0;
+                  margin: 0;
+                  padding: 0;
+                  text-align: center;
+              }
+              .container {
+                  max-width: 500px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  background-color: #fff;
+                  border-radius: 5px;
+                  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+              }
+              h1 {
+                  color: #333;
+              }
+              p {
+                  text-align: left;
+                  color: #777;
+                  text-align: justify;
+              }
+          </style>
+      </head>
+      <body>
+          <div class="container">
+              <img src="https://steamschool199.s3.ap-south-1.amazonaws.com/Logo.png" alt="[Education Website Name] Logo" style="max-width: 350px;">
+              <h1>Reset Password Link</h1>
+              <p>Dear ${usrnm},</p>
+              <div style="margin-left: 30px; ">
+                  <p>
+                      We received a request to reset the password associated with this email address for your Steam School account. If you made this request, please follow the instructions below.
+                      <br>
+  
+                      To reset your password, click on the following link:
+                      <br>
+                      <a href="http://localhost:3000/login/setpass/?token=${token}">Reset Password</a>
+  
+                      If you did not request a password reset, please ignore this email. Your account is secure, and no changes have been made.
+                      <br>
+                      The link above will expire in [insert time limit, e.g., 24 hours], so be sure to use it as soon as possible.
+                      <br>
+                      If you encounter any issues or did not request this password reset, please contact our support team at <a href="http://localhost:3000">Stream School</a>.
+                      <br>
+                      Thank you,
+                      <br>
+                      The Steam School Team
+                  </p>
+                  <p>Sincerely, <br>
+                      <p></p>
+                  </p>
+              </div>
+          </div>
+      </body>
+    </html>
+  
+      `
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(1);
+      } else {
+        console.log("Email sent: " + info);
+      }
+    });
+  }
 
 function loginMail(mailto, usrnm){
   var mailOptions = {
@@ -206,7 +287,7 @@ function loginMail(mailto, usrnm){
     </head>
     <body>
         <div class="container">
-            <img src="Logo.png" alt="[Education Website Name] Logo" style="max-width: 350px;">
+            <img src="https://steamschool199.s3.ap-south-1.amazonaws.com/Logo.png" alt="[Education Website Name] Logo" style="max-width: 350px;">
             <h1>Login Successful</h1>
             <p>Dear ${usrnm},</p>
             <div style="margin-left: 30px; ">
@@ -225,11 +306,11 @@ function loginMail(mailto, usrnm){
   };
   transporter.sendMail(mailOptions, function (error, info) {
     if (error) {
-      console.log(error);
+      console.log(1);
     } else {
       console.log("Email sent: " + info);
     }
   });
 }
 
-module.exports = { WelcomeMail, otpmail , loginMail };
+module.exports = { WelcomeMail, otpmail , loginMail, resetMail };

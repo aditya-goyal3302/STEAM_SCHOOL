@@ -22,7 +22,9 @@ function Message(props) {
         : styles.messageContainerL
         }>
         <div className={styles.messageText}><img className={styles.messimg} src={props.messageData.image}></img></div>
-        <div className={styles.imgmessageTime}>{props.messageData.time}</div>
+        <div className={props.messageData.position === "right"
+        ? styles.messageTimeR
+        : styles.messageTimeL}>{props.messageData.time}</div>
       </div>
     </div>
   );

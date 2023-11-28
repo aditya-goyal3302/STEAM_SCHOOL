@@ -12,6 +12,8 @@ function ContactsWindow({
   printcontacts,
   currentchat,
   setCurrentchat,
+  mode,
+  setMode
 }) {
 
   const [searchbarval, setSearchbarval] = useState("");
@@ -78,7 +80,9 @@ function ContactsWindow({
           printcontacts={printcontacts}
           currentchat={currentchat}
           setCurrentchat={setCurrentchat}
-        />
+          setMode={setMode}
+          mode={mode}
+          />
     </div>
   );
 }

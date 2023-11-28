@@ -8,12 +8,15 @@ import "react-datepicker/dist/react-datepicker.css";
 
 function PersonalInfo({
     setuserProfile,
-    userProfile
+    userProfile,
+    setisloading,
+    isLoading,
 }){
     const [dob,setdob] = useState(new Date()) 
     const [newUserData,setnewUserData] = useState({})
     useEffect(()=>{
         setnewUserData(userProfile)
+        setisloading(0)
     },[userProfile])
     useEffect(()=>{
         // setdob(userProfile.dob);
@@ -93,7 +96,7 @@ function PersonalInfo({
     
                     <div className='form-group'>
                         <label htmlFor='phone'>Gender<span className="red">*</span></label>
-                        <select required  htmlFor='gender' name="gender" id="gender" onChange={e=>inputChange(e)} value={newUserData.gender}>
+                        <select required  htmlFor='gender' name="gender" id="gender" onChange={e=>inputChange(e)} value={newUserData.gender?newUserData.gender:"Other"}>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other" selected>Rather Not Say</option>

@@ -85,9 +85,9 @@ function Navbar() {
                                 onClick={handlechat}>Chat</a></li>
                             {/* <li><a href="profile.html">Profile</a></li> */}
                         <div class="dropdown">
-                            <button class="dropbtn">Profile
+                            <li class="dropbtn">Profile
                             <i className="fa fa-caret-down"></i>
-                            </button>
+                            </li>
                             <div className="dropdown-content">
                                 <a onClick={handlecurrprofile}>Profile</a>
                                 <a onClick={handleprofile}>Edit</a>

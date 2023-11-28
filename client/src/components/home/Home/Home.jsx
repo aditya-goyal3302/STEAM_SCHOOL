@@ -15,8 +15,9 @@ function Home() {
   const [messages, setMessages] = useState({});
   const [currentchat, setCurrentchat] = useState();
   const [currentconversation, setCurrentconversation] = useState();
-  const [mode, setMode] = useState(false);
+  const [mode, setMode] = useState(undefined);
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
     setLoading(true)
@@ -32,12 +33,9 @@ function Home() {
       };
       console.log("datauser: ",response.data);
       setuser(datauser);
-      // updatelocalstorage_user();
-      // console.log("Fetched user now fetching friends");
-    })
+      })
     .catch((err) => console.log(err));
     
-    //eslint-disable-next-line
   }, []);
   useEffect(() => {
     const param = new URLSearchParams(window.location.search);
@@ -66,7 +64,6 @@ function Home() {
     useEffect(() => {
       printcontacts();
     updatelocalstorage_user();
-    //eslint-disable-next-line
   }, [user]);
   
   function printcontacts() {
@@ -77,9 +74,7 @@ function Home() {
       })
       .then((response) => {
         setContacts(response.data);
-        // updatelocalstorage_contacts();
-        // console.log("friends fetched too", contacts);
-      })
+       })
       .catch((err) => {
         console.log("ERR", err);
       });}
@@ -103,23 +98,15 @@ function Home() {
       setLoading(false)
     }
   },[contacts])
-  // User setup and local storage. User setup and local storage. User setup and local storage. User setup and local storage
-  // User setup and local storage. User setup and local storage. User setup and local storage. User setup and local storage
   
-  // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
-  // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
   useEffect(() => {
     axios
     .get("chat/get")
     .then((response) => {
         console.log(response.data);
         setChats(response.data);
-        // updatelocalstorage_chats();
-        // let conversationids = response.data.map((a) => a._id);
-        // setConversationIDs(conversationids);
       })
       .catch((err) => console.log(err));
-      //eslint-disable-next-line
     }, []);
     
     const updatelocalstorage_chats = () => {
@@ -128,13 +115,9 @@ function Home() {
     useEffect(() => {
       updatelocalstorage_chats();
     fetchmessages();
-    //eslint-disable-next-line
   }, [chats]);
   
-  // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
-  // Chat setup and local storage. Chat setup and local storage. Chat setup and local storage. Chat setup and local storage.
-  var i = 0;
-  // var messages = {};
+ var i = 0;
   
   const fetchmessages = () => {
     console.log("fetchedmessages", Object.keys(chats).length);
@@ -154,13 +137,7 @@ function Home() {
     }
   };
 
-  // const updatelocalstorage_chats = () => {
-    //   localStorage.setItem("chats", JSON.stringify(chats));
-  // };
-  // useEffect(() => {
-  //   updatelocalstorage_chats();
-  // }, [chats]);
-
+ 
   const handleLogout = () => {
     console.log("REQUESTED LOGOUT");
     localStorage.removeItem("user");
@@ -171,49 +148,96 @@ function Home() {
     window.location.href = "/login";
   };
 
-  // useEffect(() => {
-  //   console.log("Chats state Updated", chats);
-  // }, [chats]);
-
-  useEffect(() => {
+  useEffect(async () => {
     if (currentchat) {
       console.log("currentchat", currentchat);
-      for (var i = 0; i < chats.length; i++) {
+       for (var i = 0; i < chats.length; i++) {
         if (chats[i].users.includes(currentchat._id)) {
           setCurrentconversation(chats[i]);
           break;
         }
       }
     }
-    if (currentchat && window.innerWidth < 450) {
-      document.getElementsByClassName("chatwindow")[0].style.width = "100%";
-      document.getElementsByClassName("chatwindow")[0].style.flex = 100;
-      // document.getElementsByClassName("chatwindow")[0].style.display = "flex";
-      document.getElementsByClassName("contactswindow")[0].style.display =
-        "none";
-      // document.getElementsByClassName("contactswindow")[0].style.flex = 0;
-      // document.getElementsByClassName("contactswindow")[0].style.width = 0;
-      // document.getElementsByClassName("contactswindow")[0].style.flex = 0;
+    if(mode === undefined){
+      setMode(false)
     }
-    // eslint-disable-next-line
   }, [currentchat]);
 
+ 
+  const animateProperty = (element, property, startValue, endValue, duration) => {
+    const startTime = new Date().getTime();
+    const changeInValue = endValue - startValue;
+
+    const animate = () => {
+      const currentTime = new Date().getTime();
+      const elapsed = currentTime - startTime;
+      const progress = elapsed / duration;
+
+      if (progress < 1) {
+        const newValue = startValue + changeInValue * progress;
+        element.style[property] =`${newValue}%`;
+        requestAnimationFrame(animate);
+      } else {
+        element.style[property] =`${endValue}%`;
+      }
+    };
+
+  animate();
+  };
+  const animatePropertyWTN = (element, property, startValue, endValue, duration) => {
+    const startTime = new Date().getTime();
+    const changeInValue = endValue - startValue;
+
+    const animate = () => {
+      const currentTime = new Date().getTime();
+      const elapsed = currentTime - startTime;
+      const progress = elapsed / duration;
+
+      if (progress < 1) {
+        const newValue = startValue + changeInValue * progress;
+        element.style[property] =newValue;
+        requestAnimationFrame(animate);
+      } else {
+        element.style[property] =endValue;
+      }
+    };
+
+  animate();
+  };
   useEffect(() => {
-    if (window.innerWidth < 450) {
-      document.getElementsByClassName("contactswindow")[0].style.display =
-        "flex";
-      document.getElementsByClassName("chatwindow")[0].style.width = "0%";
-      document.getElementsByClassName("chatwindow")[0].style.flex = 0;
-
-      document.getElementsByClassName("contactswindow")[0].style.width = "100%";
-      document.getElementsByClassName("contactswindow")[0].style.flex = 100;
-      // document.getElementsByClassName("chatwindow")[0].style.display = "none";
-
-      // document.getElementsByClassName("chatwindow")[0].style.display = "none";
-      // document.getElementsByClassName("chatwindow")[0].style.flex = 0;
-      // document.getElementsByClassName("chatwindow")[0].style.width = 0;
-      // document.getElementsByClassName("chatwindow")[0].style.flex = 0;
-    }
+    if (window.innerWidth < 470 && mode !==undefined) {
+      const contactWindow = document.getElementsByClassName("contactswindow")[0];
+      const chatWindow = document.getElementsByClassName("chatwindow")[0];
+      if(mode===true ){
+        try{
+          document.getElementsByClassName("contactswindow")[0].style.display ="flex";
+          animateProperty(contactWindow, "width", 0, 100, 500);
+          animateProperty(chatWindow, "width",100,0,500);
+          animatePropertyWTN(chatWindow, "flex",100,0,500);
+          animatePropertyWTN(contactWindow, "flex",0,100,500);
+          setTimeout(() => {
+            document.getElementsByClassName("chatwindow")[0].style.display = "none";
+          },(250))
+        }
+        catch(err){
+          console.log(err)
+        }
+      }
+      if(mode===false ){
+        try{
+          document.getElementsByClassName("chatwindow")[0].style.display = "flex";
+          animateProperty(contactWindow, "width", 100, 0, 500);
+          animateProperty(chatWindow, "width",0,100,500);
+          animatePropertyWTN(contactWindow, "flex",100,0,500);
+          animatePropertyWTN(chatWindow, "flex",0,100,500);
+          setTimeout(() => {
+            document.getElementsByClassName("contactswindow")[0].style.display = "none";
+          },(250))
+        }
+        catch(err){
+          console.log(err)
+        }
+      }}
   }, [mode]);
 
   return (
@@ -234,6 +258,8 @@ function Home() {
                   printcontacts={printcontacts}
                   currentchat={currentchat}
                   setCurrentchat={setCurrentchat}
+                  mode={mode}
+                  setMode={setMode}
                 />
                 
               </div>

@@ -41,7 +41,7 @@ passport.use(new googleStrategy({
             fname: profile._json.name.split(" ")[0],
             lname: profile._json.name.split(" ")[1]
           },
-          username: profile._json.name.split(" ")[0] +" "+profile._json.name.split(" ")[1],
+          username: profile._json.email.split("@")[0],
           email : profile._json.email,
           googleaccount : {isgoogle : 1, googlename : profile._json.name},
           img : profile._json.picture

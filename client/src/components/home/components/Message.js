@@ -32,8 +32,16 @@ function Message(props) {
         ? styles.messageContainerR
         : styles.messageContainerL
         }>
-        <div className={styles.messageText} dangerouslySetInnerHTML={createMarkup()} ></div>
-        <div className={styles.messageTime}>{props.messageData.time}</div>
+        <div className={
+        props.messageData.position === "right"
+        ? styles.messageTextR
+        : styles.messageTextL
+        } dangerouslySetInnerHTML={createMarkup()} ></div>
+        <div className={
+        props.messageData.position === "right"
+        ? styles.messageTimeR
+        : styles.messageTimeL
+        }>{props.messageData.time}</div>
       </div>
     </div>
   );

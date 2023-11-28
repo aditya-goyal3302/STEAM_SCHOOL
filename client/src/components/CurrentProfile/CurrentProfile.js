@@ -4,13 +4,10 @@ import Navbar from "../Navbar";
 import Footer from "../Footer";
 import final from"./final.jpg";
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
-import DeleteOutlineRoundedIcon from '@mui/icons-material/DeleteOutlineRounded';
 import MessageRoundedIcon from '@mui/icons-material/MessageRounded';
 import axios from "axios";
 import Spinner from "../home/components/Spinner";
-
-// import { getSkeletonUtilityClass } from "@mui/material";
-// import { set } from "mongoose";
+import Test from "../../resources/test/test";
 
 function CurrentProfile(){
     const [userProfile,setuserProfile] = useState(1)
@@ -20,7 +17,8 @@ function CurrentProfile(){
     const queryParameters = new URLSearchParams(window.location.search)
     const user = queryParameters.get("userid")
     const [userId,setuserId]=useState(user?user:"self")
-
+    const [isclicked,setisclicked] = useState(0)
+    const [url,seturl] = useState("")
 
     useEffect(()=>{
         axios.get("/getadmin/"+userProfile._id)
@@ -31,7 +29,7 @@ function CurrentProfile(){
     },[userProfile])
 
     useEffect(()=>{
-        axios.get("/user/getprofile/"+userId)  ///user/getp/cgyzdvxr67t7
+        axios.get("/user/getprofile/"+userId) 
         .then(data=>{
             if(data.data.code === 101){
                 window.location.href="/login"
@@ -43,7 +41,7 @@ function CurrentProfile(){
             // setislogin(0);
         })
 
-        axios.get("/user/getprof/"+userId)  ///user/getp/cgyzdvxr67t7
+        axios.get("/user/getprof/"+userId)  
         .then(data=>{
             setuserProf(data.data);
             setloader(0);
@@ -57,11 +55,18 @@ function CurrentProfile(){
             window.location.href="/chat/?userid="+userProfile._id
         })
     }
-    function deleteprofile(){
-        axios.post("/user/deleteprofile")
-        window.location.href="/login"
-    }
-    
+    useEffect(()=>{
+        if(url !== ""){
+            axios.post("/user/updateimg",{
+                url:url
+            }).then(data=>{
+                console.log(data.data);
+                window.location.reload();
+            })
+            console.log(url);
+        }
+    },[url])
+ 
     return(
 
         loader === 0 ? (
@@ -78,7 +83,7 @@ function CurrentProfile(){
                     <>
                         <button 
                             className="btn " 
-                            onClick={()=>{window.location.href="/editprofile/"}}>
+                            onClick={()=>{setisclicked(1)}}>
                             <div className="btntxt">
                                 Change Profile Picture
                             </div> 
@@ -103,7 +108,7 @@ function CurrentProfile(){
                                 Edit Profile
                             </div> 
                             <div className="btnimg">
-                                <EditRoundedIcon>  </EditRoundedIcon>
+                                <EditRoundedIcon> </EditRoundedIcon>
                             </div>
                         </button>
                         {/* <button 
@@ -116,6 +121,16 @@ function CurrentProfile(){
                                 <DeleteOutlineRoundedIcon>  </DeleteOutlineRoundedIcon>
                             </div>
                         </button> */}
+
+                        {isclicked === 1 &&(<div style={{display:"none"}}>
+                            <Test 
+                                new_url={url}
+                                setnew_url={seturl}
+                                settextboxstate={setisclicked}
+                                textboxstate={isclicked}
+                            >
+                            </Test>
+                        </div>)}
                     </>    
                     ):(
                         <>
@@ -173,7 +188,7 @@ function CurrentProfile(){
                         </div>
                     </div>
                     <div className="r2">
-                        {userprof.qualification !== undefined &&(
+                        {userprof.qualification?.qname &&(
                             <pre className="datacontentl">
                                 <div className="titlel">Qualifications:</div>
                                 <table className="datal">
@@ -188,7 +203,7 @@ function CurrentProfile(){
                                 </table>
                             </pre>
                         )}
-                        {userprof.skills !== undefined &&(
+                        {userprof.skills?.sname &&(
                             <pre className="datacontentl">
                                 <div className="titlel">Skills:</div>
                                 <table className="datal">

@@ -58,19 +58,56 @@ router.get("/auth/google",passport.authenticate("google", { scope: ["profile", "
 
 router.get("/auth/google/redirect",
   passport.authenticate("google", {failureRedirect: "http://localhost:3000/login"}),
-  function (req, res) {
-  //   req.logIn(req.session.user, err=>{
-  //     if (err) throw err;
-    // console.log("req.session.user", req.session.user) })
-    // loginMail(req.body.email, req.body.fname +" "+ req.body.lname);
+  function async (req, res) {
     req.session.isLoggedIn = true;
     req.session.user = req.user;
-    req.session.save(err => {
+    req.session.save(async err => {
       console.log(err);
     });
+    const checkp = async (p)=>{
+      // const prof = p.profile;
+      if(p.fname === "" || p.fname === undefined || p.fname === null || p.fname === " "){
+        return false;
+      }
+       if(p.lname === "" || p.lname === undefined || p.lname === null || p.lname === " "){
+        return false;
+      }
+       if(p.phno === "" || p.phno === undefined || p.phno === null || p.phno === " "){
+        return false;
+      }
+       if(p.dob === "" || p.dob === undefined || p.dob === null || p.dob === " "){
+        return false
+      }
+       if(p.gender === "" ||p.gender === undefined || p.gender === null || p.gender === " " ){
+        return false
+      }
+       if(p.username === "" || p.username === undefined || p.username === null || p.username === " "){
+        return false
+      }
+      if(p.state === "" || p.state === undefined || p.state === null || p.state === " "){
+        return false
+      }
+      if(p.city === "" || p.city === undefined || p.city === null || p.city === " "){
+        return false
+      }
+      return true;
+      
+  
+    }
     // console.log("req.session.user", req.user)
-    res.redirect("http://localhost:3000/")
-  }
+    const user = req.user;
+    var temp = {...user.profile,email:user.email,img:user.img,username:user.username,_id:user._id}
+    console.log(JSON.stringify(temp))
+    checkp(temp).then((p)=>{
+    // console.log(Verify)
+    if(p=== true){
+      res.redirect("http://localhost:3000/")
+    }
+    else{
+      res.redirect("http://localhost:3000/editprofile")
+    }
+  })
+}
 );
 
 router.get('/getprofile/:userId',usercontroller.getprofile)
@@ -92,11 +129,10 @@ router.post("/verifyotp", usercontroller.verifyotp);
 
 router.post('/resendotp' ,usercontroller.resendotp)
 
+router.post("/forgetpass", usercontroller.forgetpass);
 
-
-// router.post("/forgotpassword", usercontroller.forgotpassword);
-
-// router.post("/resetpassword", usercontroller.resetpassword);
+router.post("/resetpassword", usercontroller.resetpassword);
+router.get("/resetcheck/:token", usercontroller.resetpass);
 
 router.post("/changepassword",isauth.check,usercontroller.changepassword);
 
@@ -104,7 +140,7 @@ router.post("/updateprofile",usercontroller.updateprofile);
 
 // router.post("/updateprof",isauth.check,usercontroller.updateprof);
 
-// router.post("/updateimg",isauth.check,usercontroller.updateimg);
+router.post("/updateimg",isauth.check,usercontroller.updateimg);
 
 //CREATE ROUTE FOR RESEND OTP
 

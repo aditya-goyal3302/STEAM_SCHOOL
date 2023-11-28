@@ -1,11 +1,9 @@
 .container {
   position: relative;
-  height: 87.5vh;
+  height: 89vh;
   width:100vw;
   box-sizing: border-box;
   margin:0%;
-  /* margin-top: 89px; */
-  /* padding: 30px; */
   display: flex;
   overflow: hidden;
 }
@@ -13,11 +11,7 @@
   flex: 99;
   display: flex;
   height: auto;
-  background-color: #000c18;
   background-color: #1c242c;
-
-  /* border: 1px solid gray; */
-  /* border-radius: 5px; */
 }
 
 .contactsWindow {
@@ -25,6 +19,10 @@
   /* border-right: 1px solid #3f6283; */
   border-radius: 5px 0 0 5px;
   /* width:20% ; */
+  -webkit-box-shadow: 2px 0px 5px 0px rgba(128,128,128,0.9);
+  -moz-box-shadow: 2px 0px 5px 0px rgba(128,128,128,0.9);
+  box-shadow: 2px 0px 5px 0px rgba(128,128,128,0.9);
+  z-index: 199;
 }
 
 .chatWindow {
@@ -47,16 +45,25 @@
   cursor: pointer;
 }
 
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 470px) {
   .logoutbtn {
     display: none;
   }
   .contactsWindow {
     flex: 100;
+
   }
   .chatWindow {
-    flex: 0;
-    width: 0;
+    flex: 100;
+    display: none;
+
+    /* width: 0; */
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .container{
+    height: 82.5vh;
   }
 }
 

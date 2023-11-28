@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import styles from "../css/contact.module.css";
 
-function Contact({ user, currentchat, setCurrentchat }) {
+function Contact({ user, currentchat, setCurrentchat, mode, setMode }) {
   const changechat = () => {
     setCurrentchat(user);
   };
@@ -15,7 +15,7 @@ function Contact({ user, currentchat, setCurrentchat }) {
             : styles.requestbox
           : styles.requestbox
       }
-      onClick={changechat}
+      onClick={()=>{changechat();setMode(!mode)}}
     >
       <div className={styles.requestimage}>
         <img

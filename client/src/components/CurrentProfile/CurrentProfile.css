@@ -148,7 +148,7 @@
 }
 
 .right .r1 .datacontent .title{
-    font-family: 'poppins' , sans-serif;
+    font-family: 'Nexa Script', sans-serif'';
     font-size: 1.5rem;
     color: rgb(59, 59, 59);
     font-weight: 600;
@@ -165,7 +165,7 @@
     color: rgb(59, 59, 59);
     width: 20%;
     min-width: 100px;
-    font-family: 'poppins' , sans-serif;
+    font-family: 'Nexa Script', sans-serif'';
     font-weight: 600;
 
 }
@@ -176,7 +176,7 @@
     color: rgb(33, 33, 33);
     min-width:450px;
     margin-top: 0px;
-    font-family: 'poppins' , sans-serif;
+    font-family: 'Nexa Script', sans-serif'';
 }
 .right .r2 .datal tr:nth-child(1){
     background-color: rgb(214, 214, 214);

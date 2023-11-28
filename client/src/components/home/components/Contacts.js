@@ -12,6 +12,8 @@ function Contacts({
   printcontacts,
   currentchat,
   setCurrentchat,
+  mode,
+  setMode,
 }) {
   const refreshcontacts = () => {
     axios
@@ -48,6 +50,11 @@ function Contacts({
               user={chat}
               currentchat={currentchat}
               setCurrentchat={setCurrentchat}
+              mode={mode}
+              setMode= {setMode}
+              // onClick={()=>{
+              //   setMode(!mode)
+              // }}
             />
           ))
         ) : (
