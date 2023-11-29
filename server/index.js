@@ -58,13 +58,10 @@ app.use(passport.session());
 app.use("/user", userRoutes);
 app.use("/friend", friendRoutes);
 app.use("/chat", chatroutes);
-// app.use("/post", postroutes);
-// app.use("/note", noteroutes);
+
 
 app.use('/getadmin/:userId',(req,res,next)=>{
-  // res.send((req.session.user._id)?(req.session.user._id):"NA");
   const userId= req.params.userId;
-  // console.log(session.user)
   try{
     if(req.session.user._id.toString() === userId.toString()){
       res.send({isadmin:1})
@@ -78,9 +75,22 @@ app.use('/getadmin/:userId',(req,res,next)=>{
     res.send({isadmin:0})
   }
 })
-// app.get('/', (req,res) => res.send("<h1>HELLO</h1>"))
+const ___dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(___dirname1, "/client/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(___dirname1, "client", "build", "index.html"))
+  );
+} else {
+  app.use(express.static(path.join(___dirname1, "/client/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(___dirname1, "client", "build", "index.html"))
+  );
+  // app.get("/", (req, res) => {
+  //   res.send("API is running");
+  // });
+}
 
-// ${process.env.START_MONGODB}${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}${process.env.END_MONGODB}
 try {
   mongoose.connect(
     `mongodb+srv://agdoie-app:0ISZL1RJpYp6FDUM@cluster0.7hawrym.mongodb.net/trial`,
@@ -90,21 +100,9 @@ try {
     }
   );
 } catch (error) {
-  // console.log(`Could not connect to the DB because ${error}`);
 }
 
 app.listen(PORT, () => {
   console.log(`Server Started at port ${PORT}`);
 });
 
-// everything below i just used for updating existing documents in order to add more functionality
-
-// User.updateMany(
-//   { posts: { $exists: false } },
-//   { posts: [] },
-//   { multi: true },
-//   function (err, docs) {
-//     if (err) console.log(err);
-//     else console.log(docs);
-//   }
-// );

@@ -57,7 +57,7 @@ router.post("/create",
 router.get("/auth/google",passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get("/auth/google/redirect",
-  passport.authenticate("google", {failureRedirect: "http://localhost:3000/login"}),
+  passport.authenticate("google", {failureRedirect: "http://localhost:2948/login"}),
   function async (req, res) {
     req.session.isLoggedIn = true;
     req.session.user = req.user;
@@ -101,10 +101,10 @@ router.get("/auth/google/redirect",
     checkp(temp).then((p)=>{
     // console.log(Verify)
     if(p=== true){
-      res.redirect("http://localhost:3000/")
+      res.redirect("http://localhost:2948/")
     }
     else{
-      res.redirect("http://localhost:3000/editprofile")
+      res.redirect("http://localhost:2948/editprofile")
     }
   })
 }
