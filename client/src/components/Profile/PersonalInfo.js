@@ -16,11 +16,14 @@ function PersonalInfo({
     const [newUserData,setnewUserData] = useState({})
     useEffect(()=>{
         setnewUserData(userProfile)
-        setisloading(0)
     },[userProfile])
-    useEffect(()=>{
+    useEffect(async ()=>{
+        if(newUserData !== null){
+            reverseDate(userProfile.dob);
+            setisloading(0)
+
+        }
         // setdob(userProfile.dob);
-        reverseDate(userProfile.dob);
     },[userProfile])
     const reverseDate = (d) => {
         if(d){
@@ -70,22 +73,22 @@ function PersonalInfo({
                 <form className='formper' onSubmit={onSubmitHandle}>
                     <div className='form-group'>
                         <label htmlFor='name'>Your Name<span className="red">*</span></label>
-                        <input required type='text' name='fname' id='fname' onChange={e=>inputChange(e)} value={newUserData.fname}/>
+                        <input required type='text' name='fname' id='fname' onChange={e=>inputChange(e)} value={newUserData?.fname}/>
                     </div>
     
                     <div className='form-group'>
                         <label htmlFor='name'>Last Name<span className="red">*</span></label>
-                        <input required type='text' name='lname' id='lname' onChange={e=>inputChange(e)} value={newUserData.lname}/>
+                        <input required type='text' name='lname' id='lname' onChange={e=>inputChange(e)} value={newUserData?.lname}/>
                     </div>
     
                     <div className='form-group'>
                         <label htmlFor='username'>Username<span className="red">*</span></label>
-                        <input required type='text' name='username' id='username' onChange={e=>inputChange(e)} value={newUserData.username}/>
+                        <input required type='text' name='username' id='username' onChange={e=>inputChange(e)} value={newUserData?.username}/>
                     </div>
     
                     <div className='form-group'>
                         <label htmlFor='phone'>Phone No.<span className="red">*</span></label>
-                        <input required type='text' name='phno' id='phno' onChange={e=>inputChange(e)} value={newUserData.phno}/>
+                        <input required type='text' name='phno' id='phno' onChange={e=>inputChange(e)} value={newUserData?.phno}/>
                     </div>
     
                     <div className='form-group'>
@@ -96,7 +99,7 @@ function PersonalInfo({
     
                     <div className='form-group'>
                         <label htmlFor='phone'>Gender<span className="red">*</span></label>
-                        <select required  htmlFor='gender' name="gender" id="gender" onChange={e=>inputChange(e)} value={newUserData.gender?newUserData.gender:"Other"}>
+                        <select required  htmlFor='gender' name="gender" id="gender" onChange={e=>inputChange(e)} value={newUserData?.gender?newUserData.gender:"Other"}>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Other" selected>Rather Not Say</option>
@@ -104,12 +107,12 @@ function PersonalInfo({
                     </div>
                     <div className='form-group'>
                         <label htmlFor='city'>City<span className="red">*</span></label>
-                        <input required type='text' name='city' id='city' onChange={e=>inputChange(e)} value={newUserData.city}/>
+                        <input required type='text' name='city' id='city' onChange={e=>inputChange(e)} value={newUserData?.city}/>
                     </div>
     
                     <div className='form-group'>
                         <label htmlFor='state'>State<span className="red">*</span></label>
-                        <input required type='text' name='state' id='state' onChange={e=>inputChange(e)} value={newUserData.state}/>
+                        <input required type='text' name='state' id='state' onChange={e=>inputChange(e)} value={newUserData?.state}/>
                     </div>
                     <button type="submit" className='mainbutton1' >Save Changes</button>
                 </form>

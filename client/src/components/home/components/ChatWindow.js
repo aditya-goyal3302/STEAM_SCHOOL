@@ -26,6 +26,7 @@ function ChatWindow({
   setMode,
   mode,
 }) {
+  const placeholder = "https://steamschool199.s3.ap-south-1.amazonaws.com/placeholderpic.png"
   const [messageinput, setMessageinput] = useState("");
   const [socket, setSocket] = useState(null);
   const [chatwindowupdate, setChatwindowupdate] = useState(false);
@@ -286,7 +287,7 @@ function ChatWindow({
                 src={
                   currentchat && currentchat.img !== ""
                     ? currentchat.img
-                    : "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png"
+                    : placeholder
                 }
                 alt="CP"
               />

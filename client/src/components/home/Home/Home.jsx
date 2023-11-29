@@ -19,9 +19,16 @@ function Home() {
   const [loading, setLoading] = useState(true);
   
 
-  useEffect(() => {
+  
+  useEffect(async () => {
     setLoading(true)
-    axios
+    await getuser();
+    checkurl();
+    
+  }, []);
+
+  const getuser = async () => {
+     axios
     .get("user/get")
     .then((response) => {
       const datauser = {
@@ -35,37 +42,18 @@ function Home() {
       setuser(datauser);
       })
     .catch((err) => console.log(err));
-    
-  }, []);
-  useEffect(() => {
-    const param = new URLSearchParams(window.location.search);
-    const id = param.get("userid");
-    if(id!==null){
-      axios
-      .get("/user/getprofile"+id)
-      .then((response) => {
-        const datauser = {
-          _id: response.data._id,
-          username: response.data.username,
-          email: response.data.email,
-          chats: response.data.chats,
-          
-        };
-        
-        setCurrentchat(datauser);
-      })
-    }
-  },[ new URLSearchParams(window.location.search).get("userid") ])
+  }
 
-    const updatelocalstorage_user = () => {
-      localStorage.setItem("user", JSON.stringify(user));
-    };
-    
-    useEffect(() => {
-      printcontacts();
+  useEffect(() => {
+     printcontacts();
     updatelocalstorage_user();
   }, [user]);
+
+  const updatelocalstorage_user = () => {
+    localStorage.setItem("user", JSON.stringify(user));
+  };
   
+
   function printcontacts() {
     if(user.chats && user.chats.length>0){
       axios
@@ -82,25 +70,42 @@ function Home() {
         setContacts({});
         console.log("No friends");
       }
-
-  }
-
-  const updatelocalstorage_contacts = () => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  };
-  useEffect(() => {
-    updatelocalstorage_contacts();
-    //eslint-disable-next-line
-  }, [contacts]);
-   useEffect
-  (() => {
-    if(Object.keys(contacts).length>0 || Object.keys(user).length>0 ){
-      setLoading(false)
+      
     }
-  },[contacts])
-  
-  useEffect(() => {
-    axios
+    const checkurl= () => {
+     { const param = new URLSearchParams(window.location.search);
+      const id = param.get("userid");
+      if(id!==null){
+        axios
+        .get("/user/getprofile/"+id)
+        .then((response) => {
+          
+          window.history.replaceState(null, "Chat", "/chat")
+          setCurrentchat(response.data);
+          getuser();
+          setLoading(false)
+        })
+        .catch((err) => console.log(err));
+      }}
+    }
+
+    const updatelocalstorage_contacts = () => {
+      localStorage.setItem("contacts", JSON.stringify(contacts));
+    };
+    useEffect(() => {
+      updatelocalstorage_contacts();
+      //eslint-disable-next-line
+    }, [contacts]);
+
+    useEffect
+    (() => {
+      if(Object.keys(contacts).length>0 || Object.keys(user).length>0 ){
+        setLoading(false)
+      }
+    },[contacts,currentchat])
+    
+    useEffect(() => {
+      axios
     .get("chat/get")
     .then((response) => {
         console.log(response.data);

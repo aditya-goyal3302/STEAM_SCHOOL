@@ -170,7 +170,7 @@ function resetMail(mailto, usrnm,token){
     var mailOptions = {
       from: "agdoietest@hotmail.com",
       to: mailto,
-      subject: "Login Successful",
+      subject: "Reset Password Link",
       html:`<!DOCTYPE html>
       <html lang="en">
       <head>

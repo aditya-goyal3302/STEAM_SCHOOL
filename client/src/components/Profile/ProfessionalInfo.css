@@ -6,6 +6,10 @@
     margin-right: 2%;
 
 }
+.mainhead1{
+    padding: 10px 20px;
+}
+
 .app .datacontentl .titlel{
     position: relative;
     font-size: 1.3rem;
@@ -27,18 +31,9 @@
     width :100% !important;
     font-size: 1.5rem;
     color: rgb(33, 33, 33);
-    /* min-width:450px; */
-    /* margin: 0px auto; */
     font-family: 'Nexa Script', sans-serif'';
 }
-.app .datal tr:nth-child(1){
-    background-color: rgb(214, 214, 214);
-}
-.app .datal tr:nth-child(1n):not(:first-child){
-    text-align: justify;
-    background-color: rgb(244, 244, 244);
-    
-}
+
 .app .datacontentl{
     position: relative;
     width:80%;
@@ -47,17 +42,11 @@
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
-    padding: 5% 0%;
+    padding: 3% 0%;
     height: max-content;
     margin: 0% auto;
 
 }
-
-
-
-
-
-
 
 .app {
     display: flex;
@@ -88,19 +77,22 @@
     outline: none;
   }
 
-  
   .dynamic-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    /* padding: 10px; */
     text-align: center;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 40px;
   }
 .dynamic-table tbody tr th{
-    background-color: rgb(214, 214, 214);
+    background-color: rgb(214, 214, 214) !important;
     padding: 10px !important;
     /* margin: none !important; */
-
+}
+.dynamic-table tbody tr td{
+    background-color: rgb(244, 244, 244) !important;
+    padding: 10px !important;
+    /* margin: none !important; */
 }
 .box-2{
     position: relative;
@@ -118,3 +110,25 @@
     /* margin-left: ÷; */
     /* min-width: ; */
 }
+
+
+.mainbutton2{
+    background: none;
+    border: 1px solid black;
+    padding:10px 20px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 1rem auto;
+    cursor: pointer;
+    /* width: 20%; */
+}
+
+.mainbutton2:hover {
+
+    background-color: black;
+    color:white;
+    transform: scale(1.1) ;
+    transition: all 0.6s ease-in-out;
+ }
+ 

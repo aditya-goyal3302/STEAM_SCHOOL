@@ -41,9 +41,9 @@
 
 }
 
-.search:hover,.search:focus {
+/* .search:hover,.search:focus {
   box-shadow: 0px 2px 0px 0px #23ba92bb;
-}
+} */
 
 .searchBar {
   outline: none;

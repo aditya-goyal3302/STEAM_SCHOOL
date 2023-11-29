@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./ProfessionalInfo.css";
 import axios from "axios";
 import AddIcon from '@mui/icons-material/Add';
-import Spinner from "../home/components/Spinner";
 
 function ProfessionalInfo({
     userprof,
@@ -10,26 +9,34 @@ function ProfessionalInfo({
     setisloading,
     isLoading,
 }){
-    const[Qual,setQual] = useState([])
-    const[Skill,setSkill] = useState([])
-    const[exp,setexp] = useState([])
-    const [loading, setLoading] = useState(false);  
+    const[Qual,setQual] = useState([{}])
+    const[Skill,setSkill] = useState([{}])
+    const[exp,setexp] = useState([{}])
     // const [countQ,setcountQ] = useState([]); 
     // const [countS,setcountS] = useState([]);
     // const [countE,setcountE] = useState([]);
     
-    useEffect(() => { 
+    useEffect(async() => { 
         if(userprof !== null){
-            console.log(userprof);
-            setQual(userprof.qualifications);
-            setSkill(userprof.skills);
-            setexp(userprof.Exp);
+            // console.log(userprof);
+            if(userprof.qualification[0]?.qname){
+                setQual(userprof.qualification);
+            }
+            if(userprof.skills[0]?.sname){
+                setSkill(userprof.skills);
+            }
+            if(userprof.Exp[0]?.etitle){
+                setexp(userprof.Exp);
+            }
+            // setQual(userprof.qualification);
+            // setSkill(userprof.skills);
+            // setexp(userprof.Exp);
             setisloading(0);
         }
     },[userprof])
 
     const incrementQ = () => { 
-        console.log(Qual);
+        // console.log(Qual);
         try{
             if(Qual === undefined){
                 setQual([{qname:"",quni:"",qyear:""}])
@@ -62,6 +69,7 @@ function ProfessionalInfo({
 
     const inputChangeQ = async (event,rowIndex) => {
         const {name,value,className} = event.target;
+        console.log(name,value,className,"     ",Qual);
         setQual(Qual.map((data,index) => {
             if(index == className){
                 return {...data,[name]:value}
@@ -87,11 +95,61 @@ function ProfessionalInfo({
             return data;
         }))
     }
+
+    const handlecheckdata = async () => {
+        var data = {}
+        if(Qual !== undefined && !(Qual[Qual.length-1]?.qname && Qual[Qual.length-1]?.quni && Qual[Qual.length-1]?.qyear)){
+            data.qualifications = Qual.slice(0,Qual.length-1)
+            console.log(data.qualifications);
+        }
+        else{
+            data.qualifications = Qual
+        }
+        if(Skill !== undefined && !(Skill[Skill.length-1]?.sname && Skill[Skill.length-1]?.slevel) ){
+            data.skills = Skill.slice(0,Skill.length-1)
+            console.log(data.skills);
+        }
+        else{
+            data.skills = Skill
+        }
+        if(exp !== undefined && !(exp[exp.length-1]?.etitle && exp[exp.length-1]?.ename && exp[exp.length-1]?.eyear)){
+            data.Exp = exp.slice(0,exp.length-1)
+            console.log(data.Exp);
+        }
+        else{
+            data.Exp = exp
+        }
+
+        return data
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setisloading(1);
+        var data = await handlecheckdata()
+        console.log(data);
+        
+        await axios.post("/user/updateprof",data)
+        .then((res)=>{
+            console.log(res);
+            // setuserProf(res.data);
+            setisloading(0);
+            window.location.reload();
+        })
+        .catch((err) => {
+            console.log(err);
+            setisloading(0);
+            window.location.reload();
+        })
+
+    }
+
 //onClick={increment}
     return(
-        loading === true ? (<Spinner/>) : (
+        // loading === true ? (<Spinner/>) : (
         <div className="box-2">
             <div className="app">
+            <h1 className='mainhead1'>Professional Information</h1>
                 <div className="datacontentl">
                     <div className="titlel">
                         <div className="titlel-textl">Qualification:</div> 
@@ -168,11 +226,11 @@ function ProfessionalInfo({
                     </table>
                     </form>
                 </div>
-                    <button type="submit" className='mainbutton1' >Save Changes</button>
+                    <button type="submit" className='mainbutton2' onClick={(e)=>handleSubmit(e)} >Save Changes</button>
             </div>
         </div>
         )
-    )
+    // )
 }
 
 

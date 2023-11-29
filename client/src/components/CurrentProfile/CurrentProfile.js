@@ -52,7 +52,7 @@ function CurrentProfile(){
         axios.get("/chat/newchat/"+userId)
         .then(data=>{
             console.log(data.data)
-            window.location.href="/chat/?userid="+userProfile._id
+            window.location.href="/chat/?userid="+userId
         })
     }
     useEffect(()=>{

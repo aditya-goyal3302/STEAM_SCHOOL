@@ -32,7 +32,7 @@ function Profile(){
       .then(data=>{
           // console.log(data.data);
           setuserProfile(data.data);
-          // setisloading(0);
+          setisloading(0);
       })
   },[])
 
@@ -61,10 +61,11 @@ function logout(){
   
 return (
   <>
-    {islogin === 1 ? (
+    {/* {islogin === 1 ? ( */}
+      {isloading == 1  ? ( <Spinner></Spinner>):(
+        
         <div className='userprofile'>
         <Navbar></Navbar>
-      {isloading ==1  && ( <Spinner></Spinner>)}
       <div className='mobileview'>
         <button className='closebtn' id='closebtn'
         onClick={()=>{
@@ -125,11 +126,9 @@ return (
         
         <Footer></Footer>
         </div>
-        ):(
-          window.location.href = "/login"
-
-        )
-        }
+        
+        )}
+        {/* ):(window.location.href = "/login")} */}
         </>
       
     )

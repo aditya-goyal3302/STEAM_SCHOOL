@@ -155,7 +155,7 @@ function Signin() {
                 setisloading(0);
                 return;
             }
-            alert( JSON.stringify(data.data));
+            // alert( JSON.stringify(data.data));
             // return checkp(data.data);
         }).then((valid)=>{
             console.log(valid);

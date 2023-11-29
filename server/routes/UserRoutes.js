@@ -7,51 +7,51 @@ const usercontroller = require("../Controllers/user");
 const {check,body} = require("express-validator");
 
 router.post("/create",
-              [
-                body("username")
-                  .isString()
-                  .trim()
-                  .isLength({min:5,max:15})
-                  .withMessage({m:"Username must be atleast 5 characters long",code:1})
-                  .custom((value,{req})=>{
-                    User.findOne({ username: req.body.username }).then((existingUser) => {
-                      if (existingUser) {
-                        return Promise.reject({m:"Username Already Taken!",code:2});
-                        // res.send({
-                        //   message: "Username Already Exists! Login Instead",
-                        //   code: 2,
-                        // });
-                      }
-                    })
-                  }),
-                body("email")
-                  .normalizeEmail()
-                  .isEmail()
-                  .withMessage({m:"Email is not valid",code:5})
-                  .custom((value,{req})=>{
-                    User.findOne({ value: req.body.email }).then((existingUser) => {
-                      if (existingUser) {
-                        return Promise.reject({m:"Email Already Exists With Different Username! Login Instead",code:1});
-                      //   res.send({
-                      //     message: "Email Already Exists! Login Instead",
-                      //     code: 1,
-                    // })
-                      }
-                    })
-                  }),
-                body('password',{m:"Password must be alphanumeric and between 6-15 characters!",code:6})
-                  .isAlphanumeric()
-                  .isLength({min:6,max:15})
-                  .trim(),
-                body('confirmPassword')
-                  .trim()
-                  .custom((value,{req})=>{
-                      if (value !== req.body.password){
-                          throw new Error({m:"Password must macth with confirm password!",code:7});
-                      }
-                      return true;
-                  })
-                ],
+              // [
+              //   check("username")
+              //     .isString()
+              //     .trim()
+              //     .isLength({min:5,max:15})
+              //     .withMessage({m:"Username must be atleast 5 characters long",code:1})
+              //     .custom((value,{req})=>{
+              //       User.findOne({ username: req.body.username }).then((existingUser) => {
+              //         if (existingUser) {
+              //           return Promise.reject({m:"Username Already Taken!",code:2});
+              //           // res.send({
+              //           //   message: "Username Already Exists! Login Instead",
+              //           //   code: 2,
+              //           // });
+              //         }
+              //       })
+              //     }),
+              //   check("email")
+              //     .normalizeEmail()
+              //     .isEmail()
+              //     .withMessage({m:"Email is not valid",code:5})
+              //     .custom((value,{req})=>{
+              //       User.findOne({ value: req.body.email }).then((existingUser) => {
+              //         if (existingUser) {
+              //           return Promise.reject({m:"Email Already Exists With Different Username! Login Instead",code:1});
+              //         //   res.send({
+              //         //     message: "Email Already Exists! Login Instead",
+              //         //     code: 1,
+              //       // })
+              //         }
+              //       })
+              //     }),
+              //   check('password',{m:"Password must be alphanumeric and between 6-15 characters!",code:6})
+              //     .isAlphanumeric()
+              //     .isLength({min:6,max:15})
+              //     .trim(),
+              //   check('confirmPassword')
+              //     .trim()
+              //     .custom((value,{req})=>{
+              //         if (value !== req.body.password){
+              //             throw new Error({m:"Password must macth with confirm password!",code:7});
+              //         }
+              //         return true;
+              //     })
+              //   ],
                 usercontroller.create);
 
 router.get("/auth/google",passport.authenticate("google", { scope: ["profile", "email"] }));
@@ -138,7 +138,7 @@ router.post("/changepassword",isauth.check,usercontroller.changepassword);
 
 router.post("/updateprofile",usercontroller.updateprofile);
 
-// router.post("/updateprof",isauth.check,usercontroller.updateprof);
+router.post("/updateprof",isauth.check,usercontroller.updateprof);
 
 router.post("/updateimg",isauth.check,usercontroller.updateimg);
 

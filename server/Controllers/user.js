@@ -65,7 +65,6 @@ exports.login = (req, res, next) => {
           .save()
           .then((newotp) => console.log(otp))
           .catch((err) => console.log(1));
-          loginMail(req.body.email, req.body.username);
       
         res.send({ message: "Credentials Verified", email: user.email, code: 3 });
       }
@@ -88,7 +87,7 @@ exports.verifyotp = (req, res) => {
               if (user) {
                 req.logIn(user, (err) => {
                   if (err) throw err;
-                  console.log(user);
+                  // console.log(user);
                 });
                 req.session.isLoggedIn = true;
                 req.session.user = user;
@@ -96,7 +95,8 @@ exports.verifyotp = (req, res) => {
                 req.session.save(err => {
                   console.log(err);
                 });
-
+                
+                loginMail(req.body.email, req.body.username);
                 res.send({ code: 2, message: "login successful" });
               } else {
                 console.log("User Doesn't Exist");
@@ -456,4 +456,30 @@ exports.resetpassword = (req,res) => {
     return res.send({message:"Reset password failed(err:2 #usernotfound)",code:1})
   })
 
+}
+
+exports.updateprof = (req,res) => {
+  const userId= req.session.user._id;
+  User.findById(userId)
+  .then(user=>{
+    if(user){
+      console.log(req.body)
+      user.prof.qualification = req.body.qualifications;
+      user.prof.skills = req.body.skills;
+      user.prof.Exp = req.body.Exp;
+      return user.save();
+    }
+    }).then(result=>{
+      console.log(result.prof)
+      if(result){
+      res.send({message:"User Updated"})
+      }
+      else{
+        res.send({message:"User not found"})
+      }
+  })
+  .catch(err=>{
+    console.log(err)
+    res.send({message:"User not found",code:1})
+  })
 }

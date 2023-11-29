@@ -44,7 +44,7 @@ exports.getpastmessages =  (req, res) => {
 exports.newchat = (req,res,next)=>{
   const acceptedid = req.params.acceptedId;
   Chat.find({users:{$all:[acceptedid,req.session.user._id]}})
-  .then((result)=>{
+  .then(async (result)=>{
     console.log( " hi",result)
     if( result.length <= 0) {
         result = undefined
@@ -53,31 +53,31 @@ exports.newchat = (req,res,next)=>{
       const newchat = new Chat({
         users: [req.session.user._id, acceptedid],
       });
-      User.findById(acceptedid).then((user)=>{
+     await User.findById(acceptedid).then((user)=>{
         if(!user.chats.includes(req.session.user._id)){
           user.chats.push(req.session.user._id);
           user.save();
         }
       }).catch(err=>console.log(err)) 
 
-      User.findById(req.session.user._id).then((user)=>{
+     await User.findById(req.session.user._id).then((user)=>{
         if(!user.chats.includes(acceptedid)){
           user.chats.push(acceptedid);
           user.save();
         }
       }).catch(err=>console.log(err)) 
 
-      newchat
+      await newchat
         .save()
         .then((chat) =>{ 
           console.log("chatcreated")
-          return res.send( {id:chat._id , code:1});
+          return res.status(200).send( {id:acceptedid, code:1});
         })
         .catch((err) => console.log(err));
     }
     else{
       console.log("chatfound ??")
-      return res.send({id:result._id , code:2})
+      return res.status(200).send({id:acceptedid , code:2})
     }
   })
   // .then(nouse=>{
