@@ -57,7 +57,7 @@ router.post("/create",
 router.get("/auth/google",passport.authenticate("google", { scope: ["profile", "email"] }));
 
 router.get("/auth/google/redirect",
-  passport.authenticate("google", {failureRedirect: "http://localhost:2948/login"}),
+  passport.authenticate("google", {failureRedirect: "https://steam-school.onrender.com/login"}),
   function async (req, res) {
     req.session.isLoggedIn = true;
     req.session.user = req.user;
@@ -101,10 +101,10 @@ router.get("/auth/google/redirect",
     checkp(temp).then((p)=>{
     // console.log(Verify)
     if(p=== true){
-      res.redirect("http://localhost:2948/")
+      res.redirect("https://steam-school.onrender.com//")
     }
     else{
-      res.redirect("http://localhost:2948/editprofile")
+      res.redirect("https://steam-school.onrender.com/editprofile")
     }
   })
 }
